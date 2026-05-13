@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>스승님 - 레슨비 결제</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://js.bootpay.co.kr/bootpay-5.3.0.min.js" type="application/javascript"></script>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; letter-spacing: -0.03em; }
+        .active-card { border-color: #0066FF !important; background-color: #F0F7FF !important; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-5">
+
+    <div id="payment-box" class="max-w-md w-full bg-white rounded-[2.5rem] shadow-2xl p-8 border border-slate-100">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-black text-slate-900 mb-2">레슨비 결제하기</h1>
+            <p id="customer-info" class="text-slate-500 font-bold text-sm">정보를 불러오는 중...</p>
+        </div>
+
+        <div id="split-selector" class="space-y-4 mb-10">
+            <p class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1 text-center">결제 방식 선택</p>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="setPayMode('total')" id="btn-total" class="flex flex-col items-center justify-center py-5 rounded-2xl border-2 active-card transition-all group">
+                    <span class="text-xs font-bold text-slate-400 group-[.active-card]:text-blue-500 mb-1">한 번에</span>
+                    <span class="text-sm font-black text-slate-900">전액 결제</span>
+                </button>
+                <button onclick="setPayMode('split')" id="btn-split" class="flex flex-col items-center justify-center py-5 rounded-2xl border-2 border-slate-100 bg-white transition-all group">
+                    <span class="text-xs font-bold text-slate-400 group-[.active-card]:text-blue-500 mb-1">동반자와</span>
+                    <span class="text-sm font-black text-slate-900">1/N 나눠내기</span>
+                </button>
+            </div>
+            <p id="split-desc" class="text-[11px] text-center text-blue-600 font-bold opacity-0 transition-opacity">
+                ※ 동반자들에게 이 페이지 링크를 공유하여 각자 결제하세요.
+            </p>
+        </div>
+
+        <div class="bg-slate-50 rounded-3xl p-8 mb-8 text-center border border-slate-100 shadow-inner">
+            <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">최종 결제 금액</p>
+            <p id="display-price" class="text-4xl font-black text-slate-950 tracking-tighter">0원</p>
+        </div>
+
+        <div class="mb-4 p-6 bg-blue-50 rounded-[2rem] border border-blue-100 text-center">
+            <p class="text-[13px] font-black text-blue-700 mb-4 leading-relaxed">
+                지인과 나눠서 결제하시나요?<br/> 아래 버튼을 눌러 결제 링크를 보내주세요.
+            </p>
+            <button onclick="sharePaymentLink()" class="w-full bg-white text-blue-600 font-black py-4 rounded-2xl border-2 border-blue-200 shadow-sm flex items-center justify-center gap-2 active:scale-95 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                결제 링크 지인에게 공유하기
+            </button>
+        </div>
+
+        <div class="mb-4 space-y-2">
+            <p class="text-[12px] font-black text-slate-400 uppercase tracking-widest ml-1">성함 (실명)</p>
+            <input type="text" id="user-name-input" placeholder="실명을 입력해주세요" 
+                class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-600 font-bold text-slate-700 transition-all">
+        </div>
+
+        <div class="mb-6 space-y-2">
+            <p class="text-[12px] font-black text-slate-400 uppercase tracking-widest ml-1">알림톡 받으실 번호</p>
+            <input type="tel" id="user-phone" placeholder="번호만 입력 (- 제외)" 
+                class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-600 font-bold text-slate-700 transition-all">
+            <p class="text-[10px] text-slate-400 font-medium ml-1">※ 결제 완료 시 이 번호로 레슨 확정 알림톡이 발송됩니다.</p>
+        </div>
+        
+        <button onclick="requestBootpay()" id="pay-btn" class="w-full bg-blue-600 text-white font-black py-5 rounded-[1.5rem] shadow-xl shadow-blue-100 hover:bg-blue-700 active:scale-95 transition-all text-lg">
+            지금 결제하기
+        </button>
+
+        <p class="text-center mt-6 text-[11px] text-slate-400 font-medium leading-relaxed">
+            안전한 결제를 위해 스승님 보안 시스템이 작동 중입니다.<br>
+            결제 완료 시 예약이 즉시 확정됩니다.
+        </p>
+    </div>
+
+    <script>
+    let rawPrice = 0;
+    let finalPayPrice = 0;
+    let personCount = 1;
+    let requestId = "";
+    let name = "";
+    let globalProPhone = "";
+
+    window.onload = async () => {
+        const params = new URLSearchParams(window.location.search);
+
+        // --- [결제 완료 후 처리 로직] ---
+        if (params.get('status') === 'done') {
+            document.getElementById('payment-box').innerHTML = `
+                <div class='py-20 text-center'>
+                    <div class='animate-spin inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mb-4'></div>
+                    <p class='font-bold text-blue-600'>예약 정보를 안전하게 기록 중입니다...<br>잠시만 기다려주세요.</p>
+                </div>`;
+            
+            const reqId = params.get('requestId');
+            const paidAmt = params.get('price');
+            const userName = params.get('name') || "고객";
+            const userPhone = params.get('phone') || "";
+            const lessonType = params.get('type') || "";
+
+            const zapierData = {
+                status: "paid",
+                requestId: reqId,
+                price: paidAmt,
+                name: userName,
+                phone: userPhone,
+                type: lessonType,
+                personCount: params.get('personCount') || "1인",
+                selectedPro: params.get('selectedPro') || "",
+                proPhone: params.get('proPhone') || "",
+                schedule: params.get('schedule') || "",
+                location: params.get('LOCATION') || ""
+            };
+
+            try {
+                // 1. 구글 시트 업데이트 시도
+                await fetch("https://script.google.com/macros/s/AKfycbwJ8jcshxR6HcNknmLkjRdeT0NMw8d4-o9Z1hAWxdryi8pzocXZveDp_pmF1PpnKkcF/exec", { 
+                    method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action: "updatePayment", status: "paid", requestId: reqId, price: paidAmt, name: userName }) 
+                });
+
+                // 2. 메인 자피어 호출 (ujdmj18)
+                await fetch("https://hooks.zapier.com/hooks/catch/27197789/ujdmj18/", {
+                    method: "POST", mode: "no-cors",
+                    body: JSON.stringify(zapierData)
+                });
+
+                // 3. 외부 레슨(조인, 숏게임 등) 조건부 즉시 발송 로직
+                const externalKeywords = ["조인", "파3", "숏게임", "9홀", "18홀", "캠프", "라운드", "필드"];
+                const isExternal = externalKeywords.some(key => lessonType.includes(key));
+                const isNotOneOnOne = !lessonType.includes("1:1") && lessonType !== "레슨";
+
+                if (userPhone && isExternal && isNotOneOnOne) {
+    const solapiZapierUrl = "https://hooks.zapier.com/hooks/catch/27197789/4y901so/"; 
+    
+    // fetch 대신 가장 확실한 전송 방식 사용
+    navigator.sendBeacon(solapiZapierUrl, JSON.stringify(zapierData));
+    
+    console.log("외부 레슨 데이터 자피어로 강제 전송 완료");
+}
+
+                location.replace("success.html?v=" + new Date().getTime());
+            } catch (e) {
+                console.error("전송 오류:", e);
+                location.replace("success.html");
+            }
+            return;
+        }
+
+        // --- [초기 페이지 로드 로직] ---
+        const priceParam = params.get('price') || "0";
+    rawPrice = parseInt(priceParam.replace(/[^0-9]/g, '')) || 0; 
+    name = params.get('name') || "고객님";
+    requestId = params.get('requestId') || "req_" + new Date().getTime();
+    globalProPhone = params.get('proPhone') || "";
+    
+    // 1. 레슨 타입 먼저 정의
+    const lessonType = params.get('type') || "레슨";
+    const isOneOnOne = lessonType.includes('1:1') || lessonType === '레슨' || lessonType === '1' || lessonType.trim() === '';
+
+    // 2. 인원수 파라미터(person)가 있는지 먼저 확인하고, 없으면 type에서 숫자 추출
+    const personParam = params.get('person'); 
+    if (personParam) {
+        personCount = parseInt(personParam);
+    } else {
+        const match = lessonType.match(/\d+/);
+        personCount = (match && parseInt(match[0]) > 1) ? parseInt(match[0]) : 1;
+    }
+
+    // 3. 1:1 레슨이면 강제로 1명 처리
+    if (isOneOnOne) personCount = 1;
+
+    // 4. 화면 표시 업데이트
+    finalPayPrice = rawPrice;
+    document.getElementById('customer-info').innerText = `${name}님, 맞춤 레슨 견적입니다.`;
+    document.getElementById('display-price').innerText = rawPrice.toLocaleString() + "원";
+    
+    // 5. 버튼 노출 여부 결정 (2인 이상일 때만 보이게)
+    const selector = document.getElementById('split-selector');
+    if (personCount > 1) {
+        if (selector) selector.style.display = 'block'; // 명시적으로 보이게 설정
+    } else {
+        if (selector) selector.style.display = 'none';
+    }
+};
+
+    function setPayMode(mode) {
+        const display = document.getElementById('display-price');
+        if (mode === 'split') {
+            finalPayPrice = Math.floor(rawPrice / personCount);
+            document.getElementById('btn-split').classList.add('active-card');
+            document.getElementById('btn-total').classList.remove('active-card');
+            document.getElementById('split-desc').style.opacity = "1";
+        } else {
+            finalPayPrice = rawPrice;
+            document.getElementById('btn-total').classList.add('active-card');
+            document.getElementById('btn-split').classList.remove('active-card');
+            document.getElementById('split-desc').style.opacity = "0";
+        }
+        display.innerText = finalPayPrice.toLocaleString() + "원";
+    }
+
+    async function requestBootpay() {
+        const params = new URLSearchParams(window.location.search);
+        const nameInput = document.getElementById('user-name-input').value.trim();
+        const phoneInput = document.getElementById('user-phone').value.replace(/[^0-9]/g, '');
+
+        if (!nameInput) return alert("성함을 입력해주세요.");
+        if (phoneInput.length < 10) return alert("알림톡을 받을 정확한 핸드폰 번호를 입력해주세요.");
+        if (finalPayPrice < 100) return alert("결제 금액이 너무 낮습니다.");
+        
+        const successRedirect = window.location.origin + window.location.pathname + 
+        "?status=done&requestId=" + requestId + 
+        "&price=" + finalPayPrice + 
+        "&name=" + encodeURIComponent(nameInput) + 
+        "&personCount=" + encodeURIComponent(personCount + "인") +
+        "&phone=" + phoneInput + 
+        "&proPhone=" + encodeURIComponent(globalProPhone) +
+        "&type=" + encodeURIComponent(params.get('type') || "레슨") + 
+        "&selectedPro=" + encodeURIComponent(params.get('selectedPro') || "") + 
+        "&schedule=" + encodeURIComponent(params.get('schedule') || "") + 
+        "&LOCATION=" + encodeURIComponent(params.get('LOCATION') || "");
+            
+        Bootpay.requestPayment({
+            "application_id": "67ecd171d9af4e5c6d21736b",
+            "price": finalPayPrice,
+            "order_name": "스승님 골프 레슨비",
+            "order_id": requestId,
+            "pg": "nicepay",
+            "methods": ["card", "kakaopay"],
+            "user": { "username": nameInput },
+            "extra": { 
+                "open_type": "redirect", 
+                "display_success_result": false, 
+                "redirect_url": successRedirect, 
+                "v2_redirect_mode": false,
+                "popup": false,
+                "method": "GET"
+            }
+        });
+    }
+
+    function sharePaymentLink() {
+        const currentUrl = window.location.href;
+        if (navigator.share) {
+            navigator.share({
+                title: '[스승님] 레슨 결제 요청',
+                text: '함께 레슨받을 지인분의 결제 페이지입니다. 확인 후 결제를 진행해 주세요!',
+                url: currentUrl
+            }).catch(() => copyToClipboard(currentUrl));
+        } else {
+            copyToClipboard(currentUrl);
+        }
+    }
+
+    function copyToClipboard(url) {
+        navigator.clipboard.writeText(url).then(() => {
+            alert("링크가 복사되었습니다. 카톡으로 지인에게 전달해 주세요!");
+        });
+    }
+    </script>
+</body>
+</html>
