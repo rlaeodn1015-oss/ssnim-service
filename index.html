@@ -171,6 +171,8 @@
 <body class="overflow-x-hidden bg-white text-left">
     <div id="root"></div>
 
+    <script src="proData.js"></script>
+<script src="slider.js"></script>
     <script type="module">
         import React from "react";
         import { createRoot } from "react-dom/client";
@@ -186,294 +188,6 @@
         const KAKAO_CHAT_URL = "https://pf.kakao.com/_kxawRn/chat";
         const BOT_TOKEN = "8696133005:AAF8Uh6gK0hufHuQyufAkmZhUcjGpYCAxzE";
         const CHAT_ID = "5955006042";
-
-        const pros = [
-            { 
-                id: 1, 
-                name: "곽시랑 스승", 
-                phone: "01039853985",
-                style: "필드, 파3, 숏게임, 1:1", 
-                price: 100000, 
-                location: "강남, 서초", 
-                rating: 5.0, 
-                review: 142, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260327_165459882.png", 
-                intro: "KLPGA 준회원, 드로우 구질 변화 1위 전문가", 
-                career: "KLPGA 정회원 7년",
-                lessonCount: 1300,
-                specialty: "슬라이스 교정 전문",
-                priceRange: "10~12만원",
-                reviewHighlight: "한 달 만에 슬라이스 완쾌",
-                reasons: ["드라이버 슬라이스 교정 성공 케이스 600건+", "강남 지역 1:1 레슨 최다 만족도 기록", "트랙맨 기반 데이터 분석 최적화"],
-                tags: ["필드레슨", "슬라이스 교정", "드라이버"] 
-            },
-            { 
-                id: 2, 
-                name: "조이현 스승",
-                phone: "01056323190",
-                style: "롱아이언, 숏게임, 초보레슨, 드라이버", 
-                price: 130000, 
-                location: "송파, 강남, 분당, 용인", 
-                rating: 4.9, 
-                review: 89, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/JYH.jpg", 
-                intro: "여성 골퍼 비거리 및 폼 교정 전문", 
-                career: "KPGA 투어 프로 5년",
-                lessonCount: 450,
-                specialty: "비거리 향상 전문",
-                priceRange: "13~15만원",
-                reviewHighlight: "비거리 30m 실질적 향상",
-                reasons: ["여성 골퍼 특화 비거리 향상 프로그램", "송파 지역 90타대 입문자 탈출 후기 다수", "아이언 일관성 집중 레슨"],
-                tags: ["롱아이언", "숏게임", "스윙교정", "초보레슨"] 
-            },
-            { 
-                id: 3, 
-                name: "서수연 스승",
-                phone: "01094856241",
-                style: "숏게임, 비거리증가, 생크, 슬라이스", 
-                price: 150000, 
-                location: "분당, 강남, 서초", 
-                rating: 5.0, 
-                review: 215, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260309_200933587.jpg", 
-                intro: "어프로치 입스 극복 및 퍼터 정밀 레슨", 
-                career: "숏게임 전문 스승님, 후기 다수 보유",
-                lessonCount: 880,
-                specialty: "어프로치/숏게임 전문",
-                priceRange: "12~14만원",
-                reviewHighlight: "퍼팅 수 평균 8개 감소",
-                reasons: ["숏게임 레슨 전문가", "싱글 스코어 최다 기록", "강남/분당 지역 숏게임레슨 1위"],
-                tags: ["숏게임", "초보레슨", "생크", "퍼터"] 
-            },
-            { 
-                id: 4, 
-                name: "석준형 스승",
-                phone: "01054263433",
-                style: "비거리, 드라이버, 파워스윙", 
-                price: 250000, 
-                location: "강남, 서초", 
-                rating: 5.0, 
-                review: 95, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/SJH.png", 
-                intro: "GTOUR 대회 선수, 비거리 30m 보장", 
-                career: "현역 GTOUR 선수",
-                lessonCount: 850,
-                specialty: "파워 드로우/장타",
-                priceRange: "20~30만원",
-                reviewHighlight: "드라이버 비거리 270m 달성",
-                reasons: ["GTOUR 선수의 구질교정", "장타를 위한 지면 반발력 활용법", "상급자용 정밀 데이터 분석"],
-                tags: ["드라이버", "비거리", "우드/유틸"] 
-            },
-            { 
-                id: 5, 
-                name: "홍주연 스승",
-                phone: "01039969628",
-                style: "숏아이언, 비거리증가, 배치기 교정", 
-                price: 150000, 
-                location: "강남, 서초", 
-                rating: 4.9, 
-                review: 178, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/HJY.png", 
-                intro: "숏아이언 전문, 예쁜 스윙의 정석", 
-                career: "11년 투어생활, 골프유튜버",
-                lessonCount: 370,
-                specialty: "기초 스윙 메커니즘",
-                priceRange: "15~20만원",
-                reviewHighlight: "인생에서 가장 예쁜 스윙",
-                reasons: ["기초가 탄탄한 스윙 궤도 형성", "유연성을 활용한 부드러운 스윙", "입문자 대상 최다 추천 기록"],
-                tags: ["초보레슨", "스윙교정", "키즈골프"] 
-            },
-            { 
-                id: 6, 
-                name: "양형철 스승",
-                phone: "01093996255",
-                style: "필드, 코스매니지먼트, 싱글도전", 
-                price: 170000, 
-                location: "강남, 서초", 
-                rating: 5.0, 
-                review: 56, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YHC.png", 
-                intro: "전 투어 프로, 실전 라운딩 전문", 
-                career: "전 KPGA 투어 프로",
-                lessonCount: 230,
-                specialty: "필드 매니지먼트",
-                priceRange: "15~20만원",
-                reviewHighlight: "생애 첫 싱글 기록 성공",
-                reasons: ["실전 코스 공략 및 위기 관리", "프로급 라운딩 운영 기술 전수", "필드 집중 원포인트 레슨"],
-                tags: ["필드레슨", "숏게임", "9홀 필드레슨"] 
-            },
-            { 
-                id: 7, 
-                name: "조동요 스승",
-                phone: "01026578395",
-                style: "초보레슨, 드라이버, 비거리증가", 
-                price: 250000, 
-                location: "서초, 강남", 
-                rating: 4.8, 
-                review: 120, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/JDY.png", 
-                intro: "유튜브 속 레슨을 현실에서", 
-                career: "유튜브 구독자 13만명",
-                lessonCount: 2500,
-                specialty: "확실한 레슨 효과를 원하신다면",
-                priceRange: "25~30만원",
-                reviewHighlight: "눈높이 골프레슨의 최강자",
-                reasons: ["이론과 실전 병행", "직관적이며 열정적인 스타일", "결과로 보답하는 맞춤 레슨"],
-                tags: ["드라이버", "숏게임", "슬라이스교정"] 
-            },
-            { 
-                id: 8, 
-                name: "공나연 스승",
-                phone: "01036012385",
-                style: "드라이버, 일관성, 정확도", 
-                price: 180000, 
-                location: "송파, 강남", 
-                rating: 4.7, 
-                review: 88, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KNY.jpg", 
-                intro: "칼날 같은 아이언 샷, 정확도 향상", 
-                career: "KLPGA-1212",
-                lessonCount: 490,
-                specialty: "아이언 교정 전문가",
-                priceRange: "16~20만원",
-                reviewHighlight: "아이언 정타 확률 80% 향상",
-                reasons: ["정확한 임팩트 타이밍 교정", "아이언 비거리 조절 및 방향성", "데이터 기반 샷 분석 피드백"],
-                tags: ["숏아이언", "롱아이언", "스윙교정"] 
-            },
-            { 
-                id: 9, 
-                name: "이원영 스승",
-                phone: "01075397997",
-                style: "우드, 유틸리티, 여성골퍼", 
-                price: 150000, 
-                location: "강남, 분당, 용인", 
-                rating: 4.9, 
-                review: 154, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/lwy.webp", 
-                intro: "어려운 우드/유틸리티 쉽게 치기", 
-                career: "KLPGA, 강남구 리뷰 1등",
-                lessonCount: 2200,
-                specialty: "여성 골퍼 특화",
-                priceRange: "15~20만원",
-                reviewHighlight: "우드가 드라이버만큼 쉬워짐",
-                reasons: ["우드/유틸리티 컨택 및 리듬", "여성 골퍼 맞춤형 근력 활용법", "친절하고 체계적인 단계별 레슨"],
-                tags: ["우드/유틸", "비거리", "초보레슨"] 
-            },
-            { 
-                id: 10, 
-                name: "유민혁 스승",
-                phone: "01083924008",
-                style: "생크 교정, 드라이버, 비거리", 
-                price: 70000, 
-                location: "서초, 강남", 
-                rating: 5.0, 
-                review: 42, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YMH.png", 
-                intro: "고질적인 슬라이스/생크 맞춤 해결", 
-                career: "스윙 분석 데이터 전문가",
-                lessonCount: 120,
-                specialty: "구질 교정 긴급 처방",
-                priceRange: "7~10만원",
-                reviewHighlight: "단 한 번의 레슨으로 문제 교정",
-                reasons: ["문제 원인 즉각 파악 및 교정", "슬라이스 궤도 수정 전문가", "원포인트 레슨 최고 만족도"],
-                tags: ["생크", "슬라이스 교정", "1:1 레슨"] 
-            },
-            { 
-                id: 11, 
-                name: "강도윤 스승",
-                phone: "01077587383",
-                style: "숏게임, 드라이버, 롱아이언", 
-                price: 150000, 
-                location: "강남, 분당, 용인", 
-                rating: 5.0, 
-                review: 73, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kdy.webp", 
-                intro: "포기하지 않으면 누구나 할 수 있어요", 
-                career: "KPGA TOURPRO 맞춤 레슨",
-                lessonCount: 195,
-                specialty: "롱게임, 세컨 온그린 전문",
-                priceRange: "15~20만원",
-                reviewHighlight: "투 온에 자신감을 붙이는 레슨",
-                reasons: ["높이뜨는 공", "드라이버 및 세컨 샷 전문", "원포인트 회원 후기 증명"],
-                tags: ["비거리", "롱아이언 전문", "회원 만족 1위"] 
-            },
-            { 
-                id: 12, 
-                name: "김지영 스승",
-                phone: "01071595448",
-                style: "초보레슨, 퍼터, 드라이버", 
-                price: 150000, 
-                location: "강남, 분당", 
-                rating: 4.7, 
-                review: 143, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KTY.png", 
-                intro: "초보딱지는 이제 그만", 
-                career: "초보 및 자세교정 전문 스승",
-                lessonCount: 354,
-                specialty: "초보탈출, 비거리 증가",
-                priceRange: "15~20만원",
-                reviewHighlight: "소통을 중시하며 디테일한 레슨",
-                reasons: ["정확한 컨택", "완벽한 스윙", "초보자들의 선생님"],
-                tags: ["초보레슨", "정확한 방향성", "레슨의 방향성"] 
-            },
-            { 
-                id: 13, 
-                name: "이상준 스승",
-                phone: "01041900478",
-                style: "초보레슨, 우드/유틸, 드라이버", 
-                price: 130000, 
-                location: "강남, 송파", 
-                rating: 5.0, 
-                review: 422, 
-                img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/LSJ.png", 
-                intro: "우드와 유틸에 자신감과 만족스러운 임팩", 
-                career: "유튜브 운영 및 자신있는 레슨",
-                lessonCount: 691,
-                specialty: "우드/유틸 꿀팁, 타수 줄이기 전문",
-                priceRange: "15~20만원",
-                reviewHighlight: "감각을 중시하며 직관적이고 진지한 레슨",
-                reasons: ["긴 거리도 문제없이", "골린이 전문", "거리문제 해결"],
-                tags: ["초보레슨", "우드/유틸의 마법사", "우드 자신감"] 
-            },
-            { 
-        id: 14, 
-        name: "권두욱 스승",
-        phone: "01040134484",
-        style: "웻지/숏게임, 퍼터, 드라이버", 
-        price: 80000, 
-        location: "강남, 서초", 
-        rating: 4.8, 
-        review: 122, 
-        img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KDW.jpg", 
-        intro: "최종환 퍼팅아카데미 인증 교습가", 
-        career: "AimPoint, Lynn Blake 인증 스승",
-        lessonCount: 691,
-        specialty: "숏게임의 대가, 그린주변 타수 줄이기 전문",
-        priceRange: "8~20만원",
-        reviewHighlight: "이론과 실전을 병행하며 디테일하고 꼼꼼한 레슨",
-        reasons: ["핀에 붙이는 어프로치", "싱글 만들기 전문", "스코어 해결"],
-        tags: ["숏게임마스터", "에임포인트", "싱글골퍼"] 
-    }, // <-- 이 콤마가 중요합니다!
-    { 
-        id: 15, 
-        name: "이근협 스승",
-        phone: "01050278421",
-        style: "드라이버, 비거리증가, 바디스윙", 
-        price: 120000, 
-        location: "분당, 수원", 
-        rating: 4.5, 
-        review: 243, 
-        img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/LGH.webp", 
-        intro: "KLPGA TOUR PRO", 
-        career: "KPGA CLASS A, 코리안투어 출전 경험, 챌린지투어 다수 입상",
-        lessonCount: 191,
-        specialty: "드라이버 스윙의 완성본, 몸으로 하는 스윙",
-        priceRange: "12~20만원",
-        reviewHighlight: "분석을 중심으로 열정적인 스타일로 원하는 비거리를 만들어드립니다",
-        reasons: ["임팩을 통한 완벽한 정타", "똑바로 멀리치는 드라이버"],
-        tags: ["드라이버", "비거리늘리기", "바디스윙"] 
-    }
-];
 
        const FieldReviewSection = () => {
     return html`
@@ -608,6 +322,16 @@ const ReviewPhotoSlider = () => {
     };
 };
 
+<section class="py-6 bg-white overflow-hidden relative">
+    <div class="flex items-center">
+        <div class="swiper proSwiper w-full">
+            <div class="swiper-wrapper" id="pro-slider-wrapper">
+                <!-- slider.js가 proData.js의 이미지를 여기에 자동으로 채웁니다 -->
+            </div>
+        </div>
+    </div>
+</section>
+        
        const JoinBoard = ({ setFormOpen }) => {
     const joinData = [
         { 
@@ -986,62 +710,6 @@ const RealTimeStatus = () => {
                 <div className="fade-mask"></div>
             </div>
         </div>
-    `;
-};
-
-        const ProFaceSlider = () => {
-    const prosImg = [
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260327_165459882.png",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/JYH.jpg",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260309_200933587.jpg",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/SJH.png",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/HJY.png",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YHC.png",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/JDY.png",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KNY.jpg",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/lwy.webp",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YMH.png",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kdy.webp",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KTY.png",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/LSJ.png",
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KDW.jpg", 
-        "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/LGH.webp",
-    ];
-
-            const rollingPros = [...prosImg, ...prosImg];
-
-    return html`
-        <section class="py-6 bg-white overflow-hidden relative">
-            <!-- 무한 롤링 컨테이너 -->
-            <div class="flex items-center">
-                <div class="flex animate-infinite-scroll space-x-8">
-                    ${rollingPros.map((imgSrc) => html`
-                        <div class="flex-none w-24">
-                            <div class="relative aspect-square rounded-full overflow-hidden border-2 border-slate-100 shadow-sm transition-transform hover:scale-110">
-                                <img src="${imgSrc}" class="w-full h-full object-cover" loading="lazy" />
-                            </div>
-                        </div>
-                    `)}
-                </div>
-            </div>
-
-            <style>
-                /* 부드럽게 밀리는 애니메이션 정의 */
-                @keyframes infinite-scroll {
-                    from { transform: translateX(0); }
-                    to { transform: translateX(-50%); }
-                }
-                .animate-infinite-scroll {
-                    display: flex;
-                    width: max-content;
-                    animation: infinite-scroll 40s linear infinite; /* 속도는 40s 숫자를 줄이면 빨라집니다 */
-                }
-                /* 마우스를 올리면 잠시 멈추는 효과 (선택사항) */
-                .animate-infinite-scroll:hover {
-                    animation-play-state: paused;
-                }
-            </style>
-        </section>
     `;
 };
 
@@ -2586,7 +2254,13 @@ const [visitorCount, setVisitorCount] = React.useState(142);
                 <${RealTimeStatus} />
                 <${ProBanner} onClick=${() => setProFormOpen(true)} />
                 <${JoinBoard} setFormOpen=${setFormOpen} />
-                ${ProFaceSlider()}
+
+                <section class="py-6 bg-white overflow-hidden relative">
+    <div class="swiper proSwiper">
+        <div class="swiper-wrapper" id="pro-slider-wrapper">
+        </div>
+    </div>
+</section>
                 
                 <div className="mt-8">
                     <${BannerSlider} />
@@ -2728,22 +2402,34 @@ ${proFormOpen && html`
     </div> `;
 };
 
-const rootEl = document.getElementById("root");
-createRoot(rootEl).render(html`<${App} />`);
+<!-- 1. 외부 라이브러리들 (기존에 head에 있어도 되지만 안전하게 여기 한 번 더 확인) -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-   setTimeout(() => {
-    new Swiper(".mySwiper", {
-        loop: true,
-        autoplay: {
-            delay: 3000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-    });
-}, 500);     
+<!-- 2. 데이터 파일 (가장 먼저 로드) -->
+<script src="proData.js"></script>
+
+<!-- 3. 메인 앱 로직 (이 안에 React가 화면을 다 그린 후 slider.js를 부를 겁니다) -->
+<script type="module">
+    // ... 기존 App 코드들 ...
+    // (중략)
+    
+    const rootEl = document.getElementById("root");
+    createRoot(rootEl).render(html`<${App} />`);
+
+    // ★ 핵심 수정: 화면이 다 그려진 1초 뒤에 슬라이더와 데이터를 로드합니다.
+    setTimeout(() => {
+        // 1. slider.js를 여기서 강제로 다시 로드하거나 실행 명령을 내립니다.
+        const script = document.createElement('script');
+        script.src = 'slider.js';
+        document.body.appendChild(script);
+
+        // 2. 기존 배너용 슬라이더 실행
+        new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: { delay: 3000 },
+            pagination: { el: ".swiper-pagination", clickable: true },
+        });
+    }, 1000); 
 </script>
 </body>
 </html>
