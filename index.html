@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>스승님 - 결과로 증명하는 맞춤 골프레슨 AI 매칭</title>
 
-    <!-- 1. 분석 및 마케팅 툴 (GTM 등) -->
+    <!-- 1. 분석 및 마케팅 툴 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3YC9WJBPMZ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -14,17 +14,17 @@
         gtag('config', 'G-3YC9WJBPMZ');
     </script>
 
-    <!-- 2. 메타 태그 (공유용) -->
+    <!-- 2. 메타 태그 -->
     <meta name="description" content="버려지는 레슨비 0원, 내 골프 고민에 딱 맞는 검증된 스승님을 AI가 정밀 매칭합니다.">
     <meta property="og:title" content="스승님 - 요청 맞춤 골프레슨 매칭">
     <meta property="og:image" content="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ssnim.png">
 
-    <!-- 3. 외부 라이브러리 CSS -->
+    <!-- 3. 외부 라이브러리 CSS (경로 에러 방지를 위해 CDN만 사용) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@100;400;700;900&display=swap" rel="stylesheet" />
 
-    <!-- 4. Tailwind 설정 -->
+    <!-- 4. Tailwind & Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -37,7 +37,7 @@
         };
     </script>
 
-    <!-- 5. 중요: 모듈 불러오기 설정 (Import Map) -->
+    <!-- 5. 중요: 모듈 Import Map -->
     <script type="importmap">
         {
             "imports": {
@@ -49,27 +49,38 @@
         }
     </script>
 
-    <!-- 6. 인라인 스타일 (필요 시 유지, 혹은 js/css 폴더로 분리 가능) -->
+    <!-- 6. 인라인 스타일 (CSS 폴더 에러 방지를 위해 내부에 포함) -->
     <style>
         body { font-family: "Pretendard", sans-serif; background: #fff; color: #111827; -webkit-font-smoothing: antialiased; }
-        .clay-card { background: #ffffff; border-radius: 2rem; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05); }
+        .clay-card { background: #ffffff; border-radius: 2rem; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05); border: 1px solid rgba(0, 102, 255, 0.05); }
         .gradient-blue { background: linear-gradient(135deg, #0066FF 0%, #004dc2 100%); }
+        
+        @keyframes ssnimHeroFloat { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-15px) rotate(-1deg); } }
+        .ssn-hero-float { animation: ssnimHeroFloat 5s ease-in-out infinite; }
+        
         @keyframes slide-up { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .animate-slide-up { animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        /* ... 기타 필요한 애니메이션 CSS만 남기세요 ... */
+
+        .summary-chip { background: #f0f7ff; color: #0066FF; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 800; border: 1px solid #e0efff; display: inline-flex; align-items: center; gap: 4px; }
+        .data-flow { position: absolute; top: 0; left: 0; height: 2px; width: 100%; background: linear-gradient(90deg, transparent, #0066FF, transparent); animation: dataFlow 2s linear infinite; }
+        @keyframes dataFlow { 0% { transform: translateX(-100%); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateX(100%); opacity: 0; } }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 
-<body class="overflow-x-hidden bg-white">
-    <!-- React 앱이 실행될 유일한 입구 -->
+<body class="overflow-x-hidden bg-white text-left">
+    <!-- React 앱 입구 -->
     <div id="root"></div>
 
     <!-- 7. 외부 라이브러리 JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <!-- 8. 핵심: 모든 사령부 로직이 담긴 app.js 호출 -->
+    <!-- 8. 메인 로직 호출 (js 폴더 안에 app.js가 있어야 합니다) -->
     <script type="module" src="./js/app.js"></script>
 </body>
 </html>
