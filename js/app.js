@@ -1,189 +1,199 @@
-import React from "https://esm.sh/react@18";
-import ReactDOM from "https://esm.sh/react-dom@18/client";
+import React, { useState, useEffect } from "react";
+import { createRoot } from "react-dom/client";
+import htm from "htm";
 import {
-  ChevronRight,
-  CheckCircle2,
-  Target,
-  ClipboardList,
-  UserCheck,
-  AlertCircle,
-  ArrowRightLeft,
-  MessageSquare
-} from "https://esm.sh/lucide-react@0.562.0";
+    Smartphone, HelpCircle, CheckCircle2, Filter, ArrowRight, PenLine, BadgeCheck, X,
+    TrendingUp, Award, ShieldCheck, MessageCircle, Gift, Sparkles, ClipboardList,
+    CreditCard, RefreshCcw, Info, Star, Check, Search, CalendarDays, MessageSquareText, ThumbsUp,
+    MapPin, Flag, Target, Clock, ChevronRight, UserCheck, ShieldAlert, Zap, User, UserPlus
+} from "lucide-react";
 
-const Section = ({ children, className = "" }) => (
-  React.createElement("section", { className: `py-16 px-6 max-w-[720px] mx-auto w-full overflow-hidden ${className}` }, children)
-);
+// [중요] 만약 proData.js를 따로 만드셨다면 아래 import를 쓰시고, 
+// 아니면 이 파일 상단에 pros 배열을 직접 붙여넣으세요.
+import { pros } from "./proData.js";
 
-const Badge = ({ children }) => (
-  React.createElement("span", { className: "inline-block px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full mb-4" }, children)
-);
+const html = htm.bind(React.createElement);
+const BOT_TOKEN = "8696133005:AAF8Uh6gK0hufHuQyufAkmZhUcjGpYCAxzE";
+const CHAT_ID = "5955006042";
 
-const App = () => {
-  return React.createElement(
-    "div",
-    { className: "flex flex-col items-center bg-white min-h-screen pb-24" },
+/** 
+ * 1. 유틸리티 및 서브 컴포넌트 
+ */
+const getPriceOptions = (basePrice) => ({
+    '1회 체험': { price: basePrice, desc: '원포인트 집중 교정', tag: '인기' },
+    '3회 패키지': { price: Math.floor((basePrice * 3 * 0.97) / 1000) * 1000, desc: '회당 ' + (Math.floor((basePrice * 0.97) / 1000) * 1000).toLocaleString() + '원', tag: '가성비' },
+    '5회 패키지': { price: Math.floor((basePrice * 5 * 0.95) / 1000) * 1000, desc: '회당 ' + (Math.floor((basePrice * 0.95) / 1000) * 1000).toLocaleString() + '원', tag: '추천' },
+    '8회 패키지': { price: Math.floor((basePrice * 8 * 0.92) / 1000) * 1000, desc: '회당 ' + (Math.floor((basePrice * 0.92) / 1000) * 1000).toLocaleString() + '원', tag: '베스트' },
+    '10회 패키지': { price: Math.floor((basePrice * 10 * 0.90) / 1000) * 1000, desc: '회당 ' + (Math.floor((basePrice * 0.90) / 1000) * 1000).toLocaleString() + '원', tag: '최저가' }
+});
 
-    // HERO
-    React.createElement(
-      "section",
-      { className: "w-full max-w-[720px] pt-20 pb-16 px-6 bg-white flex flex-col items-center text-center animate-fade-in" },
-      React.createElement(Badge, null, "현재 강남·서초 전담 매칭 진행 중"),
-      React.createElement("h1", { className: "text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6" }, "맞춤 골프레슨", React.createElement("br"), "요청 서비스"),
-      React.createElement("p", { className: "text-lg text-slate-500 font-medium leading-relaxed" }, "레슨 조건을 먼저 정하고,", React.createElement("br"), "필요한 만큼만 배우세요"),
-      React.createElement("div", { className: "mt-12 w-full max-w-xs bg-blue-600 h-1 rounded-full opacity-20" })
-    ),
+/** 
+ * 2. 섹션 컴포넌트들 
+ */
+const Header = () => {
+    const [todayCount, setTodayCount] = useState(466);
+    const [totalCount, setTotalCount] = useState(6051);
 
-    // 고민
-    React.createElement(
-      Section,
-      { className: "bg-slate-50" },
-      React.createElement("h2", { className: "text-2xl font-bold mb-10 text-center" }, "혹시, 이런 고민", React.createElement("br"), "해보신 적 있나요?"),
-      React.createElement(
-        "div",
-        { className: "space-y-4" },
-        ["레슨 몇 번 받아도 실력이 안 느는 느낌", "장기 등록 권유가 부담스러웠던 경험", "나한테 맞는 프로를 고르기 어려웠던 경험"].map((item, idx) =>
-          React.createElement(
-            "div",
-            { key: idx, className: "flex items-start p-5 bg-white rounded-2xl shadow-sm border border-slate-100" },
-            React.createElement(AlertCircle, { className: "w-5 h-5 text-slate-400 mt-1 mr-4 shrink-0" }),
-            React.createElement("p", { className: "text-slate-700 font-medium" }, item)
-          )
-        )
-      )
-    ),
+    useEffect(() => {
+        const timer = setInterval(() => {
+            const added = Math.floor(Math.random() * 2) + 1;
+            setTodayCount(prev => prev + added);
+            setTotalCount(prev => prev + added);
+        }, 4000);
+        return () => clearInterval(timer);
+    }, []);
 
-    // 요약
-    React.createElement(
-      Section,
-      { className: "text-center" },
-      React.createElement("h2", { className: "text-2xl font-bold mb-6 leading-snug" }, "고민의 핵심만 남기고,", React.createElement("br"), React.createElement("span", { className: "text-blue-600" }, "불필요한 레슨은 줄였습니다.")),
-      React.createElement("p", { className: "text-slate-500 leading-relaxed font-medium" }, "스승님은 프로를 나열하지 않습니다.", React.createElement("br"), "요청을 먼저 받고,", React.createElement("br"), "조건이 맞는 전문가만 연결합니다.")
-    ),
-
-    // 3 STEP
-    React.createElement(
-      Section,
-      { className: "bg-blue-600 text-white rounded-[40px] my-4" },
-      React.createElement("h2", { className: "text-2xl font-bold mb-12 text-center" }, "서비스 진행 방식"),
-      React.createElement(
-        "div",
-        { className: "space-y-12" },
-        [
-          { step: "01", title: "직접 작성", desc: "고치고 싶은 문제와 횟수·예산을 직접 작성", Icon: ClipboardList },
-          { step: "02", title: "내용 확인", desc: "담당자가 요청 내용을 꼼꼼히 확인", Icon: Target },
-          { step: "03", title: "전문가 연결", desc: "조건이 딱 맞는 전문가만 선별하여 연결", Icon: UserCheck }
-        ].map((item, idx) =>
-          React.createElement(
-            "div",
-            { key: idx, className: "flex gap-6 items-center" },
-            React.createElement("div", { className: "w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center shrink-0" },
-              React.createElement(item.Icon, { className: "w-8 h-8" })
-            ),
-            React.createElement("div", null,
-              React.createElement("div", { className: "text-blue-200 text-sm font-bold mb-1" }, `STEP ${item.step}`),
-              React.createElement("div", { className: "text-xl font-bold mb-1" }, item.title),
-              React.createElement("div", { className: "text-blue-100/80 font-medium text-sm leading-relaxed" }, item.desc)
-            )
-          )
-        )
-      )
-    ),
-
-    // 비교
-    React.createElement(
-      Section,
-      null,
-      React.createElement("h2", { className: "text-2xl font-bold mb-10 text-center" }, "무엇이 다른가요?"),
-      React.createElement("div", { className: "grid grid-cols-2 gap-4" },
-        React.createElement("div", { className: "p-6 bg-slate-50 rounded-3xl border border-slate-200" },
-          React.createElement("div", { className: "text-slate-400 font-bold mb-4 text-sm" }, "기존 레슨"),
-          React.createElement("ul", { className: "space-y-3 text-sm text-slate-500 font-medium" },
-            React.createElement("li", null, "• 견적 비교 스트레스"),
-            React.createElement("li", null, "• 장기 등록 압박"),
-            React.createElement("li", null, "• 잦은 영업 전화")
-          )
-        ),
-        React.createElement("div", { className: "p-6 bg-blue-50 rounded-3xl border border-blue-200 ring-2 ring-blue-100" },
-          React.createElement("div", { className: "text-blue-600 font-bold mb-4 text-sm" }, "스승님"),
-          React.createElement("ul", { className: "space-y-3 text-sm text-blue-700 font-bold" },
-            React.createElement("li", null, "• 요청서 기반 매칭"),
-            React.createElement("li", null, "• 필요한 만큼만"),
-            React.createElement("li", null, "• 상담 후 결정")
-          )
-        )
-      )
-    ),
-
-    // 요청 예시
-    React.createElement(
-      Section,
-      { className: "bg-slate-900 text-white rounded-[40px] my-4" },
-      React.createElement("h2", { className: "text-xl font-bold mb-8 flex items-center gap-2" },
-        React.createElement(MessageSquare, { className: "w-5 h-5 text-blue-400" }),
-        " 실제 요청 사례"
-      ),
-      React.createElement("div", { className: "bg-white/10 p-6 rounded-2xl border border-white/5 mb-6" },
-        React.createElement("p", { className: "text-lg font-medium leading-relaxed italic" },
-          "\"아이언만 치면 생크가 납니다. ", React.createElement("br"),
-          "장기 등록 말고, ", React.createElement("br"),
-          React.createElement("span", { className: "text-blue-400" }, "2~3번만 제대로"),
-          " 봐주실 분 있을까요?\""
-        )
-      ),
-      React.createElement("div", { className: "flex items-center gap-3 justify-end text-blue-400 font-bold text-lg" },
-        React.createElement(ArrowRightLeft, { className: "w-5 h-5" }),
-        "레슨 3번 만에 문제 해결"
-      )
-    ),
-
-    // 결과 문장
-    React.createElement(
-      Section,
-      null,
-      React.createElement("div", { className: "space-y-4" },
-        ["맞춤 요청 후 레슨 3회로 슬라이스 탈출", "장기 등록 없이 필요한 부분만 교정", "조건 맞는 전문가만 연결돼 시간 절약"].map((item, idx) =>
-          React.createElement("div", { key: idx, className: "flex items-center gap-3 p-4 bg-white border-b border-slate-100" },
-            React.createElement(CheckCircle2, { className: "w-5 h-5 text-blue-500 shrink-0" }),
-            React.createElement("span", { className: "font-medium text-slate-700" }, item)
-          )
-        )
-      )
-    ),
-
-    // CTA
-    React.createElement(
-      Section,
-      { className: "text-center pb-10" },
-      React.createElement("h2", { className: "text-2xl font-bold mb-4" }, "내 요청 가능한지", React.createElement("br"), "먼저 확인해보세요"),
-      React.createElement("p", { className: "text-slate-500 font-medium mb-10 text-sm" }, "상담만 진행 / 아직 결제 아님", React.createElement("br"), "요청은 무료입니다"),
-      React.createElement("div", { className: "w-full h-16" })
-    ),
-
-    // footer
-    React.createElement(
-      "footer",
-      { className: "w-full max-w-[720px] py-12 px-6 border-t border-slate-100 text-center" },
-      React.createElement("p", { className: "text-slate-400 text-sm font-medium leading-relaxed" }, "스승님은", React.createElement("br"), "필요 없는 레슨을 줄이는 데 집중합니다.")
-    ),
-
-    // fixed button
-    React.createElement(
-      "div",
-      { className: "fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[720px] p-4 bg-white/80 backdrop-blur-lg border-t border-slate-100 z-50" },
-      React.createElement(
-        "button",
-        {
-          className: "w-full py-5 bg-blue-600 text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-blue-700 active:scale-[0.98] transition-all shadow-xl shadow-blue-200",
-          onClick: () => alert("여기에 구글폼/카카오채널 링크를 연결하면 됩니다.")
-        },
-        "맞춤 레슨 요청하기",
-        React.createElement(ChevronRight, { className: "w-5 h-5" })
-      )
-    )
-  );
+    return html`
+        <header className="fixed top-0 left-0 right-0 z-[60] bg-white/90 backdrop-blur-xl border-b border-gray-100">
+            <div className="max-w-screen-xl mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ssnim.png" className="h-7 md:h-10" />
+                    <span className="text-[15px] md:text-2xl font-black tracking-tighter text-slate-850">나에게 필요한 맞춤 골프레슨</span>
+                </div>
+                <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full">
+                    <span className="text-[10px] font-black text-blue-600">Today ${todayCount.toLocaleString()}</span>
+                </div>
+            </div>
+        </header>
+    `;
 };
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  React.createElement(App)
-);
+const RealTimeStatus = () => {
+    const mockData = [
+        { name: "김**", location: "강남", type: "1:1 레슨", contact: "010-****-6431", status: "요청 완료" },
+        { name: "이**", location: "분당", type: "숏게임 레슨", contact: "010-****-4818", status: "요청 완료" },
+        { name: "박**", location: "용인", type: "1:1 레슨", contact: "010-****-9012", status: "요청 완료" }
+    ];
+    return html`
+        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+            <div className="bg-slate-50 px-5 py-3 border-b font-black text-sm">실시간 매칭 신청 현황🚨</div>
+            <div className="h-40 overflow-hidden">
+                <div className="rolling-container p-4">
+                    ${mockData.map((item, i) => html`
+                        <div key=${i} className="flex justify-between py-2 text-sm border-b border-slate-50">
+                            <span className="font-bold">${item.name}</span>
+                            <span className="text-blue-600">${item.type}</span>
+                            <span className="text-emerald-500 font-black">${item.status}</span>
+                        </div>
+                    `)}
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+/** 
+ * 3. 메인 인터랙티브 플로우 (질문 단계)
+ */
+const InteractiveFlow = ({ setModalOpen }) => {
+    const [step, setStep] = useState(1);
+    const [formData, setFormData] = useState({ location: '', lessonType: '', lessonCount: '', club: '', concern: [], price: '', lessonDate: '', schedule: '' });
+    const [userInfo, setUserInfo] = useState({ name: '', contact: '' });
+    const [results, setResults] = useState([]);
+    const [selectedPro, setSelectedPro] = useState(null);
+    const [loadingIdx, setLoadingIdx] = useState(0);
+
+    const updateData = (key, val) => setFormData(prev => ({ ...prev, [key]: val }));
+
+    const startAnalysis = () => {
+        setStep(5);
+        let idx = 0;
+        const interval = setInterval(() => {
+            if (idx < 3) { setLoadingIdx(++idx); } 
+            else {
+                clearInterval(interval);
+                const matched = pros.slice(0, 3).map((p, i) => ({ ...p, displayScore: 99 - i }));
+                setResults(matched);
+                setStep(6);
+            }
+        }, 800);
+    };
+
+    const submitRequest = async () => {
+        // 텔레그램 및 시트 전송 로직 (생략/유지)
+        setStep(7);
+    };
+
+    if (step === 1) return html`
+        <div className="animate-slide-up text-left">
+            <h3 className="text-2xl font-black text-slate-800 mb-6">STEP 1. 레슨 환경 설정</h3>
+            <p className="text-xs font-bold text-slate-400 mb-4 uppercase">지역 선택</p>
+            <div className="grid grid-cols-2 gap-3 mb-8">
+                ${['강남', '서초', '송파', '분당', '용인'].map(l => html`
+                    <button onClick=${() => updateData('location', l)} className=${`py-4 rounded-2xl border-2 font-bold ${formData.location === l ? 'border-brand-blue bg-blue-50 text-brand-blue' : 'border-slate-100 text-slate-400'}`}>${l}</button>
+                `)}
+            </div>
+            <button disabled=${!formData.location} onClick=${() => setStep(2)} className="w-full gradient-blue text-white font-black py-5 rounded-2xl shadow-xl disabled:opacity-30">다음 단계로 이동</button>
+        </div>
+    `;
+
+    // ... (Step 2 ~ Step 6.5 로직 반복 - index.html에 있던 InteractiveFlow 내부 함수들)
+
+    if (step === 7) return html`
+        <div className="text-center py-12">
+            <div className="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6"><${Check} size=${40}/></div>
+            <h3 className="text-3xl font-black mb-4">매칭 요청 성공!</h3>
+            <p className="text-slate-500 font-bold mb-10">스승님에게 요청서가 전달되었습니다.</p>
+            <button onClick=${() => setModalOpen(false)} className="w-full bg-slate-900 text-white font-black py-5 rounded-2xl">홈으로 돌아가기</button>
+        </div>
+    `;
+
+    return html`<div>준비중인 단계입니다 (Step: ${step})</div>`;
+};
+
+/** 
+ * 4. 메인 앱 조립 
+ */
+const App = () => {
+    const [formOpen, setFormOpen] = useState(false);
+
+    useEffect(() => {
+        // Swiper 초기화 (React 렌더링 후 실행)
+        if (window.Swiper) {
+            new window.Swiper(".mySwiper", { loop: true, autoplay: { delay: 3000 } });
+        }
+    }, []);
+
+    return html`
+        <div className="min-h-screen bg-white">
+            <${Header} />
+            <main className="pt-24 pb-20">
+                <!-- HERO -->
+                <section className="px-5 text-center mb-16">
+                    <h1 className="text-4xl md:text-6xl font-black leading-tight mb-6">나에게 <span className="text-brand-blue">딱 맞는</span><br/>골프 스승님 찾기</h1>
+                    <button onClick=${() => setFormOpen(true)} className="gradient-blue text-white px-10 py-5 rounded-2xl font-black text-xl shadow-2xl">AI 매칭 시작하기</button>
+                </section>
+
+                <div className="max-w-screen-xl mx-auto px-5">
+                    <${RealTimeStatus} />
+                    
+                    <!-- 배너 슬라이더 -->
+                    <div className="swiper mySwiper rounded-2xl overflow-hidden mb-12">
+                        <div className="swiper-wrapper">
+                            <div className="swiper-slide"><img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/gela.jpg" className="w-full" /></div>
+                            <div className="swiper-slide"><img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ontake1.png" className="w-full" /></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- (이하 index.html에 있던 UnlimitedBenefit, ProblemSection 등 순서대로 배치) -->
+            </main>
+
+            <!-- 매칭 모달 -->
+            ${formOpen && html`
+                <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[100] flex items-center justify-center p-5 overflow-y-auto">
+                    <div className="bg-white rounded-[3rem] max-w-lg w-full p-8 relative my-auto">
+                        <button onClick=${() => setFormOpen(false)} className="absolute top-6 right-6 text-slate-300 hover:text-slate-800"><${X} size=${32}/></button>
+                        <${InteractiveFlow} setModalOpen=${setFormOpen} />
+                    </div>
+                </div>
+            `}
+        </div>
+    `;
+};
+
+// 렌더링 시작
+const rootEl = document.getElementById("root");
+if (rootEl) {
+    createRoot(rootEl).render(html`<${App} />`);
+}
