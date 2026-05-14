@@ -2402,16 +2402,34 @@ ${proFormOpen && html`
     </div> `;
 };
 
-const rootEl = document.getElementById("root");
-createRoot(rootEl).render(html`<${App} />`);
+<!-- 1. 외부 라이브러리들 (기존에 head에 있어도 되지만 안전하게 여기 한 번 더 확인) -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-  setTimeout(() => {
-    new Swiper(".mySwiper", {
-        loop: true,
-        autoplay: { delay: 3000 },
-        pagination: { el: ".swiper-pagination", clickable: true },
-    });
-}, 500); 
+<!-- 2. 데이터 파일 (가장 먼저 로드) -->
+<script src="proData.js"></script>
+
+<!-- 3. 메인 앱 로직 (이 안에 React가 화면을 다 그린 후 slider.js를 부를 겁니다) -->
+<script type="module">
+    // ... 기존 App 코드들 ...
+    // (중략)
+    
+    const rootEl = document.getElementById("root");
+    createRoot(rootEl).render(html`<${App} />`);
+
+    // ★ 핵심 수정: 화면이 다 그려진 1초 뒤에 슬라이더와 데이터를 로드합니다.
+    setTimeout(() => {
+        // 1. slider.js를 여기서 강제로 다시 로드하거나 실행 명령을 내립니다.
+        const script = document.createElement('script');
+        script.src = 'slider.js';
+        document.body.appendChild(script);
+
+        // 2. 기존 배너용 슬라이더 실행
+        new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: { delay: 3000 },
+            pagination: { el: ".swiper-pagination", clickable: true },
+        });
+    }, 1000); 
 </script>
 </body>
 </html>
