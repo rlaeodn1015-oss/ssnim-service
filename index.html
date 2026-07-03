@@ -59,36 +59,93 @@
     <li class="flex items-center gap-3">✅ 원하는 지역의 스승님을 빠르게 추천</li>
     <li class="flex items-center gap-3">✅ 드라이버·아이언·숏게임 고민별 맞춤 매칭</li>
     <li class="flex items-center gap-3">✅ 마음에 드는 스승님을 선택하고 바로 신청</li>
+    <li class="flex items-center gap-3">✅ 레슨 후 불만족 시 100% 환불보장</li>
 </ul>
             </div>
 
+            <div class="mt-5 pt-4 border-t border-slate-100 grid grid-cols-3 gap-2 text-center">
+    <div class="bg-slate-50 rounded-2xl p-3">
+        <p class="text-lg mb-1">🛡️</p>
+        <p class="text-[10px] font-black text-slate-700 leading-tight">100%<br>환불보장</p>
+    </div>
+    <div class="bg-slate-50 rounded-2xl p-3">
+        <p class="text-lg mb-1">💳</p>
+        <p class="text-[10px] font-black text-slate-700 leading-tight">공식<br>안전결제</p>
+    </div>
+    <div class="bg-slate-50 rounded-2xl p-3">
+        <p class="text-lg mb-1">👥</p>
+        <p class="text-[10px] font-black text-slate-700 leading-tight">운영팀<br>매칭관리</p>
+    </div>
+</div>
+
             <button onclick="app.startChatFlow()" class="w-full gradient-blue text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 active:scale-95 transition-all">
-    AI 맞춤 레슨 찾기
+    내 조건으로 스승님 찾기
 </button>
         </section>
 
         <section id="view-chat" class="view-section py-6">
-            <div class="flex items-start gap-4 mb-8">
-                <div class="w-16 h-16 shrink-0 overflow-hidden flex items-center justify-center pt-1 rounded-full bg-slate-100">
-                    <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/seung.webp" alt="승이" class="w-full h-full object-contain">
-                </div>
-                <div id="chat-greeting" class="relative p-4 rounded-2xl rounded-tl-none font-bold text-sm shadow-md leading-relaxed bg-slate-900 text-white">
-                    <div class="absolute -left-2 top-0 w-0 h-0 border-t-[8px] border-t-transparent border-r-[12px] border-r-slate-900 border-b-[8px] border-b-transparent"></div>
-                    안녕하세요! AI 맞춤 골프레슨 '승이'에요! 🙌<br>원하시는 레슨 지역과 골프 레슨 고민을 알려주세요!
-                </div>
-            </div>
+    <div class="flex items-start gap-4 mb-6">
+        <div class="w-16 h-16 shrink-0 overflow-hidden flex items-center justify-center pt-1 rounded-full bg-slate-100">
+            <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/seung.webp" alt="승이" class="w-full h-full object-contain">
+        </div>
 
-            <div id="quick-keywords" class="mb-6">
-                <p class="text-[10px] font-black text-slate-400 mb-3 ml-1 uppercase tracking-wider">🔥 가장 많이 찾는 고민 TOP 4</p>
-                <div class="space-y-2" id="keyword-list">
-                    </div>
-            </div>
+        <div id="chat-greeting" class="relative p-4 rounded-2xl rounded-tl-none font-bold text-sm shadow-md leading-relaxed bg-slate-900 text-white">
+            <div class="absolute -left-2 top-0 w-0 h-0 border-t-[8px] border-t-transparent border-r-[12px] border-r-slate-900 border-b-[8px] border-b-transparent"></div>
+            몇 가지만 선택하면 조건에 맞는 스승님 후보를 찾아드릴게요.
+        </div>
+    </div>
 
-            <div class="relative border-t border-slate-100 pt-4 flex gap-2">
+    <!-- 진행 단계 -->
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-5 mb-5">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <p id="flow-step-label" class="text-[10px] font-black text-blue-600 uppercase tracking-widest">STEP 1 / 3</p>
+                <h2 id="flow-step-title" class="text-xl font-black text-slate-900 mt-1">어떤 레슨을 찾고 계신가요?</h2>
+                <p id="flow-step-subtitle" class="text-xs font-bold text-slate-400 mt-1">가장 가까운 고민을 선택해주세요.</p>
+            </div>
+            <button onclick="app.goFlowBack()" id="btn-flow-back" class="hidden bg-slate-100 text-slate-500 font-black text-xs px-3 py-2 rounded-xl">
+                이전
+            </button>
+        </div>
+
+        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-5">
+            <div id="flow-progress" class="h-full gradient-blue rounded-full transition-all duration-300" style="width: 33%;"></div>
+        </div>
+
+        <div id="flow-options" class="grid grid-cols-1 gap-2">
+            <!-- JS에서 선택 버튼 생성 -->
+        </div>
+    </div>
+
+    <!-- 선택 요약 -->
+    <div id="flow-summary" class="hidden bg-blue-50 border border-blue-100 rounded-2xl p-4 mb-5">
+        <p class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-2">선택한 조건</p>
+        <div id="flow-summary-list" class="flex flex-wrap gap-2"></div>
+    </div>
+
+    <!-- 직접 입력 보조 -->
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-5">
+        <button onclick="app.toggleDirectInput()" class="w-full flex items-center justify-between text-left">
+            <div>
+                <p class="text-sm font-black text-slate-800">직접 입력하고 싶으신가요?</p>
+                <p class="text-xs font-bold text-slate-400 mt-1">예: 역삼동 드라이버 슬라이스</p>
+            </div>
+            <i class="fa-solid fa-chevron-down text-slate-300"></i>
+        </button>
+
+        <div id="direct-input-box" class="hidden mt-4 border-t border-slate-100 pt-4">
+            <div class="flex gap-2">
                 <input type="text" id="chat-input" placeholder="예) 역삼동 숏아이언 생크" class="flex-1 p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-blue-500 font-bold text-sm transition-all">
                 <button onclick="app.handleChatSubmit()" class="gradient-blue text-white px-5 rounded-2xl font-black text-sm active:scale-95 transition-all">전송</button>
             </div>
-        </section>
+
+            <div id="quick-keywords" class="mt-4">
+                <p class="text-[10px] font-black text-slate-400 mb-3 ml-1 uppercase tracking-wider">빠른 선택 예시</p>
+                <div class="space-y-2" id="keyword-list"></div>
+            </div>
+        </div>
+    </div>
+</section>
 
         <section id="view-analysis" class="view-section py-20 text-center">
             <div class="relative w-36 h-36 mx-auto mb-8 flex items-center justify-center">
@@ -99,8 +156,8 @@
                 </div>
             </div>
             <h3 class="text-xl font-black text-slate-800 mb-8 tracking-tight leading-snug">
-                데이터를 엮어<br>최적의 스승님을 선별 중입니다.
-            </h3>
+    골프 고민과 지역 조건을 분석해<br>맞는 스승님을 추천하고 있습니다.
+</h3>
             <div id="loading-messages" class="space-y-3 max-w-[280px] mx-auto text-left">
                 </div>
         </section>
@@ -124,7 +181,7 @@
                 </div>
                 <div class="mt-4 flex justify-center gap-4">
                     <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 bg-amber-400 rounded-full"></span><span class="text-xs font-bold text-slate-500">나의 현재</span>
+                        <span class="w-3 h-3 bg-amber-400 rounded-full"></span><span class="text-xs font-bold text-slate-500">보완이 필요한 영역</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="w-3 h-3 bg-blue-500 rounded-full"></span><span class="text-xs font-bold text-slate-500">프로의 특기</span>
@@ -137,7 +194,7 @@
             
             <div class="flex flex-col gap-2">
                 <button id="btn-select-pro" disabled onclick="app.showPaymentForm()" class="w-full gradient-blue text-white font-black py-5 text-base rounded-3xl shadow-xl active:scale-95 transition-all disabled:opacity-50">
-                    선택한 스승님께 레슨 신청하기
+                    이 스승님에게 요청 보내기
                 </button>
                 <div class="flex gap-2 mt-1">
                     <!-- 이전(채팅)으로 돌아가기 -->
@@ -154,9 +211,50 @@
 
         <section id="view-payment" class="view-section py-6 text-left">
             <div class="mb-6">
-                <h3 id="form-title" class="text-xl font-black text-slate-800">🎯 스승님 레슨 조율</h3>
-                <p id="form-subtitle" class="text-blue-600 font-bold text-[12px] mt-1">원하시는 일정과 조건을 입력해주세요.</p>
+                <h3 id="form-title" class="text-xl font-black text-slate-800">🎯 스승님에게 요청 보내기</h3>
+<p id="form-subtitle" class="text-blue-600 font-bold text-[12px] mt-1">
+    스승님 일정 확인 후 가능 일정과 결제 안내를 보내드립니다.
+</p>
             </div>
+
+            <div id="payment-summary" class="mb-5 mt-5 bg-blue-50 border border-blue-100 rounded-2xl p-4">
+    <!-- JS에서 자동 입력 -->
+</div>
+
+            <details class="mb-5 bg-white border border-slate-100 rounded-2xl p-4">
+    <summary class="list-none cursor-pointer flex items-center justify-between">
+        <div>
+            <p class="text-sm font-black text-slate-900">환불보장 기준 보기</p>
+            <p class="text-[11px] font-bold text-slate-400 mt-0.5">
+                요청 전 간단히 확인할 수 있습니다.
+            </p>
+        </div>
+        <i class="fa-solid fa-chevron-down text-slate-300 text-xs"></i>
+    </summary>
+
+    <div class="mt-4 pt-4 border-t border-slate-100">
+        <ul class="space-y-2 text-[11px] font-bold text-slate-500 leading-relaxed">
+            <li>• 첫 레슨 1회에 한해 환불보장이 적용됩니다.</li>
+            <li>• 레슨 종료 후 24시간 이내 접수된 불만족 건에 한해 검토됩니다.</li>
+            <li>• 노쇼, 지각, 장소 미방문 등 고객 사유는 제외됩니다.</li>
+            <li>• 악의적 반복 신청 또는 제도 악용이 의심되는 경우 제외될 수 있습니다.</li>
+        </ul>
+    </div>
+</details>
+
+            <div class="mb-5 bg-rose-50 border border-rose-100 rounded-2xl p-4">
+    <div class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-white text-rose-500 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-shield-heart"></i>
+        </div>
+        <div>
+            <p class="text-sm font-black text-slate-900">스승님 안심보장</p>
+            <p class="text-[12px] font-bold text-slate-500 leading-relaxed mt-1">
+                레슨 후 불만족 시 100% 환불을 지원합니다.
+            </p>
+        </div>
+    </div>
+</div>
 
             <div id="package-options-container" class="space-y-2 mb-6 hidden"></div>
            
@@ -238,19 +336,138 @@
             </div>
         </section>
 
-        <section id="view-success" class="view-section py-20 text-center">
-            <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-inner">
-                <i class="fa-solid fa-check"></i>
+        <section id="view-success" class="view-section py-12 text-center">
+    <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-inner">
+        <i class="fa-solid fa-check"></i>
+    </div>
+
+    <p class="text-[11px] font-black text-blue-600 bg-blue-50 border border-blue-100 inline-flex px-3 py-1 rounded-full mb-3">
+        요청 접수 완료
+    </p>
+
+    <h2 class="text-2xl font-black text-slate-900 mb-3 leading-tight">
+        스승님에게 요청을 보냈습니다
+    </h2>
+
+    <p class="text-slate-500 font-bold text-sm mb-6 px-4 leading-relaxed break-keep">
+        선택하신 조건으로<br>
+        <span id="success-pro-name" class="text-blue-600 font-black"></span> 스승님께 요청이 전달되었습니다.<br>
+        스승님이 가능 일정을 확인하면<br>
+        카카오 알림톡으로 결제 안내를 보내드립니다.
+    </p>
+
+    <div class="bg-white border border-slate-100 rounded-[2rem] p-5 mb-6 text-left shadow-sm">
+        <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">
+            진행 상태
+        </p>
+
+        <div class="space-y-4">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs shrink-0 shadow-sm">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-black text-slate-900">요청 접수 완료</p>
+                    <p class="text-[11px] font-bold text-slate-400 mt-0.5 leading-relaxed">
+                        고객님과 스승님에게 요청 알림이 발송됩니다.
+                    </p>
+                </div>
             </div>
-            <h2 class="text-2xl font-black text-slate-900 mb-2">승이 매칭 요청 완료!</h2>
-            <p class="text-slate-500 font-bold text-sm mb-10 px-4 leading-relaxed">
-    레슨 신청이 정상 접수되었습니다.<br>
-    <span id="success-pro-name" class="text-blue-600 font-black"></span> 스승님 확인 후 카카오 알림톡 또는 전화로 안내드릴 예정입니다.
-</p>
-            <button onclick="location.reload()" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black">홈으로 돌아가기</button>
-        </section>
+
+            <div class="flex items-start gap-3 opacity-70">
+                <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-xs font-black shrink-0">
+                    2
+                </div>
+                <div>
+                    <p class="text-sm font-black text-slate-700">스승님 일정 확인 중</p>
+                    <p class="text-[11px] font-bold text-slate-400 mt-0.5 leading-relaxed">
+                        스승님이 요청 내용을 확인하고 가능 여부를 선택합니다.
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3 opacity-70">
+                <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-xs font-black shrink-0">
+                    3
+                </div>
+                <div>
+                    <p class="text-sm font-black text-slate-700">가능 일정 안내</p>
+                    <p class="text-[11px] font-bold text-slate-400 mt-0.5 leading-relaxed">
+                        스승님이 수락하면 가능 일정과 장소가 안내됩니다.
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3 opacity-70">
+                <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-xs font-black shrink-0">
+                    4
+                </div>
+                <div>
+                    <p class="text-sm font-black text-slate-700">결제 후 예약 확정</p>
+                    <p class="text-[11px] font-bold text-slate-400 mt-0.5 leading-relaxed">
+                        결제 완료 시 레슨 예약이 최종 확정됩니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4 mb-6 text-left">
+        <p class="text-[12px] font-black text-slate-700 mb-2">
+            안내사항
+        </p>
+        <ul class="space-y-1.5 text-[11px] font-bold text-slate-400 leading-relaxed">
+            <li>• 지금 단계는 예약 확정이 아닌 요청 접수 단계입니다.</li>
+            <li>• 스승님이 수락한 뒤 결제 안내가 발송됩니다.</li>
+            <li>• 결제 완료 후 예약이 최종 확정됩니다.</li>
+        </ul>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <button onclick="location.reload()" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black active:scale-95 transition-all">
+            홈으로 돌아가기
+        </button>
+
+        <button onclick="app.startChatFlow()" class="w-full bg-white border border-slate-200 text-slate-600 py-4 rounded-2xl font-black active:scale-95 transition-all">
+            다른 레슨도 찾아보기
+        </button>
+    </div>
+</section>
 
     </main>
+
+    <section id="service-faq" class="hidden max-w-2xl mx-auto px-4 pb-12 text-left">
+    <details class="bg-white border border-slate-100 rounded-2xl p-4 mb-3">
+        <summary class="list-none cursor-pointer font-black text-sm text-slate-800 flex justify-between items-center">
+            레슨 취소 및 환불은 어떻게 되나요?
+            <i class="fa-solid fa-chevron-down text-slate-300 text-xs"></i>
+        </summary>
+        <div class="mt-4 pt-4 border-t border-slate-100 text-[11px] font-bold text-slate-500 leading-relaxed space-y-2">
+            <p>첫 레슨 후 불만족 시 24시간 이내 환불보장 접수가 가능합니다.</p>
+            <p>특별레슨, 캠프, 필드레슨의 취소 환불 기준은 상품별 일정에 따라 별도 적용됩니다.</p>
+        </div>
+    </details>
+
+    <details class="bg-white border border-slate-100 rounded-2xl p-4 mb-3">
+        <summary class="list-none cursor-pointer font-black text-sm text-slate-800 flex justify-between items-center">
+            결제는 언제 하나요?
+            <i class="fa-solid fa-chevron-down text-slate-300 text-xs"></i>
+        </summary>
+        <div class="mt-4 pt-4 border-t border-slate-100 text-[11px] font-bold text-slate-500 leading-relaxed">
+            스승님이 요청을 수락한 뒤 결제 안내가 발송됩니다. 결제 완료 시 예약이 확정됩니다.
+        </div>
+    </details>
+
+    <details class="bg-white border border-slate-100 rounded-2xl p-4">
+        <summary class="list-none cursor-pointer font-black text-sm text-slate-800 flex justify-between items-center">
+            공식 결제를 이용해야 하나요?
+            <i class="fa-solid fa-chevron-down text-slate-300 text-xs"></i>
+        </summary>
+        <div class="mt-4 pt-4 border-t border-slate-100 text-[11px] font-bold text-slate-500 leading-relaxed">
+            안전한 거래와 환불보장 적용을 위해 스승님 공식 결제창 이용을 권장합니다. 개인 송금 또는 직접 정산은 환불보장 및 운영팀 중재 대상에서 제외될 수 있습니다.
+        </div>
+    </details>
+</section>
 
     <script>
         const BOT_TOKEN = "8696133005:AAF8Uh6gK0hufHuQyufAkmZhUcjGpYCAxzE";
@@ -319,13 +536,33 @@
         const app = {
     currentView: 'home',
     chart: null,
-    formData: { location: '', lessonType: '1:1 레슨', club: '', concern: [], isJoinable: false, personCount: '1인', price: 0, lessonDate: '', schedule: '', lessonPlan: '' },
+    formData: { 
+        location: '', 
+        lessonType: '1:1 레슨', 
+        club: '', 
+        concern: [], 
+        isJoinable: false, 
+        personCount: '1인', 
+        price: 0, 
+        lessonDate: '', 
+        schedule: '', 
+        schedulePreference: '',
+        lessonPlan: '' 
+    },
     isLocationMissing: false,
     savedConcernText: '',
     selectedPro: null,
     matchedPros: [],
     shownProIds: [],
     toastTimer: null,
+    ssnimPickPriorityIds: [1, 2, 3, 5, 8, 9, 12, 16, 20, 21, 29, 33],
+
+    flowStep: 'concern',
+    flowDraft: {
+        concern: null,
+        location: null,
+        schedule: null
+    },
 
     // 2. 홈에서 매칭 시작하기 버튼 눌렀을 때 실행
     startChatFlow: function() {
@@ -333,13 +570,40 @@
 
     this.isLocationMissing = false;
     this.savedConcernText = '';
+    this.selectedPro = null;
+    this.matchedPros = [];
+    this.shownProIds = [];
+
+    this.formData = { 
+        location: '', 
+        lessonType: '1:1 레슨', 
+        club: '', 
+        concern: [], 
+        isJoinable: false, 
+        personCount: '1인', 
+        price: 0, 
+        lessonDate: '', 
+        schedule: '', 
+        schedulePreference: '',
+        lessonPlan: '' 
+    };
+
+    this.flowStep = 'concern';
+    this.flowDraft = {
+        concern: null,
+        location: null,
+        schedule: null
+    };
 
     const greeting = document.getElementById('chat-greeting');
     if (greeting) {
-        greeting.innerHTML = "안녕하세요! 맞춤 골프레슨 '승이'에요! 🙌<br>원하시는 지역과 골프 고민을 자유롭게 적어주세요.";
+        greeting.innerHTML = "몇 가지만 선택하면 조건에 맞는 스승님 후보를 찾아드릴게요.";
         greeting.classList.remove('bg-amber-500');
         greeting.classList.add('bg-slate-900');
     }
+
+    const directBox = document.getElementById('direct-input-box');
+    if (directBox) directBox.classList.add('hidden');
 
     const input = document.getElementById('chat-input');
     if (input) {
@@ -347,9 +611,418 @@
         input.placeholder = "예) 역삼동 숏아이언 생크";
     }
 
-    const quick = document.getElementById('quick-keywords');
-    if (quick) {
-        quick.style.display = 'block';
+    this.initChat();
+    this.renderChoiceFlow();
+},
+
+getFlowOptions: function() {
+    return {
+       concern: [
+    {
+        title: "드라이버 방향성",
+        desc: "슬라이스 · 훅 · 푸시 · 꼬랑지샷",
+        icon: "🏌️",
+        data: {
+            lessonType: "1:1 레슨",
+            club: "드라이버",
+            concern: ["슬라이스 교정", "훅 교정", "드라이버 정확도"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "드라이버 비거리",
+        desc: "비거리 · 뽕샷 · 탄도 · 정타율",
+        icon: "🚀",
+        data: {
+            lessonType: "1:1 레슨",
+            club: "드라이버",
+            concern: ["비거리 증가", "드라이버 정확도", "체중이동", "임팩트 교정"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "아이언 정타",
+        desc: "뒤땅 · 탑볼 · 얇은 샷 · 두꺼운 샷",
+        icon: "⛳",
+        data: {
+            lessonType: "1:1 레슨",
+            club: "아이언",
+            concern: ["뒤땅/탑볼", "임팩트 교정", "자세 교정"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "아이언 생크",
+        desc: "롱아이언 · 숏아이언 · 오른쪽 미스",
+        icon: "⚠️",
+        data: {
+            lessonType: "1:1 레슨",
+            club: "아이언",
+            concern: ["생크 교정", "스윙 궤도", "임팩트 교정"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "아이언 거리",
+        desc: "탄도 · 거리 부족 · 클럽별 거리감",
+        icon: "📈",
+        data: {
+            lessonType: "1:1 레슨",
+            club: "아이언",
+            concern: ["비거리 증가", "롱아이언", "임팩트 교정", "체중이동"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "우드/유틸",
+        desc: "탑볼 · 뒤땅 · 탄도 · 세컨샷",
+        icon: "🪵",
+        data: {
+            lessonType: "1:1 레슨",
+            club: "우드/유틸",
+            concern: ["우드/유틸 활용", "뒤땅/탑볼", "비거리 증가", "임팩트 교정"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "스윙 교정",
+        desc: "오버스윙 · 배치기 · 캐스팅 · 체중이동",
+        icon: "🔧",
+        data: {
+            lessonType: "1:1 레슨",
+            club: "전체",
+            concern: ["자세 교정", "스윙 궤도", "체중이동", "바디스윙", "임팩트 교정"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "초보/입문",
+        desc: "골린이 · 기본기 · 자세 · 첫 레슨",
+        icon: "🌱",
+        data: {
+            lessonType: "1:1 레슨",
+            club: "전체",
+            concern: ["초보 레슨", "자세 교정", "임팩트 교정"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "숏게임 레슨",
+        desc: "어프로치 · 웨지 · 거리감 · 뒤땅",
+        icon: "🎯",
+        data: {
+            lessonType: "숏게임레슨",
+            club: "웨지/숏게임",
+            concern: ["어프로치 거리감", "실전 숏게임", "뒤땅/탑볼"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "퍼팅 집중 레슨",
+        desc: "거리감 · 방향성 · 3퍼트 · 짧은 퍼트",
+        icon: "🟢",
+        data: {
+            lessonType: "숏게임레슨",
+            club: "퍼터",
+            concern: ["퍼팅 거리감", "퍼팅 방향성", "실전 숏게임"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "파3 레슨",
+        desc: "티샷 · 어프로치 · 퍼팅 · 실전 감각",
+        icon: "🌿",
+        data: {
+            lessonType: "파3 레슨",
+            club: "웨지/숏게임",
+            concern: ["파3 레슨", "실전 숏게임", "어프로치 거리감", "퍼팅 거리감"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "9홀 필드 레슨",
+        desc: "OB · 미스샷 · 코스공략 · 실전 운영",
+        icon: "🏞️",
+        data: {
+            lessonType: "9홀 레슨",
+            club: "필드",
+            concern: ["필드 레슨", "코스 매니지먼트", "실전 스코어 감소"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "18홀 필드레슨",
+        desc: "티샷 · 세컨샷 · 숏게임 · 코스 운영",
+        icon: "🏆",
+        data: {
+            lessonType: "18홀 필드레슨",
+            club: "필드",
+            concern: ["필드 레슨", "코스 매니지먼트", "실전 루틴"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    },
+    {
+        title: "진단이 필요해요",
+        desc: "뭐가 문제인지 먼저 알고 싶어요",
+        icon: "🤔",
+        data: {
+            lessonType: "1:1 레슨",
+            club: "전체",
+            concern: ["자세 교정", "초보 레슨", "스윙 궤도", "임팩트 교정"],
+            isJoinable: false,
+            personCount: "1인"
+        }
+    }
+],
+
+        location: [
+    { 
+        title: "강남/역삼/선릉", 
+        desc: "강남역, 역삼, 삼성, 선릉", 
+        value: "강남·삼성·역삼·선릉" 
+    },
+    { 
+        title: "대치/도곡/개포", 
+        desc: "대치, 도곡, 개포, 한티", 
+        value: "대치·도곡·개포·한티" 
+    },
+    { 
+        title: "서초/교대/방배", 
+        desc: "서초, 교대, 방배, 반포, 양재", 
+        value: "서초·교대·방배·반포·양재" 
+    },
+    { 
+        title: "송파/잠실", 
+        desc: "잠실, 송파, 문정, 방이", 
+        value: "송파·잠실·문정·방이" 
+    },
+    { 
+        title: "분당/판교", 
+        desc: "판교, 정자, 분당, 야탑", 
+        value: "분당·판교·정자·야탑" 
+    },
+    { 
+        title: "용인/수지", 
+        desc: "수지, 죽전, 기흥, 용인", 
+        value: "용인·수지·죽전·기흥" 
+    },
+    { 
+        title: "지역 무관", 
+        desc: "조건에 맞는 스승님을 우선 추천", 
+        value: "지역 무관" 
+    }
+],
+
+        schedule: [
+    { 
+        title: "최대한 빠르게", 
+        desc: "가장 빠른 가능 일정으로 요청할게요", 
+        value: "최대한 빠르게", 
+        scheduleValue: "시간 무관" 
+    },
+    { 
+        title: "이번 주 안에", 
+        desc: "이번 주 중 가능한 일정이면 좋아요", 
+        value: "이번 주", 
+        scheduleValue: "시간 무관" 
+    },
+    { 
+        title: "다음 주 정도", 
+        desc: "급하지 않고 다음 주 일정으로 보고 있어요", 
+        value: "다음 주", 
+        scheduleValue: "시간 무관" 
+    },
+    { 
+        title: "주말 위주", 
+        desc: "토요일이나 일요일 일정이 편해요", 
+        value: "주말 선호", 
+        scheduleValue: "시간 무관" 
+    },
+    { 
+        title: "평일 저녁", 
+        desc: "퇴근 후 저녁 시간대가 편해요", 
+        value: "평일 저녁", 
+        scheduleValue: "저녁 (19~22시)" 
+    },
+    { 
+        title: "일정 조율 가능", 
+        desc: "스승님 가능 일정에 맞춰볼 수 있어요", 
+        value: "일정 조율 가능", 
+        scheduleValue: "시간 무관" 
+    }
+]
+    };
+},
+
+renderChoiceFlow: function() {
+    const options = this.getFlowOptions();
+    const step = this.flowStep;
+
+    const stepInfo = {
+        concern: {
+            label: "STEP 1 / 3",
+            title: "어떤 레슨을 찾고 계신가요?",
+            subtitle: "가장 가까운 고민을 선택해주세요.",
+            progress: "33%"
+        },
+        location: {
+            label: "STEP 2 / 3",
+            title: "어느 지역이 편하세요?",
+            subtitle: "레슨을 받기 편한 지역을 선택해주세요.",
+            progress: "66%"
+        },
+        schedule: {
+    label: "STEP 3 / 3",
+    title: "희망하는 레슨 시기를 선택해주세요",
+    subtitle: "정확한 날짜와 시간은 요청 단계에서 다시 입력할 수 있습니다.",
+    progress: "100%"
+}
+    };
+
+    document.getElementById('flow-step-label').innerText = stepInfo[step].label;
+    document.getElementById('flow-step-title').innerText = stepInfo[step].title;
+    document.getElementById('flow-step-subtitle').innerText = stepInfo[step].subtitle;
+    document.getElementById('flow-progress').style.width = stepInfo[step].progress;
+
+    const backBtn = document.getElementById('btn-flow-back');
+    if (backBtn) {
+        backBtn.classList.toggle('hidden', step === 'concern');
+    }
+
+    const optionList = document.getElementById('flow-options');
+    optionList.innerHTML = options[step].map((item, index) => `
+        <button 
+            type="button"
+            onclick="app.selectFlowOption('${step}', ${index})"
+            class="w-full text-left bg-slate-50 hover:bg-blue-50 border border-slate-100 hover:border-blue-200 rounded-2xl p-4 transition-all active:scale-[0.98]"
+        >
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-xl shadow-sm shrink-0">
+                    ${item.icon || "📍"}
+                </div>
+                <div class="flex-1">
+                   <p class="text-[15px] font-black text-slate-900">${item.title}</p>
+<p class="text-[11px] font-bold text-slate-400 mt-1 truncate">${item.desc}</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-slate-300 mt-2"></i>
+            </div>
+        </button>
+    `).join('');
+
+    this.renderFlowSummary();
+},
+
+selectFlowOption: function(step, index) {
+    const options = this.getFlowOptions();
+    const selected = options[step][index];
+
+    if (step === 'concern') {
+        this.flowDraft.concern = selected;
+        this.flowStep = 'location';
+        this.renderChoiceFlow();
+        return;
+    }
+
+    if (step === 'location') {
+        this.flowDraft.location = selected;
+        this.flowStep = 'schedule';
+        this.renderChoiceFlow();
+        return;
+    }
+
+    if (step === 'schedule') {
+        this.flowDraft.schedule = selected;
+        this.startMatchingFromChoices();
+    }
+},
+
+goFlowBack: function() {
+    if (this.flowStep === 'schedule') {
+        this.flowStep = 'location';
+    } else if (this.flowStep === 'location') {
+        this.flowStep = 'concern';
+    }
+    this.renderChoiceFlow();
+},
+
+renderFlowSummary: function() {
+    const summary = document.getElementById('flow-summary');
+    const list = document.getElementById('flow-summary-list');
+
+    const chips = [];
+
+    if (this.flowDraft.concern) {
+        chips.push(this.flowDraft.concern.title);
+    }
+
+    if (this.flowDraft.location) {
+        chips.push(this.flowDraft.location.title);
+    }
+
+    if (this.flowDraft.schedule) {
+        chips.push(this.flowDraft.schedule.title);
+    }
+
+    if (chips.length === 0) {
+        summary.classList.add('hidden');
+        return;
+    }
+
+    summary.classList.remove('hidden');
+    list.innerHTML = chips.map(chip => `
+        <span class="bg-white text-blue-600 border border-blue-100 px-3 py-1.5 rounded-full text-[11px] font-black">
+            ${chip}
+        </span>
+    `).join('');
+},
+
+startMatchingFromChoices: function() {
+    const concern = this.flowDraft.concern;
+    const location = this.flowDraft.location;
+    const schedule = this.flowDraft.schedule;
+
+    if (!concern || !location || !schedule) {
+        alert("레슨 고민, 지역, 일정을 모두 선택해주세요.");
+        return;
+    }
+
+    const selectedData = {
+        location: location.value,
+        lessonType: concern.data.lessonType,
+        club: concern.data.club,
+        concern: concern.data.concern,
+        isJoinable: concern.data.isJoinable || false,
+        personCount: concern.data.personCount || "1인",
+        schedulePreference: schedule.scheduleValue || "시간 무관"
+    };
+
+    this.formData = {
+        ...this.formData,
+        ...selectedData
+    };
+
+    this.savedConcernText = `${location.value} ${concern.title} ${schedule.value}`;
+
+    this.startAnalysis(selectedData);
+},
+
+toggleDirectInput: function() {
+    const box = document.getElementById('direct-input-box');
+    if (box) {
+        box.classList.toggle('hidden');
     }
 
     this.initChat();
@@ -357,15 +1030,22 @@
 
     // 3. 기존 함수들 (오류 없이 전부 포함)
     navigate: function(viewId) {
-        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-        document.getElementById('view-' + viewId).classList.add('active');
-        this.currentView = viewId;
-        window.scrollTo(0, 0);
-        if(viewId === 'results') {
-            if(this.matchedPros.length > 0) this.initChart(this.matchedPros[0]);
-            this.renderPros();
-        }
-    },
+    document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + viewId).classList.add('active');
+    this.currentView = viewId;
+
+    const faq = document.getElementById('service-faq');
+    if (faq) {
+        faq.classList.toggle('hidden', !['home', 'success'].includes(viewId));
+    }
+
+    window.scrollTo(0, 0);
+
+    if(viewId === 'results') {
+        if(this.matchedPros.length > 0) this.initChart(this.matchedPros[0]);
+        this.renderPros();
+    }
+},
 
     goHomeWithConfirm: function() {
         if (this.currentView !== 'home' && this.currentView !== 'success') {
@@ -653,89 +1333,337 @@
             },
 
             executeMatching: function(currentMatchingData) {
-                const finalActiveData = currentMatchingData || this.formData;
-                let isLocationMatched = true;
-                const selectedLocs = (finalActiveData.location || "강남").split('·'); 
+    const finalActiveData = currentMatchingData || this.formData;
+    let isLocationMatched = true;
 
-                let filteredPros = pros.filter(p => {
-                    const proLocs = p.activeLocations || [];
-                    return proLocs.some(proLoc => 
-                        selectedLocs.some(userLoc => proLoc.includes(userLoc) || userLoc.includes(proLoc))
-                    );
-                });
-                
-                if (filteredPros.length === 0) {
-                    isLocationMatched = false;
-                    filteredPros = [...pros];
-                }
+    const selectedLocs = (finalActiveData.location || "강남").split('·');
+    const isAnyLocation = finalActiveData.location === "지역 무관";
 
-                // ★ 핵심: 이미 보여준 프로들은 필터링해서 없애버림
-                let availablePros = filteredPros.filter(p => !this.shownProIds.includes(p.id));
-                
-                // 남은 프로가 3명도 안 되면 (풀이 고갈되면) 기록 리셋 후 전체에서 다시 뽑음
-                if (availablePros.length < 3) {
-                    this.shownProIds = [];
-                    availablePros = filteredPros;
-                }
+    let filteredPros = isAnyLocation
+        ? [...pros]
+        : pros.filter(p => {
+            const proLocs = p.activeLocations || [];
+            return proLocs.some(proLoc => 
+                selectedLocs.some(userLoc => 
+                    proLoc.includes(userLoc) || userLoc.includes(proLoc)
+                )
+            );
+        });
 
-                const scoredPros = availablePros.map(p => {
-                    let score = 0;
-                    const types = p.lessonTypes || [];
-                    const tags = p.tags || [];
+    if (filteredPros.length === 0) {
+        isLocationMatched = false;
+        filteredPros = [...pros];
+    }
 
-                    if (types.includes(finalActiveData.lessonType)) score += 20; 
-                    
-                    const userConcerns = Array.isArray(finalActiveData.concern) ? finalActiveData.concern : [finalActiveData.concern];
-                    if (tags.some(tag => userConcerns.some(c => tag.includes(c)))) score += 30; 
-                    
-                    // 동점자 구간에서 다양한 결과가 나오도록 강력한 랜덤 요소 부여
-                    return { ...p, score: score + (Math.random() * 20) }; 
-                });
+    // 이미 보여준 프로는 제외
+    let availablePros = filteredPros.filter(p => !this.shownProIds.includes(p.id));
 
-                this.matchedPros = scoredPros.sort((a, b) => b.score - a.score).slice(0, 3).map((p, i) => ({
-                    ...p,
-                    displayScore: 99 - (i * 2) - Math.floor(Math.random() * 2),
-                    isExpanded: !isLocationMatched 
-                }));
+    // 남은 프로가 3명보다 적으면 다시 초기화
+    if (availablePros.length < 3) {
+        this.shownProIds = [];
+        availablePros = filteredPros;
+    }
 
-                this.selectedPro = this.matchedPros[0]; 
-                
-                const desc = document.getElementById('result-desc');
-                desc.innerText = this.formData.lessonType === '1:1 레슨'
-    ? "입력하신 지역과 골프 고민을 바탕으로 어울리는 스승님을 추천해드렸습니다."
-    : "실전 레슨 목적과 지역 조건을 기준으로 어울리는 스승님을 추천해드렸습니다.";
+    // 텍스트 정규화 함수
+    function normalizeText(value) {
+        return String(value || '')
+            .replace(/\s+/g, '')
+            .replace(/[\/·\-_]/g, '')
+            .toLowerCase();
+    }
 
-                this.navigate('results');
-            },
+    const scoredPros = availablePros.map(p => {
+        let score = 0;
+
+        const userType = normalizeText(finalActiveData.lessonType);
+        const userClub = normalizeText(finalActiveData.club);
+        const userConcerns = Array.isArray(finalActiveData.concern)
+            ? finalActiveData.concern
+            : [finalActiveData.concern];
+
+        const types = p.lessonTypes || [];
+        const tags = p.tags || [];
+        const specialties = p.specialties || [];
+        const reasons = p.reasons || [];
+
+        const matchPool = [
+            ...types,
+            ...tags,
+            ...specialties,
+            ...reasons,
+            p.intro || '',
+            p.career || ''
+        ];
+
+        // 1. 레슨 유형 매칭
+        if (types.some(type => {
+            const t = normalizeText(type);
+            return t.includes(userType) || userType.includes(t);
+        })) {
+            score += 25;
+        }
+
+        // 2. 클럽 매칭
+        if (userClub && matchPool.some(item => normalizeText(item).includes(userClub))) {
+            score += 15;
+        }
+
+        // 3. 고민 키워드 매칭
+        userConcerns.forEach(concern => {
+            const c = normalizeText(concern);
+            if (!c) return;
+
+            const matched = matchPool.some(item => {
+                const m = normalizeText(item);
+                return m.includes(c) || c.includes(m);
+            });
+
+            if (matched) {
+                score += 12;
+            }
+        });
+
+        // 4. 후기/레슨 수 신뢰도 반영
+        score += Math.min(10, Math.floor((p.review || 0) / 50));
+        score += Math.min(8, Math.floor((p.lessonCount || 0) / 300));
+
+        // 5. 평점 반영
+        if ((p.rating || 0) >= 4.9) score += 5;
+
+        return { 
+            ...p, 
+            score: score + (Math.random() * 8) 
+        };
+    });
+
+    this.matchedPros = scoredPros
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3)
+        .map((p, i) => ({
+            ...p,
+            displayScore: 99 - (i * 2) - Math.floor(Math.random() * 2),
+            isExpanded: !isLocationMatched,
+            isSsnimPick: false,
+            pickLabel: "",
+            pickReason: ""
+        }));
+
+    // 3명 중 스승님 PICK 1명 지정
+    let pickTarget = this.matchedPros.find(p => 
+        this.ssnimPickPriorityIds && this.ssnimPickPriorityIds.includes(p.id)
+    );
+
+    if (!pickTarget && this.matchedPros.length > 0) {
+        pickTarget = this.matchedPros[0];
+    }
+
+    if (pickTarget) {
+        this.matchedPros = this.matchedPros.map(p => {
+            const isPick = p.id === pickTarget.id;
+
+            return {
+                ...p,
+                isSsnimPick: isPick,
+                pickLabel: isPick ? "스승님 PICK" : "",
+                pickReason: isPick
+                    ? "입력하신 고민과 지역 조건을 기준으로 가장 먼저 요청해볼 만한 스승님입니다."
+                    : ""
+            };
+        });
+    }
+
+    // 기본 선택도 스승님 PICK으로 맞춤
+    this.selectedPro = pickTarget || this.matchedPros[0];
+
+    const desc = document.getElementById('result-desc');
+    if (desc) {
+        desc.innerText = "먼저 요청해볼 만한 스승님을 기준으로 추천 순서를 정리했습니다.";
+    }
+
+    this.navigate('results');
+},
 
             renderPros: function() {
-                const list = document.getElementById('pro-list');
-                list.innerHTML = this.matchedPros.map((p, idx) => `
-                    <div onclick="app.selectPro(${p.id})" class="pro-card p-5 rounded-[2.5rem] border-2 transition-all cursor-pointer flex flex-col relative bg-white ${this.selectedPro.id === p.id ? 'selected' : 'border-slate-100'}">
-                        <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
-                            <div class="flex gap-1.5 items-center">
-                                <span class="text-[9px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-black">적합도 ${p.displayScore}%</span>
-                                <span class="text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200/60 px-2 py-0.5 rounded-full font-black"><i class="fa-solid fa-check"></i> 검증완료</span>
-                            </div>
-                            <div class="flex items-center gap-1 bg-amber-50 px-2 py-0.5 rounded-full text-[10px] font-black text-amber-700">
-                                <i class="fa-solid fa-star text-amber-400"></i> ${p.rating} <span class="text-amber-600/70 font-bold">(${p.review}개)</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <div class="relative shrink-0">
-                                <img src="${p.img}" class="w-20 h-20 rounded-3xl object-cover border-2 border-slate-50">
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h4 class="font-black text-slate-900 text-lg">${p.name}</h4>
-                                <span class="text-[10px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-md font-bold mt-1 inline-block">${p.career.split(',')[0]}</span>
-                                <p class="text-slate-600 text-[12px] font-medium mt-1.5">"${p.intro}"</p>
-                            </div>
-                        </div>
+    const list = document.getElementById('pro-list');
+
+    list.innerHTML = this.matchedPros.map((p, idx) => {
+        const locations = (p.activeLocations || []).slice(0, 4).join(' · ');
+        const lessonTypes = (p.lessonTypes || []).slice(0, 3).join(' · ');
+        const tags = (p.tags || []).slice(0, 3);
+        const reasons = (p.reasons || []).slice(0, 3);
+
+        const pickBadge = p.isSsnimPick
+            ? `
+                <div class="absolute -top-3 left-5 z-10">
+                    <span class="inline-flex items-center gap-1 bg-slate-900 text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg">
+                        <i class="fa-solid fa-crown text-amber-300"></i>
+                        스승님 PICK
+                    </span>
+                </div>
+            `
+            : "";
+
+        const pickBox = p.isSsnimPick
+            ? `
+                <div class="mt-4 bg-slate-900 text-white rounded-2xl p-4">
+                    <p class="text-[10px] font-black text-blue-200 mb-1">스승님 추천 코멘트</p>
+                    <p class="text-[12px] font-black leading-relaxed">
+                        ${p.pickReason}
+                    </p>
+                </div>
+            `
+            : "";
+
+        return `
+            <div 
+                onclick="app.selectPro(${p.id})" 
+                class="pro-card p-5 rounded-[2rem] border-2 transition-all cursor-pointer flex flex-col relative bg-white ${
+                    this.selectedPro && this.selectedPro.id === p.id ? 'selected' : 'border-slate-100'
+                } ${p.isSsnimPick ? 'ring-2 ring-slate-900/5 shadow-xl' : ''}"
+            >
+                ${pickBadge}
+
+                <!-- 상단 상태 -->
+                <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100 pt-1">
+                    <div class="flex gap-1.5 items-center flex-wrap">
+                        <span class="text-[9px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-black">
+                            AI 적합도 ${p.displayScore}%
+                        </span>
+                        <span class="text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200/60 px-2 py-0.5 rounded-full font-black">
+                            <i class="fa-solid fa-check"></i> 검증완료
+                        </span>
+                        <span class="text-[9px] bg-rose-50 text-rose-600 border border-rose-100 px-2 py-0.5 rounded-full font-black">
+    <i class="fa-solid fa-shield-heart"></i> 환불보장
+</span>
                     </div>
-                `).join('');
-                
-                document.getElementById('btn-select-pro').disabled = false;
-            },
+
+                    <div class="flex items-center gap-1 bg-amber-50 px-2 py-0.5 rounded-full text-[10px] font-black text-amber-700">
+                        <i class="fa-solid fa-star text-amber-400"></i> 
+                        ${p.rating} 
+                        <span class="text-amber-600/70 font-bold">(${p.review}개)</span>
+                    </div>
+                </div>
+
+                <!-- 프로 기본 정보 -->
+                <div class="flex items-start gap-4">
+                    <div class="relative shrink-0">
+                        <img src="${p.img}" class="w-20 h-20 rounded-3xl object-cover border-2 border-slate-50">
+                        ${p.isSsnimPick ? `
+                            <span class="absolute -bottom-1 -right-1 bg-slate-900 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow">
+                                PICK
+                            </span>
+                        ` : `
+                            <span class="absolute -bottom-1 -right-1 bg-blue-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow">
+                                추천
+                            </span>
+                        `}
+                    </div>
+
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <h4 class="font-black text-slate-900 text-lg">${p.name}</h4>
+                            <span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-md font-black">
+                                ${p.priceRange || '금액 조율'}
+                            </span>
+                        </div>
+
+                        <p class="text-[10px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-md font-bold mt-1 inline-block">
+                            ${p.career ? p.career.split(',')[0] : '골프 레슨 전문'}
+                        </p>
+
+                        <p class="text-slate-600 text-[12px] font-medium mt-2 leading-relaxed line-clamp-2">
+                            ${p.intro}
+                        </p>
+                    </div>
+                </div>
+
+                ${pickBox}
+
+                <!-- 강점 태그 -->
+                <div class="mt-4">
+                    <p class="text-[10px] font-black text-slate-400 mb-2">이 스승님의 강점</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        ${tags.map(tag => `
+                            <span class="text-[10px] font-black text-blue-600 bg-blue-50 border border-blue-100 px-2 py-1 rounded-full">
+                                ${tag}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- 핵심 정보 -->
+                <div class="grid grid-cols-2 gap-2 mt-4">
+                    <div class="bg-slate-50 rounded-2xl p-3">
+                        <p class="text-[9px] font-black text-slate-400 mb-1">가능 지역</p>
+                        <p class="text-[11px] font-black text-slate-700 leading-snug">
+                            ${locations || '지역 협의'}
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-2xl p-3">
+                        <p class="text-[9px] font-black text-slate-400 mb-1">레슨 분야</p>
+                        <p class="text-[11px] font-black text-slate-700 leading-snug">
+                            ${lessonTypes || '맞춤 레슨'}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 안심보장 -->
+<div class="mt-4 bg-rose-50/70 border border-rose-100 rounded-2xl p-3">
+    <div class="flex items-start gap-2">
+        <div class="w-7 h-7 rounded-full bg-white text-rose-500 flex items-center justify-center text-xs shrink-0">
+            <i class="fa-solid fa-shield-heart"></i>
+        </div>
+        <div>
+            <p class="text-[10px] font-black text-rose-600 mb-0.5">스승님 안심보장</p>
+            <p class="text-[11px] font-black text-slate-700 leading-snug">
+                레슨 후 불만족 시 100% 환불을 지원합니다.
+            </p>
+        </div>
+    </div>
+</div>
+
+                <!-- 후기 요약 -->
+                <div class="mt-4 bg-amber-50/70 border border-amber-100 rounded-2xl p-3">
+                    <p class="text-[9px] font-black text-amber-600 mb-1">AI 후기 요약</p>
+                    <p class="text-[11px] font-black text-slate-700 leading-snug">
+                        ${p.reviewHighlight || '레슨 만족도가 높은 스승님입니다.'}
+                    </p>
+                </div>
+
+                <!-- 추천 이유 접기/펼치기 -->
+                <details class="mt-3 group" onclick="event.stopPropagation();">
+                    <summary class="list-none flex items-center justify-between bg-slate-100 text-slate-700 rounded-2xl px-4 py-3 text-[12px] font-black cursor-pointer">
+                        <span>추천 이유 보기</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] group-open:rotate-180 transition-transform"></i>
+                    </summary>
+
+                    <div class="mt-3 space-y-2 bg-slate-50 rounded-2xl p-3">
+                        ${
+                            reasons.length > 0
+                            ? reasons.map(reason => `
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-blue-600 text-[10px] mt-1"></i>
+                                    <p class="text-[11px] font-bold text-slate-600 leading-relaxed">${reason}</p>
+                                </div>
+                            `).join('')
+                            : `
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-blue-600 text-[10px] mt-1"></i>
+                                    <p class="text-[11px] font-bold text-slate-600 leading-relaxed">
+                                        입력하신 지역과 골프 고민에 맞는 레슨 분야를 보유하고 있습니다.
+                                    </p>
+                                </div>
+                            `
+                        }
+                    </div>
+                </details>
+            </div>
+        `;
+    }).join('');
+
+    document.getElementById('btn-select-pro').disabled = false;
+},
 
             selectPro: function(id) {
                 this.selectedPro = this.matchedPros.find(p => p.id === id);
@@ -791,6 +1719,11 @@
     document.getElementById('input-price').value = '';
     document.getElementById('input-agree').checked = false;
 
+    const scheduleSelect = document.getElementById('input-schedule');
+if (scheduleSelect && this.formData.schedulePreference) {
+    scheduleSelect.value = this.formData.schedulePreference;
+}
+
     const isFixed = this.formData.lessonType === '1:1 레슨';
 
     const pkgContainer = document.getElementById('package-options-container');
@@ -804,6 +1737,42 @@
     document.getElementById('form-subtitle').innerText = isFixed
         ? `패키지를 선택하거나, 1회 체험은 희망 금액을 제안할 수 있습니다.`
         : `희망 레슨비와 일정 조건을 입력하면 스승님 확인 후 조율됩니다.`;
+
+const paymentSummary = document.getElementById('payment-summary');
+
+if (paymentSummary) {
+    const concernText = Array.isArray(this.formData.concern)
+        ? this.formData.concern.slice(0, 3).join(' · ')
+        : (this.formData.concern || '맞춤 레슨');
+
+    paymentSummary.innerHTML = `
+        <p class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-2">
+            선택한 요청 조건
+        </p>
+
+        <div class="grid grid-cols-2 gap-2">
+            <div class="bg-white rounded-xl p-3">
+                <p class="text-[9px] font-black text-slate-400 mb-1">스승님</p>
+                <p class="text-[12px] font-black text-slate-800">${this.selectedPro.name}</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-3">
+                <p class="text-[9px] font-black text-slate-400 mb-1">레슨 유형</p>
+                <p class="text-[12px] font-black text-slate-800">${this.formData.lessonType}</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-3">
+                <p class="text-[9px] font-black text-slate-400 mb-1">지역</p>
+                <p class="text-[12px] font-black text-slate-800">${this.formData.location || '지역 협의'}</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-3">
+                <p class="text-[9px] font-black text-slate-400 mb-1">고민</p>
+                <p class="text-[12px] font-black text-slate-800 line-clamp-1">${concernText}</p>
+            </div>
+        </div>
+    `;
+}
 
     if (trialSection) {
         trialSection.style.display = isFixed ? 'block' : 'none';
@@ -944,7 +1913,7 @@
     if (isValid) {
         btn.disabled = false;
         btn.className = "flex-[3] gradient-blue text-white font-black py-4 rounded-xl text-[14px] shadow-md transition-all";
-        btn.innerText = isTrialProposal ? "1회 체험 제안하기 🚀" : "레슨 매칭 확정하기 🚀";
+        btn.innerText = isTrialProposal ? "1회 체험 제안하기 🚀" : "스승님에게 요청 보내기 🚀";
     } else {
         btn.disabled = true;
         btn.className = "flex-[3] bg-slate-300 text-white font-black py-4 rounded-xl text-[14px] transition-all cursor-not-allowed";
@@ -999,24 +1968,20 @@ if (isTrialProposal || !isFixedPrice) {
     action: "createRequest",
     requestId: currentRequestId,
 
-    // 기본 신청자 정보
     name: userCheck.name,
     contact: userCheck.phone,
 
-    // 레슨 정보
     type: isTrialProposal
-    ? `${this.formData.lessonType} [1회 체험 가격제안]`
-    : (isFixedPrice
-        ? `${this.formData.lessonType} [${this.formData.lessonPlan}]`
-        : (this.formData.isJoinable
-            ? `${this.formData.lessonType} [조인희망]`
-            : this.formData.lessonType)),
+        ? `${this.formData.lessonType} [1회 체험 가격제안]`
+        : (isFixedPrice
+            ? `${this.formData.lessonType} [${this.formData.lessonPlan}]`
+            : (this.formData.isJoinable
+                ? `${this.formData.lessonType} [조인희망]`
+                : this.formData.lessonType)),
 
-    // 지역: Apps Script가 LOCATION 대문자도 받으므로 같이 보냄
     location: this.formData.location || "강남",
     LOCATION: this.formData.location || "강남",
 
-    // 레슨 횟수/플랜: Apps Script E열 대응
     lessonCount: this.formData.lessonPlan || "",
     lessoncount: this.formData.lessonPlan || "",
 
@@ -1025,25 +1990,22 @@ if (isTrialProposal || !isFixedPrice) {
         ? this.formData.concern.join(', ')
         : (this.formData.concern || ""),
 
-    // 일정: Apps Script가 SCHEDULE 대문자도 받으므로 같이 보냄
     schedule: `${date} / ${schedule}`,
     SCHEDULE: `${date} / ${schedule}`,
+    schedulePreference: this.formData.schedulePreference || "",
 
-    // 프로 정보
     selectedPro: this.selectedPro.name,
     selectedpro: this.selectedPro.name,
     proContact: this.selectedPro.phone,
     procontact: this.selectedPro.phone,
 
-    // 금액
     price: this.formData.price,
     finalPrice: this.formData.price,
 
-    // 인원
     personCount: this.formData.personCount || "1인",
 
-    // 신규 신청 상태
-    status: "accepted"
+    requestSource: "choice_flow",
+    status: "requested"
 };
 
                 try {
