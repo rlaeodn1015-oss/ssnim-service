@@ -76,18 +76,25 @@
     </div>
 
     <script>
-    let rawPrice = 0;
+   let rawPrice = 0;
     let finalPayPrice = 0;
     let personCount = 1;
     let requestId = "";
     let name = "";
     let globalProPhone = "";
 
-    window.onload = async () => {
+    indow.onload = async () => {
         const params = new URLSearchParams(window.location.search);
 
-        // --- [결제 완료 후 처리 로직] ---
-        if (params.get('status') === 'done') {
+        // 💡 [결제 완료 후 부트페이 리다이렉트 대응 로직]
+        if (params.get('receipt_id') || params.get('status') === 'done') {
+            
+            if(params.get('bootpay_event') === 'cancel' || params.get('cancel') === 'true') {
+                alert("결제가 취소되었습니다. 다시 진행해주세요.");
+                location.replace(window.location.pathname + "?" + removeParam(window.location.search, ['receipt_id', 'status', 'bootpay_event']));
+                return;
+            }
+
             document.getElementById('payment-box').innerHTML = `
                 <div class='py-20 text-center'>
                     <div class='animate-spin inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mb-4'></div>
@@ -115,31 +122,36 @@
             };
 
             try {
-                // 1. 구글 시트 업데이트 시도
-                await fetch("https://script.google.com/macros/s/AKfycbwJ8jcshxR6HcNknmLkjRdeT0NMw8d4-o9Z1hAWxdryi8pzocXZveDp_pmF1PpnKkcF/exec", { 
-                    method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ action: "updatePayment", status: "paid", requestId: reqId, price: paidAmt, name: userName }) 
+                // 1. 구글 시트 업데이트 전송 (대표님 원래 규격인 no-cors 기조 완벽 유지 + 안전한 변수 송신)
+                // 여기에 들어가는 requestId 값(reqId)이 구글 시트 U열의 REQ_... 값과 대조되어 정확한 줄만 업데이트합니다.
+                await fetch("https://script.google.com/macros/s/AKfycbwsTEhL9LkmX0NV6Em_ktJ_Y9-M4hwdv7mBRVpb6q2bpx0lxWkmrxPA_AvzprLQGa4R/exec", { 
+                    method: "POST", 
+                    mode: "no-cors", 
+                    body: JSON.stringify({ 
+                        action: "updatePayment", 
+                        status: "paid", 
+                        requestId: reqId, 
+                        price: paidAmt, 
+                        name: userName 
+                    }) 
                 });
 
-                // 2. 메인 자피어 호출 (ujdmj18)
+                // 2. 메인 자피어 호출 (ujdmj18 - 원래 가던 no-cors 완벽 원상복구)
                 await fetch("https://hooks.zapier.com/hooks/catch/27197789/ujdmj18/", {
-                    method: "POST", mode: "no-cors",
+                    method: "POST", 
+                    mode: "no-cors",
                     body: JSON.stringify(zapierData)
                 });
 
-                // 3. 외부 레슨(조인, 숏게임 등) 조건부 즉시 발송 로직
+                // 3. 외부 레슨 조건부 즉시 발송 로직
                 const externalKeywords = ["조인", "파3", "숏게임", "9홀", "18홀", "캠프", "라운드", "필드"];
                 const isExternal = externalKeywords.some(key => lessonType.includes(key));
                 const isNotOneOnOne = !lessonType.includes("1:1") && lessonType !== "레슨";
 
                 if (userPhone && isExternal && isNotOneOnOne) {
-    const solapiZapierUrl = "https://hooks.zapier.com/hooks/catch/27197789/4y901so/"; 
-    
-    // fetch 대신 가장 확실한 전송 방식 사용
-    navigator.sendBeacon(solapiZapierUrl, JSON.stringify(zapierData));
-    
-    console.log("외부 레슨 데이터 자피어로 강제 전송 완료");
-}
+                    const solapiZapierUrl = "https://hooks.zapier.com/hooks/catch/27197789/4y901so/"; 
+                    navigator.sendBeacon(solapiZapierUrl, JSON.stringify(zapierData));
+                }
 
                 location.replace("success.html?v=" + new Date().getTime());
             } catch (e) {
@@ -149,42 +161,37 @@
             return;
         }
 
-        // --- [초기 페이지 로드 로직] ---
+        // --- [초기 페이지 로드 로직 기존 상태 100% 보존] ---
         const priceParam = params.get('price') || "0";
-    rawPrice = parseInt(priceParam.replace(/[^0-9]/g, '')) || 0; 
-    name = params.get('name') || "고객님";
-    requestId = params.get('requestId') || "req_" + new Date().getTime();
-    globalProPhone = params.get('proPhone') || "";
-    
-    // 1. 레슨 타입 먼저 정의
-    const lessonType = params.get('type') || "레슨";
-    const isOneOnOne = lessonType.includes('1:1') || lessonType === '레슨' || lessonType === '1' || lessonType.trim() === '';
+        rawPrice = parseInt(priceParam.replace(/[^0-9]/g, '')) || 0; 
+        name = params.get('name') || "고객님";
+        requestId = params.get('requestId') || "req_" + new Date().getTime();
+        globalProPhone = params.get('proPhone') || "";
+        
+        const lessonType = params.get('type') || "레슨";
+        const isOneOnOne = lessonType.includes('1:1') || lessonType === '레슨' || lessonType === '1' || lessonType.trim() === '';
 
-    // 2. 인원수 파라미터(person)가 있는지 먼저 확인하고, 없으면 type에서 숫자 추출
-    const personParam = params.get('person'); 
-    if (personParam) {
-        personCount = parseInt(personParam);
-    } else {
-        const match = lessonType.match(/\d+/);
-        personCount = (match && parseInt(match[0]) > 1) ? parseInt(match[0]) : 1;
-    }
+        const personParam = params.get('person'); 
+        if (personParam) {
+            personCount = parseInt(personParam);
+        } else {
+            const match = lessonType.match(/\d+/);
+            personCount = (match && parseInt(match[0]) > 1) ? parseInt(match[0]) : 1;
+        }
 
-    // 3. 1:1 레슨이면 강제로 1명 처리
-    if (isOneOnOne) personCount = 1;
+        if (isOneOnOne) personCount = 1;
 
-    // 4. 화면 표시 업데이트
-    finalPayPrice = rawPrice;
-    document.getElementById('customer-info').innerText = `${name}님, 맞춤 레슨 견적입니다.`;
-    document.getElementById('display-price').innerText = rawPrice.toLocaleString() + "원";
-    
-    // 5. 버튼 노출 여부 결정 (2인 이상일 때만 보이게)
-    const selector = document.getElementById('split-selector');
-    if (personCount > 1) {
-        if (selector) selector.style.display = 'block'; // 명시적으로 보이게 설정
-    } else {
-        if (selector) selector.style.display = 'none';
-    }
-};
+        finalPayPrice = rawPrice;
+        document.getElementById('customer-info').innerText = `${name}님, 맞춤 레슨 견적입니다.`;
+        document.getElementById('display-price').innerText = rawPrice.toLocaleString() + "원";
+        
+        const selector = document.getElementById('split-selector');
+        if (personCount > 1) {
+            if (selector) selector.style.display = 'block';
+        } else {
+            if (selector) selector.style.display = 'none';
+        }
+    };
 
     function setPayMode(mode) {
         const display = document.getElementById('display-price');
@@ -210,9 +217,43 @@
         if (!nameInput) return alert("성함을 입력해주세요.");
         if (phoneInput.length < 10) return alert("알림톡을 받을 정확한 핸드폰 번호를 입력해주세요.");
         if (finalPayPrice < 100) return alert("결제 금액이 너무 낮습니다.");
+
+        // 결제 수단 호출 직전, "결제 대기" 데이터 선인입 (통신 안정성 헤더 패치)
+        const initialPayload = {
+            action: "createRequest", 
+            requestId: requestId,
+            name: nameInput,
+            contact: phoneInput,
+            type: params.get('type') || "조인레슨",
+            location: params.get('LOCATION') || "",
+            
+            // 1. 하드코딩 걷어내고 주소창의 진짜 클럽 데이터 연동 (index에서formData.club으로 넘겨준 값)
+            club: params.get('club') || "미지정(조인)",
+            
+            // 2. index의 분기(concern)와 조인레슨의 분기(include)를 모두 수용하는 3중 방어선 매핑
+            concern: params.get('concern') || params.get('include') || "레슨 신청",
+            
+            schedule: params.get('schedule') || "",
+            selectedPro: params.get('selectedPro') || "",
+            proPhone: globalProPhone,
+            price: rawPrice, 
+            personCount: params.get('personCount') || "1인",
+            status: "결제 대기" 
+        };
+
+        try {
+        // 원래 가던 mode: "no-cors" 구조로 복구 + 새 주소 매핑
+        await fetch("https://script.google.com/macros/s/AKfycbwsTEhL9LkmX0NV6Em_ktJ_Y9-M4hwdv7mBRVpb6q2bpx0lxWkmrxPA_AvzprLQGa4R/exec", {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify(initialPayload)
+        });
+    } catch (err) {
+        console.error("사전 장부 인입 에러 무시:", err);
+    }
         
-        const successRedirect = window.location.origin + window.location.pathname + 
-        "?status=done&requestId=" + requestId + 
+        const baseRedirect = window.location.origin + window.location.pathname + 
+        "?requestId=" + requestId + 
         "&price=" + finalPayPrice + 
         "&name=" + encodeURIComponent(nameInput) + 
         "&personCount=" + encodeURIComponent(personCount + "인") +
@@ -233,11 +274,9 @@
             "user": { "username": nameInput },
             "extra": { 
                 "open_type": "redirect", 
-                "display_success_result": false, 
-                "redirect_url": successRedirect, 
-                "v2_redirect_mode": false,
-                "popup": false,
-                "method": "GET"
+                "display_success_result": true, 
+                "redirect_url": baseRedirect,   
+                "popup": false
             }
         });
     }
@@ -246,7 +285,7 @@
         const currentUrl = window.location.href;
         if (navigator.share) {
             navigator.share({
-                title: '[스승님] 레슨 결제 요청',
+                title: '[스승님] 골프 레슨비 결제 요청',
                 text: '함께 레슨받을 지인분의 결제 페이지입니다. 확인 후 결제를 진행해 주세요!',
                 url: currentUrl
             }).catch(() => copyToClipboard(currentUrl));
@@ -259,6 +298,12 @@
         navigator.clipboard.writeText(url).then(() => {
             alert("링크가 복사되었습니다. 카톡으로 지인에게 전달해 주세요!");
         });
+    }
+
+    function removeParam(queryString, paramsToRemove) {
+        const urlParams = new URLSearchParams(queryString);
+        paramsToRemove.forEach(p => urlParams.delete(p));
+        return urlParams.toString();
     }
     </script>
 </body>
