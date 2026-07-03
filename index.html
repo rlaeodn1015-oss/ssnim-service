@@ -361,7 +361,7 @@
       trackEvent('click_service_start', source);
       const url = new URL(SERVICE_URL);
       const cleanSource = String(source || 'cta').replace(/^landing_/, '');
-      url.searchParams.set('source', 'landing_' + encodeURIComponent(cleanSource));
+      url.searchParams.set('source', 'landing_' + cleanSource);
       window.location.href = url.toString();
     }
     // 대표님이 주신 기존 서비스 코드의 전송 주소를 그대로 재사용합니다.
@@ -371,14 +371,39 @@
     let selectedLandingProduct = null;
 
     const proPhoneMap = {
-      "곽시랑 스승": "01082243434",
-      "조이현 스승": "01056323190",
-      "서수연 스승": "01094856241",
-      "양형철 스승": "01093996255",
-      "권두욱 스승": "01040134484",
-      "공나연 스승": "01036012385",
-      "이형석 스승": "01086084619",
-      "홍태양 스승": "01020792021"
+        "곽시랑 스승": "01082243434",
+        "서수연 스승": "01094856241", 
+        "조이현 스승": "01056323190",
+        "석준형 스승": "01054263433",
+        "홍주연 스승": "01033969628", 
+        "양형철 스승": "01093996255",
+        "조동요 스승": "01026578395",
+        "공나연 스승": "01036012385", 
+        "이원영 스승": "01075397997",
+        "유민혁 스승": "01083924008",
+        "강도윤 스승": "01077587383", 
+        "김지영 스승": "01071595448",
+        "이상준 스승": "01041900478",
+        "권두욱 스승": "01040134484",
+        "이근협 스승": "01050278421",
+        "강소율 스승": "01099348472",
+        "권민규 스승": "01093377132",
+        "허민형 스승": "01020601838",
+        "강희진 스승": "01050622964",
+        "김숙정 스승": "01033559555",
+        "김혜연 스승": "01056993889",
+        "김도한 스승": "01040239665",
+        "박민성 스승": "01038672441",
+        "김형준 스승": "01046210766",
+        "정우진 스승": "01086668619",
+        "소민수 스승": "01080609497",
+        "김민성 스승": "01057380816",
+        "이준우 스승": "01086965977",
+        "강예빈 스승": "01083590533",
+        "안병현 스승": "01066421234",
+        "이형석 스승": "01086084619",
+        "이현우 스승": "01034754588",
+        "홍태양 스승": "01020792021"
     };
 
     const proMetaMap = {
@@ -766,7 +791,7 @@
     <div class="max-w-6xl mx-auto h-16 px-4 md:px-6 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-2 min-w-0" aria-label="스승님 홈">
         <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ssnim.png" alt="스승님" class="h-8 md:h-10 object-contain shrink-0" />
-        <span class="hidden sm:block text-sm md:text-base font-black text-ink truncate">골프레슨 매칭 플랫폼</span>
+        <span class="hidden sm:block text-sm md:text-base font-black text-ink truncate">내 손안의 맞춤 골프레슨</span>
       </a>
       <nav class="hidden lg:flex items-center gap-7 text-sm font-black text-slate-500">
         <a href="#about" class="hover:text-brand transition">회사소개</a>
@@ -783,91 +808,201 @@
   </header>
 
   <main id="top" class="bottom-spacer">
-    <section class="center-section hero-bg pt-24 pb-12 px-4 md:px-6 md:pt-36 md:pb-24">
-      <div class="max-w-6xl mx-auto grid lg:grid-cols-[1.03fr_.97fr] gap-8 lg:gap-12 items-center">
-        <div class="reveal">
-          <span class="eyebrow mb-5">AI 골프레슨 매칭 플랫폼</span>
-          <h1 class="hero-title font-black text-ink mt-5 mb-5">
-            골프 고민만<br />
-            적어주세요.<br />
-            <span class="text-brand">승이가 스승님을</span><br />찾아드립니다.
-          </h1>
-          <p class="text-[16px] md:text-xl leading-relaxed text-slate-500 font-bold mb-7 max-w-2xl">
-            드라이버 슬라이스, 아이언 생크, 숏게임, 파3, 필드레슨까지. 지역과 고민을 선택하면 조건에 맞는 스승님을 추천해드립니다.
-          </p>
-          <div class="grid grid-cols-3 gap-2 mb-7 max-w-xl">
-            <div class="bg-white rounded-3xl p-3 border border-slate-100 shadow-soft text-center"><p class="text-lg font-black text-ink">고민</p><p class="text-[11px] font-bold text-slate-400">문제 입력</p></div>
-            <div class="bg-white rounded-3xl p-3 border border-slate-100 shadow-soft text-center"><p class="text-lg font-black text-ink">추천</p><p class="text-[11px] font-bold text-slate-400">레슨 방향</p></div>
-            <div class="bg-white rounded-3xl p-3 border border-slate-100 shadow-soft text-center"><p class="text-lg font-black text-ink">신청</p><p class="text-[11px] font-bold text-slate-400">일정 확인</p></div>
+  <section class="center-section hero-bg pt-24 pb-12 px-4 md:px-6 md:pt-36 md:pb-24">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-[1.03fr_.97fr] gap-8 lg:gap-12 items-center">
+      
+      <div class="reveal">
+        <span class="eyebrow mb-5">스승님 AI 골프레슨 매칭 플랫폼</span>
+
+        <h1 class="hero-title font-black text-ink mt-5 mb-5">
+          내 골프 고민에 맞는<br />
+          <span class="text-brand">스승님을 찾아보세요.</span>
+        </h1>
+
+        <p class="text-[16px] md:text-xl leading-relaxed text-slate-500 font-bold mb-7 max-w-2xl">
+          드라이버, 아이언, 숏게임, 파3, 필드레슨까지<br />
+고민과 지역만 선택하면 알맞은 레슨을 안내해드립니다.
+        </p>
+
+        <div class="grid grid-cols-3 gap-2 mb-7 max-w-xl">
+          <div class="bg-white rounded-3xl p-3 border border-slate-100 shadow-soft text-center">
+            <p class="text-lg font-black text-ink">고민 입력</p>
+            <p class="text-[11px] font-bold text-slate-400">현재 문제 선택</p>
           </div>
-          <div class="flex flex-col sm:flex-row gap-3">
-            <button onclick="goService('hero_primary')" class="gradient-blue shine w-full sm:w-auto text-white px-8 py-5 rounded-3xl font-black text-lg shadow-blue active:scale-95 transition">내 조건으로 스승님 찾기</button>
-            <button onclick="scrollToSection('about')" class="bg-white w-full sm:w-auto text-slate-700 px-8 py-5 rounded-3xl font-black text-lg border border-slate-200 shadow-soft active:scale-95 transition">스승님 서비스 알아보기</button>
+
+          <div class="bg-white rounded-3xl p-3 border border-slate-100 shadow-soft text-center">
+            <p class="text-lg font-black text-ink">레슨 확인</p>
+            <p class="text-[11px] font-bold text-slate-400">맞는 방향 추천</p>
+          </div>
+
+          <div class="bg-white rounded-3xl p-3 border border-slate-100 shadow-soft text-center">
+            <p class="text-lg font-black text-ink">신청 접수</p>
+            <p class="text-[11px] font-bold text-slate-400">일정 상담 진행</p>
           </div>
         </div>
 
-        <div class="reveal relative">
-          <div class="bg-white rounded-[2.25rem] p-5 md:p-7 border border-slate-100 shadow-soft overflow-hidden">
-            <div class="flex items-center gap-3 mb-5">
-              <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/seung.webp" alt="승이" class="w-14 h-14 md:w-16 md:h-16 rounded-3xl object-cover bg-slate-100 shrink-0 seung-float" />
-              <div class="min-w-0">
-                <p class="text-xs font-black text-brand">승이 매칭 예시</p>
-                <p class="text-lg md:text-xl font-black text-ink leading-tight">고민을 레슨 방향으로 정리합니다</p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button onclick="goService('hero_primary')" class="gradient-blue shine w-full sm:w-auto text-white px-8 py-5 rounded-3xl font-black text-lg shadow-blue active:scale-95 transition">
+            내게 맞는 레슨 찾기
+          </button>
+
+          <button onclick="scrollToSection('about')" class="bg-white w-full sm:w-auto text-slate-700 px-8 py-5 rounded-3xl font-black text-lg border border-slate-200 shadow-soft active:scale-95 transition">
+            서비스 소개 보기
+          </button>
+        </div>
+      </div>
+
+      <div class="reveal relative">
+        <div class="bg-white rounded-[2.25rem] p-5 md:p-7 border border-slate-100 shadow-soft overflow-hidden">
+          
+          <div class="flex items-center gap-3 mb-5">
+            <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/seung.webp" alt="스승님 캐릭터" class="w-14 h-14 md:w-16 md:h-16 rounded-3xl object-cover bg-slate-100 shrink-0 seung-float" />
+            <div class="min-w-0">
+              <p class="text-xs font-black text-brand">신청 예시</p>
+              <p class="text-lg md:text-xl font-black text-ink leading-tight">이렇게 진행됩니다</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div class="rounded-3xl p-4 bg-slate-50 border border-slate-100">
+              <p class="text-[11px] font-black text-slate-400 mb-1">고민</p>
+              <p class="font-black text-ink leading-snug">
+                “강남에서 드라이버 슬라이스를 고치고 싶어요.”
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="rounded-3xl p-4 bg-blue-50 border border-blue-100">
+                <p class="text-[11px] font-black text-brand mb-1">추천 레슨</p>
+                <p class="font-black text-ink">드라이버 교정</p>
+              </div>
+
+              <div class="rounded-3xl p-4 bg-blue-50 border border-blue-100">
+                <p class="text-[11px] font-black text-brand mb-1">지역</p>
+                <p class="font-black text-ink">강남,서초</p>
               </div>
             </div>
-            <div class="space-y-3">
-              <div class="rounded-3xl p-4 bg-slate-50 border border-slate-100">
-                <p class="text-[11px] font-black text-slate-400 mb-1">입력한 고민</p>
-                <p class="font-black text-ink leading-snug">“강남에서 드라이버 슬라이스를 고치고 싶어요.”</p>
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <div class="rounded-3xl p-4 bg-blue-50 border border-blue-100"><p class="text-[11px] font-black text-brand mb-1">추천 방향</p><p class="font-black text-ink">1:1 방향성 레슨</p></div>
-                <div class="rounded-3xl p-4 bg-blue-50 border border-blue-100"><p class="text-[11px] font-black text-brand mb-1">추천 기준</p><p class="font-black text-ink">강남권 스승님</p></div>
-              </div>
-              <div class="rounded-3xl p-4 gradient-dark text-white">
-                <p class="text-[11px] font-black text-blue-200 mb-1">다음 단계</p>
-                <p class="font-black leading-snug">요청 보내기 → 일정 확인 → 공식 결제 안내</p>
-              </div>
-              <button onclick="goService('hero_preview_card')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">서비스 화면으로 이동</button>
+
+            <div class="rounded-3xl p-4 gradient-dark text-white">
+              <p class="text-[11px] font-black text-blue-200 mb-1">진행 순서</p>
+              <p class="font-black leading-snug">
+                신청 접수 → 프로 선택 → 레슨 진행
+              </p>
             </div>
+
+            <button onclick="goService('hero_preview_card')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">
+              지금 레슨 찾아보기
+            </button>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <section id="about" class="center-section section-pad bg-white scroll-mt-20">
-      <div class="container-wide">
-        <div class="max-w-3xl mx-auto text-center mb-9 reveal">
-          <span class="eyebrow">Company</span>
-          <h2 class="section-title mt-4 font-black text-ink">스승님은 어떤 회사인가요?</h2>
-          <p class="mt-4 text-slate-500 font-bold leading-relaxed mobile-subcopy">
-            스승님은 골퍼의 고민과 프로의 전문성을 연결하는 골프레슨 매칭 플랫폼입니다. 단순히 프로필을 보여주는 광고 페이지가 아닙니다. 골퍼의 지역, 실력, 고민, 희망 일정을 바탕으로 지금 필요한 레슨 유형과 적합한 스승님을 찾고, 요청부터 일정 확인, 결제 안내까지 이어지도록 돕습니다.
-          </p>
-        </div>
-        <div class="grid md:grid-cols-4 gap-3 md:gap-4 max-w-5xl mx-auto">
-          <article class="reveal bg-slate-50 rounded-4xl p-6 border border-slate-100 card-hover"><p class="text-4xl mb-5">🧭</p><h3 class="text-xl font-black mb-2">고민 기반</h3><p class="text-sm leading-relaxed font-bold text-slate-500">슬라이스, 생크, 비거리, 숏게임처럼 실제 문제에서 시작합니다.</p></article>
-          <article class="reveal bg-slate-50 rounded-4xl p-6 border border-slate-100 card-hover"><p class="text-4xl mb-5">📍</p><h3 class="text-xl font-black mb-2">지역 기반</h3><p class="text-sm leading-relaxed font-bold text-slate-500">강남, 서초, 송파, 분당, 용인 등 생활권 기준으로 추천합니다.</p></article>
-          <article class="reveal bg-slate-50 rounded-4xl p-6 border border-slate-100 card-hover"><p class="text-4xl mb-5">⛳</p><h3 class="text-xl font-black mb-2">실전 확장</h3><p class="text-sm leading-relaxed font-bold text-slate-500">연습장 레슨뿐 아니라 파3, 숏게임, 필드레슨까지 연결합니다.</p></article>
-          <article class="reveal bg-slate-50 rounded-4xl p-6 border border-slate-100 card-hover"><p class="text-4xl mb-5">🤝</p><h3 class="text-xl font-black mb-2">운영 관리</h3><p class="text-sm leading-relaxed font-bold text-slate-500">요청, 일정, 결제 안내 흐름을 스승님 공식 채널에서 관리합니다.</p></article>
         </div>
       </div>
-    </section>
 
-    <section id="problem" class="center-section section-pad bg-slate-50 scroll-mt-20">
-      <div class="container-wide grid lg:grid-cols-[.78fr_1.22fr] gap-7 lg:gap-12 items-start">
-        <div class="reveal max-w-3xl mx-auto text-center mb-8">
-          <span class="eyebrow">Problem</span>
-          <h2 class="section-title mt-4 font-black text-ink">골프레슨은 많은데,<br />나에게 맞는 레슨은 찾기 어렵습니다.</h2>
-          <p class="mt-4 text-slate-500 font-bold leading-relaxed mobile-subcopy">지인 추천, 인스타그램, 광고 프로필만 보고 선택하면 이 프로가 내 문제를 해결할 수 있는지 알기 어렵습니다. 스승님은 유명한 프로를 먼저 보여주기보다, 내 고민에 맞는 레슨 방향을 먼저 정리합니다.</p>
-        </div>
-        <div class="grid sm:grid-cols-2 gap-3 md:gap-4 max-w-4xl mx-auto">
-          <article class="reveal bg-white rounded-4xl p-6 border border-slate-100 shadow-soft card-hover"><p class="text-3xl mb-4">🤔</p><h3 class="font-black text-lg mb-2">내 문제와 맞는 프로인지 모름</h3><p class="text-sm font-bold text-slate-500 leading-relaxed">프로필만 보고는 슬라이스, 생크, 필드 불안 등 내 고민과 맞는지 판단하기 어렵습니다.</p></article>
-          <article class="reveal bg-white rounded-4xl p-6 border border-slate-100 shadow-soft card-hover"><p class="text-3xl mb-4">💸</p><h3 class="font-black text-lg mb-2">처음부터 장기 등록하기 부담</h3><p class="text-sm font-bold text-slate-500 leading-relaxed">나와 맞는지 확인하기 전에 횟수권부터 고민하면 선택 리스크가 커집니다.</p></article>
-          <article class="reveal bg-white rounded-4xl p-6 border border-slate-100 shadow-soft card-hover"><p class="text-3xl mb-4">🏞️</p><h3 class="font-black text-lg mb-2">필드에서는 다시 무너짐</h3><p class="text-sm font-bold text-slate-500 leading-relaxed">연습장에서는 괜찮아도 코스에서는 에이밍, 라이, 클럽 선택이 따로 필요합니다.</p></article>
-          <article class="reveal bg-white rounded-4xl p-6 border border-slate-100 shadow-soft card-hover"><p class="text-3xl mb-4">📅</p><h3 class="font-black text-lg mb-2">가격·일정·장소 확인이 번거로움</h3><p class="text-sm font-bold text-slate-500 leading-relaxed">금액, 장소, 일정, 수업 방식 확인이 흩어져 있으면 신청 전부터 피로도가 높습니다.</p></article>
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
+
+   <section id="about" class="center-section section-pad bg-white scroll-mt-20">
+  <div class="container-wide">
+    <div class="max-w-3xl mx-auto text-center mb-9 reveal">
+      <span class="eyebrow">About</span>
+      <h2 class="section-title mt-4 font-black text-ink">
+        스승님은 골프레슨을<br class="md:hidden" />
+        쉽게 찾는 서비스입니다.
+      </h2>
+      <p class="mt-4 text-slate-500 font-bold leading-relaxed mobile-subcopy">
+        드라이버, 아이언, 숏게임, 파3, 필드레슨까지<br />
+        고민과 지역에 맞춰 필요한 스승님을 찾고,
+        신청부터 레슨 진행까지 도와드립니다.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-3 md:gap-4 max-w-5xl mx-auto">
+      <article class="reveal bg-slate-50 rounded-4xl p-6 border border-slate-100 card-hover">
+        <p class="text-4xl mb-5">🧭</p>
+        <h3 class="text-xl font-black mb-2">고민 선택</h3>
+        <p class="text-sm leading-relaxed font-bold text-slate-500">
+          슬라이스, 생크, 비거리, 숏게임처럼 고치고 싶은 내용을 선택합니다.
+        </p>
+      </article>
+
+      <article class="reveal bg-slate-50 rounded-4xl p-6 border border-slate-100 card-hover">
+        <p class="text-4xl mb-5">📍</p>
+        <h3 class="text-xl font-black mb-2">지역 선택</h3>
+        <p class="text-sm leading-relaxed font-bold text-slate-500">
+          강남, 서초, 송파, 분당, 용인 등 원하는 지역을 기준으로 확인합니다.
+        </p>
+      </article>
+
+      <article class="reveal bg-slate-50 rounded-4xl p-6 border border-slate-100 card-hover">
+        <p class="text-4xl mb-5">⛳</p>
+        <h3 class="text-xl font-black mb-2">레슨 확인</h3>
+        <p class="text-sm leading-relaxed font-bold text-slate-500">
+          연습장 레슨부터 파3, 숏게임, 필드레슨까지 필요한 레슨을 안내합니다.
+        </p>
+      </article>
+
+      <article class="reveal bg-slate-50 rounded-4xl p-6 border border-slate-100 card-hover">
+        <p class="text-4xl mb-5">🤝</p>
+        <h3 class="text-xl font-black mb-2">신청 안내</h3>
+        <p class="text-sm leading-relaxed font-bold text-slate-500">
+          신청 후 일정, 장소, 결제 안내까지 스승님 운영팀이 직접 서포트합니다.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="problem" class="center-section section-pad bg-slate-50 scroll-mt-20">
+  <div class="container-wide grid lg:grid-cols-[.78fr_1.22fr] gap-7 lg:gap-12 items-start">
+    
+    <div class="reveal max-w-3xl mx-auto text-center mb-8">
+      <span class="eyebrow">Problem</span>
+      <h2 class="section-title mt-4 font-black text-ink">
+        레슨은 많은데,<br />
+        어디서 받아야 할지 모르겠다면
+      </h2>
+      <p class="mt-4 text-slate-500 font-bold leading-relaxed mobile-subcopy">
+        지인 추천이나 광고만 보고 고르기에는 어렵습니다.<br />
+        내 고민, 지역, 원하는 레슨 방식에 맞는 선택이 필요합니다.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-3 md:gap-4 max-w-4xl mx-auto">
+      <article class="reveal bg-white rounded-4xl p-6 border border-slate-100 shadow-soft card-hover">
+        <p class="text-3xl mb-4">🤔</p>
+        <h3 class="font-black text-lg mb-2">누구에게 받아야 할지 모름</h3>
+        <p class="text-sm font-bold text-slate-500 leading-relaxed">
+          프로는 많지만 내 고민을 잘 봐줄 수 있는지 판단하기 어렵습니다.
+        </p>
+      </article>
+
+      <article class="reveal bg-white rounded-4xl p-6 border border-slate-100 shadow-soft card-hover">
+        <p class="text-3xl mb-4">💸</p>
+        <h3 class="font-black text-lg mb-2">정기 레슨 등록 부담</h3>
+        <p class="text-sm font-bold text-slate-500 leading-relaxed">
+          나와 맞는지 모르는 상태에서 장기 레슨을 시작하기는 부담스럽습니다.
+        </p>
+      </article>
+
+      <article class="reveal bg-white rounded-4xl p-6 border border-slate-100 shadow-soft card-hover">
+        <p class="text-3xl mb-4">🏞️</p>
+        <h3 class="font-black text-lg mb-2">연습장과 필드는 다름</h3>
+        <p class="text-sm font-bold text-slate-500 leading-relaxed">
+          연습장에서는 괜찮아도 코스에서는 방향, 거리, 상황 판단이 달라집니다.
+        </p>
+      </article>
+
+      <article class="reveal bg-white rounded-4xl p-6 border border-slate-100 shadow-soft card-hover">
+        <p class="text-3xl mb-4">📅</p>
+        <h3 class="font-black text-lg mb-2">일정과 가격 확인이 번거로움</h3>
+        <p class="text-sm font-bold text-slate-500 leading-relaxed">
+          장소, 시간, 금액을 하나씩 문의하다 보면 신청 전부터 피로해집니다.
+        </p>
+      </article>
+    </div>
+
+  </div>
+</section>
 
     <section id="service" class="center-section section-pad bg-white scroll-mt-20">
       <div class="container-wide">
@@ -887,81 +1022,233 @@
       </div>
     </section>
 
-    <section id="products" class="center-section section-pad bg-slate-50 scroll-mt-20 overflow-hidden">
-      <div class="container-wide">
-        <div class="section-head max-w-3xl mx-auto mb-7 reveal">
-          <div>
-            <span class="eyebrow">Lesson Store</span>
-            <h2 class="section-title mt-4 font-black text-ink">많이 찾는 레슨부터<br class="md:hidden" /> 바로 요청하세요.</h2>
-            <p class="mt-3 text-slate-500 font-bold leading-relaxed mobile-subcopy max-w-2xl">처음부터 프로를 고르기 어렵다면, 원하는 레슨 유형을 먼저 선택해도 됩니다. 스승님이 조건에 맞는 프로와 가능 일정을 확인해드립니다.</p>
-          </div>
-          <button onclick="goService('products_top')" class="hidden md:inline-flex gradient-blue shine text-white px-6 py-4 rounded-2xl font-black shadow-blue active:scale-95 transition">전체 레슨 요청하기</button>
-        </div>
-
-        <div class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible hide-scrollbar scroll-snap pb-2 md:pb-0">
-          <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
-            <div class="h-40 bg-gradient-to-br from-blue-50 to-slate-100 p-4 flex items-end justify-between">
-              <div><span class="chip bg-brand text-white text-[10px] px-3 py-1">처음이면 추천</span><h3 class="text-2xl font-black mt-3 text-ink">1회 체험 레슨</h3></div>
-              <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/seung.webp" alt="승이" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
-            </div>
-            <div class="p-5"><p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">나와 맞는 스승님인지 먼저 경험하고, 내 스윙 문제를 진단받는 체험형 레슨입니다.</p><div class="flex items-end gap-2 mb-4"><span class="text-xs text-slate-400 line-through font-bold">상담 후 안내</span><span class="text-2xl font-black text-ink">일정 확인</span></div><ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5"><li>처음 레슨 받는 골퍼</li><li>장기 등록이 부담스러운 골퍼</li></ul><button onclick="goService('trial_lesson')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">체험 레슨 신청하기</button></div>
-          </article>
-
-          <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
-            <div class="h-40 bg-slate-900 p-4 flex items-end justify-between text-white">
-              <div><span class="chip bg-white/15 text-blue-100 text-[10px] px-3 py-1">가장 많이 찾는 고민</span><h3 class="text-2xl font-black mt-3">드라이버 슬라이스 교정</h3></div>
-              <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260327_165459882.png" alt="곽시랑" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
-            </div>
-            <div class="p-5"><p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">티샷이 오른쪽으로 터지는 골퍼를 위한 드라이버 방향성 집중 레슨입니다.</p><div class="flex items-end gap-2 mb-4"><span class="text-xs text-slate-400 line-through font-bold">120,000원</span><span class="text-2xl font-black text-brand">100,000원~</span></div><ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5"><li>OB가 잦은 골퍼</li><li>티샷이 불안한 골퍼</li></ul><button onclick="goService('driver_slice')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">슬라이스 교정 신청하기</button></div>
-          </article>
-
-          <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
-            <div class="h-40 bg-gradient-to-br from-emerald-50 to-blue-50 p-4 flex items-end justify-between">
-              <div><span class="chip bg-mint text-white text-[10px] px-3 py-1">타수 줄이는 핵심</span><h3 class="text-2xl font-black mt-3 text-ink">숏게임 집중 레슨</h3></div>
-              <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260309_200933587.jpg" alt="서수연" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
-            </div>
-            <div class="p-5"><p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">어프로치, 웨지, 퍼팅 거리감을 집중적으로 점검하는 레슨입니다.</p><div class="flex items-end gap-2 mb-4"><span class="text-xs text-slate-400 line-through font-bold">250,000원</span><span class="text-2xl font-black text-brand">220,000원~</span></div><ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5"><li>그린 주변에서 타수를 잃는 골퍼</li><li>퍼팅 방향성이 불안한 골퍼</li></ul><button onclick="goService('shortgame')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">숏게임 레슨 신청하기</button></div>
-          </article>
-
-          <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
-            <div class="h-40 bg-gradient-to-br from-blue-50 to-indigo-50 p-4 flex items-end justify-between">
-              <div><span class="chip bg-brand text-white text-[10px] px-3 py-1">초보 골퍼 추천</span><h3 class="text-2xl font-black mt-3 text-ink">파3 실전 레슨</h3></div>
-              <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KDW.jpg" alt="권두욱" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
-            </div>
-            <div class="p-5"><p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">짧은 코스에서 실전 감각, 거리감, 숏게임과 퍼팅을 함께 익히는 레슨입니다.</p><div class="flex items-end gap-2 mb-4"><span class="text-xs text-slate-400 line-through font-bold">상담가</span><span class="text-2xl font-black text-brand">일정 확인</span></div><ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5"><li>머리 올리기 전 골퍼</li><li>필드가 부담스러운 골퍼</li></ul><button onclick="goService('par3')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">파3 레슨 신청하기</button></div>
-          </article>
-
-          <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
-            <div class="h-40 bg-slate-800 p-4 flex items-end justify-between text-white">
-              <div><span class="chip bg-white/15 text-blue-100 text-[10px] px-3 py-1">필드에서 무너진다면</span><h3 class="text-2xl font-black mt-3">9홀 실전 필드레슨</h3></div>
-              <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YHC.png" alt="양형철" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
-            </div>
-            <div class="p-5"><p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">에이밍, 클럽 선택, 코스 운영을 실제 코스에서 점검합니다.</p><div class="flex items-end gap-2 mb-4"><span class="text-xs text-slate-400 line-through font-bold">200,000원</span><span class="text-2xl font-black text-brand">170,000원~</span></div><ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5"><li>연습장과 필드가 다른 골퍼</li><li>100타 깨기를 목표로 하는 골퍼</li></ul><button onclick="goService('field9')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">9홀 필드레슨 요청하기</button></div>
-          </article>
-
-          <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
-            <div class="h-40 bg-gradient-to-br from-slate-900 to-blue-900 p-4 flex items-end justify-between text-white">
-              <div><span class="chip bg-white/15 text-blue-100 text-[10px] px-3 py-1">프리미엄 프로그램</span><h3 class="text-2xl font-black mt-3">프로 동행 골프여행</h3></div>
-              <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/hty.jpg" alt="홍태양" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
-            </div>
-            <div class="p-5"><p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">스승님이 직접 기획하는 소수정예 실전 골프 프로그램입니다.</p><div class="flex items-end gap-2 mb-4"><span class="text-xs text-slate-400 line-through font-bold">일정별 상이</span><span class="text-2xl font-black text-brand">상담 후 안내</span></div><ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5"><li>프로와 함께 라운드하고 싶은 골퍼</li><li>골프여행과 피드백을 함께 원하는 골퍼</li></ul><button onclick="goService('golf_trip')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">골프여행 문의하기</button></div>
-          </article>
-        </div>
+   <section id="products" class="center-section section-pad bg-slate-50 scroll-mt-20 overflow-hidden">
+  <div class="container-wide">
+    
+    <div class="section-head max-w-3xl mx-auto mb-7 reveal">
+      <div>
+        <span class="eyebrow">Lesson Type</span>
+        <h2 class="section-title mt-4 font-black text-ink">
+          원하는 레슨 유형부터<br class="md:hidden" /> 선택해보세요.
+        </h2>
+        <p class="mt-3 text-slate-500 font-bold leading-relaxed mobile-subcopy max-w-2xl">
+          처음부터 프로를 고르기 어렵다면, 받고 싶은 레슨 유형을 먼저 선택하세요.<br />
+          서비스 페이지에서 지역, 일정, 조건에 맞는 스승님을 확인할 수 있습니다.
+        </p>
       </div>
-    </section>
 
-    <section 
-        <div class="mt-6 max-w-3xl mx-auto bg-blue-50 border border-blue-100 rounded-3xl p-5 text-center reveal">
-          <p class="text-sm font-black text-slate-900">버튼을 누르면 서비스 페이지에서 해당 레슨 조건이 자동 선택됩니다.</p>
-          <p class="mt-1 text-xs font-bold text-slate-500 leading-relaxed">지역과 희망 일정만 이어서 입력하면 조건에 맞는 스승님 추천 결과를 확인할 수 있습니다.</p>
+      <button onclick="goService('products_top')" class="hidden md:inline-flex gradient-blue shine text-white px-6 py-4 rounded-2xl font-black shadow-blue active:scale-95 transition">
+        전체 레슨 요청하기
+      </button>
+    </div>
+
+    <div class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible hide-scrollbar scroll-snap pb-2 md:pb-0">
+      
+      <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
+        <div class="h-40 bg-gradient-to-br from-blue-50 to-slate-100 p-4 flex items-end justify-between">
+          <div>
+            <span class="chip bg-brand text-white text-[10px] px-3 py-1">처음이면 추천</span>
+            <h3 class="text-2xl font-black mt-3 text-ink">1회 체험 레슨</h3>
+          </div>
+          <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/seung.webp" alt="승이" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
         </div>
 
-id="how" class="center-section section-pad bg-white scroll-mt-20">
+        <div class="p-5">
+          <p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">
+            나와 맞는 스승님인지 먼저 경험하고, 내 스윙 문제를 가볍게 점검받는 레슨입니다.
+          </p>
+
+          <div class="rounded-2xl bg-slate-50 px-4 py-3 mb-4">
+            <p class="text-xs font-black text-slate-400 mb-1">확인 항목</p>
+            <p class="text-sm font-black text-slate-800">가능 지역 · 일정 · 레슨비 확인</p>
+          </div>
+
+          <ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5">
+            <li>처음 레슨 받는 골퍼</li>
+            <li>장기 등록이 부담스러운 골퍼</li>
+          </ul>
+
+          <button onclick="goService('trial_lesson')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">
+            체험 레슨 확인하기
+          </button>
+        </div>
+      </article>
+
+      <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
+        <div class="h-40 bg-slate-900 p-4 flex items-end justify-between text-white">
+          <div>
+            <span class="chip bg-white/15 text-blue-100 text-[10px] px-3 py-1">가장 많이 찾는 고민</span>
+            <h3 class="text-2xl font-black mt-3">드라이버 슬라이스 교정</h3>
+          </div>
+          <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260327_165459882.png" alt="드라이버 레슨" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
+        </div>
+
+        <div class="p-5">
+          <p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">
+            티샷이 오른쪽으로 밀리거나 OB가 자주 나는 골퍼를 위한 방향성 점검 레슨입니다.
+          </p>
+
+          <div class="rounded-2xl bg-slate-50 px-4 py-3 mb-4">
+            <p class="text-xs font-black text-slate-400 mb-1">추천 대상</p>
+            <p class="text-sm font-black text-slate-800">드라이버 방향성 · 슬라이스 고민</p>
+          </div>
+
+          <ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5">
+            <li>OB가 잦은 골퍼</li>
+            <li>티샷이 불안한 골퍼</li>
+          </ul>
+
+          <button onclick="goService('driver_slice')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">
+            슬라이스 레슨 확인하기
+          </button>
+        </div>
+      </article>
+
+      <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
+        <div class="h-40 bg-gradient-to-br from-emerald-50 to-blue-50 p-4 flex items-end justify-between">
+          <div>
+            <span class="chip bg-mint text-white text-[10px] px-3 py-1">타수 줄이는 핵심</span>
+            <h3 class="text-2xl font-black mt-3 text-ink">숏게임 집중 레슨</h3>
+          </div>
+          <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260309_200933587.jpg" alt="숏게임 레슨" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
+        </div>
+
+        <div class="p-5">
+          <p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">
+            어프로치, 웨지, 퍼팅 거리감을 점검하고 그린 주변 실수를 줄이는 레슨입니다.
+          </p>
+
+          <div class="rounded-2xl bg-slate-50 px-4 py-3 mb-4">
+            <p class="text-xs font-black text-slate-400 mb-1">추천 대상</p>
+            <p class="text-sm font-black text-slate-800">어프로치 · 퍼팅 · 거리감 고민</p>
+          </div>
+
+          <ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5">
+            <li>그린 주변에서 타수를 잃는 골퍼</li>
+            <li>퍼팅 방향성이 불안한 골퍼</li>
+          </ul>
+
+          <button onclick="goService('shortgame')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">
+            숏게임 레슨 확인하기
+          </button>
+        </div>
+      </article>
+
+      <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
+        <div class="h-40 bg-gradient-to-br from-blue-50 to-indigo-50 p-4 flex items-end justify-between">
+          <div>
+            <span class="chip bg-brand text-white text-[10px] px-3 py-1">초보 골퍼 추천</span>
+            <h3 class="text-2xl font-black mt-3 text-ink">파3 실전 레슨</h3>
+          </div>
+          <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KDW.jpg" alt="파3 레슨" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
+        </div>
+
+        <div class="p-5">
+          <p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">
+            짧은 코스에서 실전 감각, 거리감, 숏게임과 퍼팅을 함께 익히는 레슨입니다.
+          </p>
+
+          <div class="rounded-2xl bg-slate-50 px-4 py-3 mb-4">
+            <p class="text-xs font-black text-slate-400 mb-1">추천 대상</p>
+            <p class="text-sm font-black text-slate-800">첫 필드 · 파3 · 숏게임 적응</p>
+          </div>
+
+          <ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5">
+            <li>머리 올리기 전 골퍼</li>
+            <li>필드가 부담스러운 골퍼</li>
+          </ul>
+
+          <button onclick="goService('par3')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">
+            파3 레슨 확인하기
+          </button>
+        </div>
+      </article>
+
+      <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
+        <div class="h-40 bg-slate-800 p-4 flex items-end justify-between text-white">
+          <div>
+            <span class="chip bg-white/15 text-blue-100 text-[10px] px-3 py-1">필드에서 무너진다면</span>
+            <h3 class="text-2xl font-black mt-3">9홀 실전 필드레슨</h3>
+          </div>
+          <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YHC.png" alt="9홀 필드레슨" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
+        </div>
+
+        <div class="p-5">
+          <p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">
+            에이밍, 클럽 선택, 거리 판단, 코스 운영을 실제 코스에서 점검하는 레슨입니다.
+          </p>
+
+          <div class="rounded-2xl bg-slate-50 px-4 py-3 mb-4">
+            <p class="text-xs font-black text-slate-400 mb-1">추천 대상</p>
+            <p class="text-sm font-black text-slate-800">코스 운영 · 필드 실전 고민</p>
+          </div>
+
+          <ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5">
+            <li>연습장과 필드가 다른 골퍼</li>
+            <li>100타 깨기를 목표로 하는 골퍼</li>
+          </ul>
+
+          <button onclick="goService('field9')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">
+            필드레슨 확인하기
+          </button>
+        </div>
+      </article>
+
+      <article class="compact-product reveal bg-white rounded-4xl border border-slate-100 shadow-soft overflow-hidden card-hover">
+        <div class="h-40 bg-gradient-to-br from-slate-900 to-blue-900 p-4 flex items-end justify-between text-white">
+          <div>
+            <span class="chip bg-white/15 text-blue-100 text-[10px] px-3 py-1">프리미엄 프로그램</span>
+            <h3 class="text-2xl font-black mt-3">프로 동행 골프여행</h3>
+          </div>
+          <img src="https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/hty.jpg" alt="프로 동행 골프여행" class="w-16 h-16 rounded-3xl object-cover bg-white shadow-soft" />
+        </div>
+
+        <div class="p-5">
+          <p class="text-sm font-bold text-slate-500 leading-relaxed mb-4">
+            스승님이 직접 기획하는 소수정예 실전 골프여행 프로그램입니다.
+          </p>
+
+          <div class="rounded-2xl bg-blue-50 px-4 py-3 mb-4">
+            <p class="text-xs font-black text-brand mb-1">상담 필요</p>
+            <p class="text-sm font-black text-slate-800">일정 · 인원 · 프로그램별 별도 안내</p>
+          </div>
+
+          <ul class="mini-list text-xs font-bold text-slate-500 space-y-1 mb-5">
+            <li>프로와 함께 라운드하고 싶은 골퍼</li>
+            <li>골프여행과 피드백을 함께 원하는 골퍼</li>
+          </ul>
+
+          <button onclick="goKakao('golf_trip')" class="w-full gradient-blue shine text-white py-4 rounded-2xl font-black active:scale-95 transition">
+            골프여행 상담하기
+          </button>
+        </div>
+      </article>
+
+    </div>
+
+
+    <div class="mt-6 max-w-3xl mx-auto bg-blue-50 border border-blue-100 rounded-3xl p-5 text-center reveal">
+      <p class="text-sm font-black text-slate-900">서비스 페이지에서 해당 레슨 조건이 자동 선택됩니다.</p>
+      <p class="mt-1 text-xs font-bold text-slate-500 leading-relaxed">
+        지역과 희망 일정만 이어서 입력하면 조건에 맞는 스승님 추천 결과를 확인할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="mt-7 md:hidden reveal">
+      <button onclick="goService('products_bottom_mobile')" class="w-full gradient-blue shine text-white px-6 py-4 rounded-2xl font-black shadow-blue active:scale-95 transition">
+        전체 레슨 요청하기
+      </button>
+    </div>
+
+  </div>
+</section>
+
+    <section id="how" class="center-section section-pad bg-white scroll-mt-20">
       <div class="container-wide grid lg:grid-cols-[.82fr_1.18fr] gap-8 lg:gap-12 items-start">
         <div class="reveal max-w-3xl mx-auto text-center mb-8">
           <span class="eyebrow">How it works</span>
           <h2 class="section-title mt-4 font-black text-ink">신청 후 바로<br />결제되지 않습니다.</h2>
-          <p class="mt-4 text-slate-500 font-bold leading-relaxed mobile-subcopy">스승님은 먼저 요청을 보내는 방식입니다. 선택한 스승님 또는 운영팀이 일정을 확인한 뒤, 가능 일정과 결제 안내를 받아볼 수 있습니다.</p>
+          <p class="mt-4 text-slate-500 font-bold leading-relaxed mobile-subcopy">스승님은 먼저 레슨 요청을 보내는 방식입니다.<br /> 선택한 스승님 또는 운영팀이 일정을 확인한 뒤, 가능 일정과 결제 안내를 받아볼 수 있습니다.</p>
         </div>
         <div class="grid sm:grid-cols-2 gap-3 md:gap-4">
           <article class="reveal bg-slate-50 rounded-4xl p-5 border border-slate-100 flex gap-4"><span class="w-10 h-10 rounded-2xl gradient-blue text-white flex items-center justify-center font-black shrink-0">1</span><div><h3 class="text-lg font-black mb-1">고민과 지역 입력</h3><p class="text-sm font-bold text-slate-500 leading-relaxed">현재 문제와 레슨 가능 지역을 입력합니다.</p></div></article>
@@ -980,7 +1267,7 @@ id="how" class="center-section section-pad bg-white scroll-mt-20">
         <span class="inline-block px-3 py-1 bg-blue-50 text-brand font-black rounded-full text-[10px] mb-3 tracking-widest uppercase">Real Reviews</span>
         <h2 class="text-[20px] md:text-4xl font-black text-slate-900 tracking-tight leading-snug mb-2">
           이미 많은 골퍼들이 승이와 함께<br/>
-          핵심 골프고민을 해결하고 있습니다
+          맞춤 골프레슨을 해결하고 있어요
         </h2>
         <p class="text-[12px] md:text-sm font-bold text-slate-400">실제 레슨 후기와 신청 사례를 확인해보세요.</p>
       </div>
@@ -1187,29 +1474,32 @@ id="how" class="center-section section-pad bg-white scroll-mt-20">
           </article>
         </div>
 
-        <div class="mt-8 text-center reveal">
-          <p class="text-sm font-bold text-slate-500 mb-3">
-            원하는 스승님이 보이지 않거나, 조건을 직접 입력하고 싶다면 서비스 페이지에서 요청해주세요.
-          </p>
-          <button onclick="goService('top8_direct_request')" class="bg-blue-600 text-white px-7 py-4 rounded-2xl font-black text-sm shadow-lg active:scale-95 transition">
-            조건 직접 입력하기
-          </button>
-        </div>
-      </div>
+        <div class="mt-10 md:mt-12 mb-6 md:mb-8 px-4 reveal">
+  <div class="max-w-xl mx-auto bg-white border border-slate-100 rounded-4xl px-5 py-6 md:px-7 md:py-7 text-center shadow-soft">
+    <p class="text-sm md:text-[15px] font-bold text-slate-500 leading-relaxed mb-4">
+      원하는 스승님이 보이지 않거나,<br class="md:hidden" />
+      조건을 직접 입력하고 싶다면 요청해주세요.
+    </p>
+
+    <button onclick="goService('top8_direct_request')" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-black text-sm md:text-base shadow-lg active:scale-95 transition">
+      조건 직접 입력하기
+    </button>
+  </div>
+</div>
     </section>
 
     <section id="trust" class="center-section section-pad bg-slate-950 text-white scroll-mt-20">
       <div class="container-wide grid lg:grid-cols-[.78fr_1.22fr] gap-8 lg:gap-12 items-center">
         <div class="reveal max-w-3xl mx-auto text-center mb-8">
           <span class="inline-flex px-3 py-2 rounded-full bg-blue-500/10 text-blue-200 text-[11px] font-black tracking-wide">Trust & Operation</span>
-          <h2 class="section-title mt-4 font-black leading-tight">스승님 공식 신청이<br />필요한 이유</h2>
-          <p class="mt-4 text-slate-400 font-bold leading-relaxed">스승님은 신청 이후의 흐름까지 관리합니다. 단순 광고 페이지가 아니라 요청, 일정, 결제 안내, 환불 기준 안내까지 이어지는 운영 구조를 지향합니다.</p>
+          <h2 class="section-title mt-4 font-black leading-tight">스승님 운영팀이<br />필요한 이유</h2>
+          <p class="mt-4 text-slate-400 font-bold leading-relaxed">스승님은 신청 이후 레슨까지 함께 합니다.</br> 단순 광고가 아니라 요청, 일정, 결제, 레슨 당일, 환불까지 골퍼들의 최상의 만족을 지향합니다.</p>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           <article class="reveal rounded-4xl bg-white/5 p-6 border border-white/10 card-hover"><p class="text-3xl mb-4">✅</p><h3 class="text-lg font-black mb-2">검증된 프로 정보</h3><p class="text-sm font-bold text-slate-400 leading-relaxed">자격, 경력, 활동 지역, 전문 분야를 구분해 프로필을 구성합니다.</p></article>
-          <article class="reveal rounded-4xl bg-white/5 p-6 border border-white/10 card-hover"><p class="text-3xl mb-4">📝</p><h3 class="text-lg font-black mb-2">요청서 기반 매칭</h3><p class="text-sm font-bold text-slate-400 leading-relaxed">광고 노출보다 골퍼의 고민과 목적에 맞는지를 우선합니다.</p></article>
-          <article class="reveal rounded-4xl bg-white/5 p-6 border border-white/10 card-hover"><p class="text-3xl mb-4">📅</p><h3 class="text-lg font-black mb-2">운영팀 일정 확인</h3><p class="text-sm font-bold text-slate-400 leading-relaxed">레슨 전후 문의와 일정 조율 과정에서 운영팀이 개입합니다.</p></article>
-          <article class="reveal rounded-4xl bg-white/5 p-6 border border-white/10 card-hover"><p class="text-3xl mb-4">💳</p><h3 class="text-lg font-black mb-2">공식 결제 안내</h3><p class="text-sm font-bold text-slate-400 leading-relaxed">확정 가능한 조건을 확인한 뒤 공식 결제 안내를 제공합니다.</p></article>
+          <article class="reveal rounded-4xl bg-white/5 p-6 border border-white/10 card-hover"><p class="text-3xl mb-4">📝</p><h3 class="text-lg font-black mb-2">요청서 기반 매칭</h3><p class="text-sm font-bold text-slate-400 leading-relaxed">스승님들의 정보가 골퍼의 고민과 목적에 맞는지를 우선합니다.</p></article>
+          <article class="reveal rounded-4xl bg-white/5 p-6 border border-white/10 card-hover"><p class="text-3xl mb-4">📅</p><h3 class="text-lg font-black mb-2">운영팀 일정 확인</h3><p class="text-sm font-bold text-slate-400 leading-relaxed">레슨 요청부터 레슨 당일까지 스승님 운영팀이 함께 합니다.</p></article>
+          <article class="reveal rounded-4xl bg-white/5 p-6 border border-white/10 card-hover"><p class="text-3xl mb-4">💳</p><h3 class="text-lg font-black mb-2">공식 결제 안내</h3><p class="text-sm font-bold text-slate-400 leading-relaxed">확정 레슨을 확인한 뒤 공식 채널로 직접 안내합니다.</p></article>
           <article class="reveal rounded-4xl bg-white/10 p-6 border border-blue-400/20 card-hover sm:col-span-2"><p class="text-3xl mb-4">🔁</p><h3 class="text-lg font-black mb-2 text-blue-200">환불 기준 안내</h3><p class="text-sm font-bold text-slate-300 leading-relaxed">공식 결제 건에 한해 예약 관리, 환불 기준 안내, 운영팀 중재가 적용됩니다.</p></article>
         </div>
       </div>
@@ -1220,7 +1510,7 @@ id="how" class="center-section section-pad bg-white scroll-mt-20">
         <div class="reveal max-w-3xl mx-auto text-center mb-8">
           <span class="eyebrow">For Professionals</span>
           <h2 class="section-title mt-4 font-black text-ink">프로님이신가요?</h2>
-          <p class="mt-4 text-slate-500 font-bold leading-relaxed mobile-subcopy">스승님은 프로님의 신규 회원 요청, 레슨 프로그램 노출, 예약 문의 정리를 돕습니다. 레슨은 프로님이, 회원 요청과 운영 흐름은 스승님이 정리합니다.</p>
+          <p class="mt-4 text-slate-500 font-bold leading-relaxed mobile-subcopy">스승님은 프로님의 신규 회원 요청, 레슨 프로그램 노출, 예약 진행을 돕습니다.<br /> 레슨은 프로님이, 회원 요청과 운영은 스승님이 정리합니다.</p>
           <button onclick="goKakao('pro_register')" class="mt-7 gradient-blue shine text-white px-7 py-4 rounded-2xl font-black shadow-blue active:scale-95 transition">프로 등록 문의</button>
         </div>
         <div class="grid sm:grid-cols-3 gap-3">
@@ -1383,7 +1673,7 @@ id="how" class="center-section section-pad bg-white scroll-mt-20">
               </div>
               <div id="request-pro-options" class="space-y-2"></div>
               <button type="button" onclick="goService('modal_direct_request')" class="mt-3 w-full bg-white border border-slate-200 text-slate-600 py-3.5 rounded-2xl font-black text-xs active:scale-95 transition">
-                조건 직접 입력하기
+                원하는 스승님이 없다면 조건 직접 입력하기
               </button>
             </div>
 
