@@ -107,7 +107,7 @@
             }
         };
 
-        // 거절 기능 추가
+        // [거절 기능] 완벽 수정 버전
         async function sendReject() {
             if (!confirm("정말 이 레슨을 거절하시겠습니까?\n거절 시 고객에게 재매칭 안내가 발송됩니다.")) return;
             
@@ -125,19 +125,23 @@
             };
 
             try {
-                // 자피어 거절 훅 (새로 만드실 훅 주소로 교체 필요)
+                // 자피어 거절 훅 데이터 보장 처리
                 await fetch("https://hooks.zapier.com/hooks/catch/27197789/ujl6khu/", { 
-                    method: "POST", mode: "no-cors", body: JSON.stringify(payload) 
+                    method: "POST", 
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload) 
                 });
                 alert("레슨 거절이 완료되었습니다.");
                 window.location.href = "https://pf.kakao.com/_kxawRn/chat";
             } catch (e) {
-                alert("에러가 발생했습니다.");
+                alert("거절 처리 중 에러가 발생했습니다.");
                 rejectBtn.disabled = false;
+                rejectBtn.innerText = "일정이 안 맞아요 (제안 거절)";
             }
         }
 
-       async function sendAccept() {
+        // [수락 및 결제톡 발송] 완벽 수정 버전
+        async function sendAccept() {
             const price = document.getElementById('finalPriceInput').value;
             const location = document.getElementById('lessonLocation').value;
             const noteInput = document.getElementById('proNote').value;
@@ -155,60 +159,51 @@
                 return alert("🚨 등록 불가: 연락처나 연속된 숫자를 입력할 수 없습니다.");
             }
 
-    const forbiddenList = [
-        // 1. 메신저 및 SNS 직접 언급
-        "카톡", "카카오", "kakaotalk", "kaka", "카코", "옵챗", "오픈챗", "오픈채팅", "openchat", "톡주세요", "톡줘", "채널", "톡디", "카톡디", "오픈프로필",
-        "인스타", "인스타그램", "insta", "instagram", "잉스타", "잉스타그램", "인스따", "디엠", "dm", "인타", "팔로우", "맞팔", "스토리",
-        "텔레그램", "telegram", "라인", "line", "밴드", "band", "틱톡", "tiktok", "페이스북", "페북", "facebook",
+            const forbiddenList = [
+                "카톡", "카카오", "kakaotalk", "kaka", "카코", "옵챗", "오픈챗", "오픈채팅", "openchat", "톡주세요", "톡줘", "채널", "톡디", "카톡디", "오픈프로필",
+                "인스타", "인스타그램", "insta", "instagram", "잉스타", "잉스타그램", "인스따", "디엠", "dm", "인타", "팔로우", "맞팔", "스토리",
+                "텔레그램", "telegram", "라인", "line", "밴드", "band", "틱톡", "tiktok", "페이스북", "페북", "facebook",
+                "연락처", "전화번호", "핸드폰", "휴대폰", "핸펀", "폰번", "번호", "문자", "전화", "콜미", "연락", "영일영", "공일공", "영1영", "공1공", "영일공", "공일영",
+                "공10", "영10", "0일0", "팔로우", "친추", "친구추가", "메세지", "메시지", "쪽지",
+                "직거래", "개인레슨", "외부결제", "현금결제", "계좌번호", "계좌", "송금", "입금", "이체", "토스", "카카오페이", "현금가", "할인가", "개별연락", "따로", "직접",
+                "네이버", "블로그", "blog", "유튜브", "youtube", "유튜버", "너튜브", "카페", "cafe", "당근", "숨고", "크몽", "다음", "daum",
+                "문의주세", "상담주세", "연락주세", "프로필링크", "상단링크", "바이오", "주소창", "검색창에", "검색해보세", "구글", "google"
+            ];
 
-        // 2. 연락처 유도 및 숫자 꼼수 (영일영, 공일공 등)
-        "연락처", "전화번호", "핸드폰", "휴대폰", "핸펀", "폰번", "번호", "문자", "전화", "콜미", "연락", "영일영", "공일공", "영1영", "공1공", "영일공", "공일영",
-        "공10", "영10", "0일0", "팔로우", "친추", "친구추가", "메세지", "메시지", "쪽지",
-
-        // 3. 외부 결제 및 직거래 (매출 누수 방지)
-        "직거래", "개인레슨", "외부결제", "현금결제", "계좌번호", "계좌", "송금", "입금", "이체", "토스", "카카오페이", "현금가", "할인가", "개별연락", "따로", "직접",
-
-        // 4. 포털 및 커뮤니티 (우회 채널)
-        "네이버", "블로그", "blog", "유튜브", "youtube", "유튜버", "너튜브", "카페", "cafe", "당근", "숨고", "크몽", "다음", "daum",
-
-        // 5. 교묘한 조합 방어 (꼼수 문구)
-        "문의주세", "상담주세", "연락주세", "프로필링크", "상단링크", "바이오", "주소창", "검색창에", "검색해보세", "구글", "google"
-    ];
-
-    for (let word of forbiddenList) {
+            for (let word of forbiddenList) {
                 if (combinedText.includes(word)) {
                     return alert(`🚨 등록 불가: 금지어('${word}')가 포함되어 있습니다.`);
                 }
             }
 
             submitBtn.disabled = true;
-            submitBtn.innerText = "처리 중...";
+            submitBtn.innerText = "처리 중... ⏳";
 
             const paymentUrl = `https://rlaeodn1015-oss.github.io/ssnim-request-landing/pay.html?requestId=${requestId}&price=${price}&name=${encodeURIComponent(name)}&type=${encodeURIComponent(sendType)}&selectedPro=${encodeURIComponent(selectedPro)}&proPhone=${proContact}&LOCATION=${encodeURIComponent(location)}&schedule=${encodeURIComponent(schedule)}&personCount=${encodeURIComponent(personCount)}`;
             
             const payload = {
-                action: "createRequest", // GAS의 중복방지 로직을 태우기 위해 필수
+                action: "createRequest", 
                 requestId: requestId,
                 name: name,
                 contact: contact,
-                proContact: proContact, // GAS 100라인 대응
+                proContact: proContact, 
                 personCount: personCount, 
                 type: sendType,
                 lessoncount: String(lessonCount).replace("회", "").trim(), 
-                SCHEDULE: schedule,     // K열
-                LOCATION: location,     // C열 & M열
-                PRONOTE: noteInput || "별도 안내 사항 없음", // N열
-                selectedpro: selectedPro, // H열
-                price: price,           // L열
+                SCHEDULE: schedule,     
+                LOCATION: location,     
+                PRONOTE: noteInput || "별도 안내 사항 없음", 
+                selectedpro: selectedPro, 
+                price: price,           
                 paymentUrl: paymentUrl,
-                status: "accepted",     // O열에 '결제 대기'로 박히게 함
+                status: "accepted",     
                 club: club,       
                 concern: note 
             };
 
-try {
-    // 1. 자피어 알림톡 전송 (이걸 먼저 기다립니다)
-    const ZAPIER_EXTERNAL = "https://hooks.zapier.com/hooks/catch/27197789/ujl6khu/";
+            try {
+                // 1. 자피어 알림톡 전송 완료 대기
+                const ZAPIER_EXTERNAL = "https://hooks.zapier.com/hooks/catch/27197789/ujl6khu/";
     const ZAPIER_1ON1 = "https://hooks.zapier.com/hooks/catch/27197789/ujdmj18/";
     const webhookUrl = sendType.includes('1:1') ? ZAPIER_1ON1 : ZAPIER_EXTERNAL;
 
@@ -218,23 +213,26 @@ try {
         body: JSON.stringify(payload) 
     });
 
-    fetch("https://script.google.com/macros/s/AKfycbwJ8jcshxR6HcNknmLkjRdeT0NMw8d4-o9Z1hAWxdryi8pzocXZveDp_pmF1PpnKkcF/exec", {
+    // 2. 구글 앱스 스크립트 새 배포 주소 (원래 가던 mode: "no-cors" 구조로 복구)
+    await fetch("https://script.google.com/macros/s/AKfycbwsTEhL9LkmX0NV6Em_ktJ_Y9-M4hwdv7mBRVpb6q2bpx0lxWkmrxPA_AvzprLQGa4R/exec", {
         method: "POST", 
         mode: "no-cors", 
         body: JSON.stringify(payload)
     });
                
-                setTimeout(() => {
+    setTimeout(() => {
         alert("✅ 수락 완료 및 결제톡 발송!");
         window.location.href = "https://pf.kakao.com/_kxawRn/chat";
     }, 1000);
     
-            } catch (err) {
-                alert("🚨 에러 발생: " + err.message);
-                submitBtn.disabled = false;
-                submitBtn.innerText = "레슨 승인 및 카톡 발송";
-            }
+} catch (err) {
+    alert("🚨 에러 발생: " + err.message);
+    submitBtn.disabled = false;
+    submitBtn.innerText = "레슨 승인 및 카톡 발송";
+}
         }
     </script>
+</body>
+</html>
 </body>
 </html>
