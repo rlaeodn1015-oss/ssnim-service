@@ -2039,5 +2039,100 @@ if (isTrialProposal || !isFixedPrice) {
             if (e.key === 'Enter') app.handleChatSubmit();
         });
     </script>
+
+    <!-- ssnim-service index.html의 </body> 바로 위에 추가 -->
+<script>
+  const landingLessonPresets = {
+    landing_trial_lesson: {
+      title: "1회 체험 레슨",
+      value: "1회 체험 레슨",
+      data: {
+        lessonType: "1:1 레슨",
+        club: "전체",
+        concern: ["초보 레슨", "스윙 점검", "1회 체험"],
+        isJoinable: false,
+        personCount: "1인"
+      }
+    },
+
+    landing_driver_slice: {
+      title: "드라이버 슬라이스 교정",
+      value: "드라이버 슬라이스",
+      data: {
+        lessonType: "1:1 레슨",
+        club: "드라이버",
+        concern: ["슬라이스 교정", "드라이버 정확도", "구질 교정"],
+        isJoinable: false,
+        personCount: "1인"
+      }
+    },
+
+    landing_shortgame: {
+      title: "숏게임 집중 레슨",
+      value: "숏게임",
+      data: {
+        lessonType: "숏게임레슨",
+        club: "웨지/숏게임",
+        concern: ["실전 숏게임", "어프로치 거리감", "퍼팅 거리감"],
+        isJoinable: false,
+        personCount: "1인"
+      }
+    },
+
+    landing_par3: {
+      title: "파3 실전 레슨",
+      value: "파3 레슨",
+      data: {
+        lessonType: "파3 레슨",
+        club: "웨지/숏게임",
+        concern: ["파3 레슨", "실전 숏게임", "퍼팅 거리감"],
+        isJoinable: true,
+        personCount: "1인"
+      }
+    },
+
+    landing_field9: {
+      title: "9홀 실전 필드레슨",
+      value: "9홀 필드레슨",
+      data: {
+        lessonType: "9홀 레슨",
+        club: "필드",
+        concern: ["필드 레슨", "코스 매니지먼트", "실전 스코어 감소"],
+        isJoinable: false,
+        personCount: "1인"
+      }
+    }
+  };
+
+  function applyLandingLessonPreset() {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get("source");
+    const preset = landingLessonPresets[source];
+
+    if (!preset || typeof app === "undefined") return;
+
+    if (typeof app.startChatFlow === "function") {
+      app.startChatFlow();
+    }
+
+    app.flowDraft = app.flowDraft || {};
+    app.flowDraft.concern = preset;
+    app.flowStep = "location";
+
+    const greeting = document.getElementById("chat-greeting");
+    if (greeting) {
+      greeting.innerHTML = `${preset.title}에 맞는 스승님을 추천해드릴게요.<br>지역과 희망 일정을 선택해주세요.`;
+    }
+
+    if (typeof app.renderChoiceFlow === "function") {
+      app.renderChoiceFlow();
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    setTimeout(applyLandingLessonPreset, 150);
+  });
+</script>
+
 </body>
 </html>
