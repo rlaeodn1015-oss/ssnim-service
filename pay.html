@@ -171,19 +171,16 @@
         const lessonType = params.get('type') || "레슨";
         const isOneOnOne = lessonType.includes('1:1') || lessonType === '레슨' || lessonType === '1' || lessonType.trim() === '';
 
-        const personParam = params.get('person'); 
-        if (personParam) {
-            personCount = parseInt(personParam);
-        } else {
-            const match = lessonType.match(/\d+/);
-            personCount = (match && parseInt(match[0]) > 1) ? parseInt(match[0]) : 1;
-        }
+        const personParam = params.get('personCount') || params.get('person') || "1인";
+const parsedPerson = parseInt(String(personParam).replace(/[^0-9]/g, ''), 10);
 
-        if (isOneOnOne) personCount = 1;
+personCount = parsedPerson > 1 ? parsedPerson : 1;
 
-        finalPayPrice = rawPrice;
-        document.getElementById('customer-info').innerText = `${name}님, 맞춤 레슨 견적입니다.`;
-        document.getElementById('display-price').innerText = rawPrice.toLocaleString() + "원";
+if (isOneOnOne) personCount = 1;
+
+finalPayPrice = rawPrice;
+document.getElementById('customer-info').innerText = `${name}님, 맞춤 레슨 견적입니다.`;
+document.getElementById('display-price').innerText = rawPrice.toLocaleString() + "원";
         
         const selector = document.getElementById('split-selector');
         if (personCount > 1) {
