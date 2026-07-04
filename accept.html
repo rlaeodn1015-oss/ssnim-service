@@ -127,10 +127,10 @@
             try {
                 // 자피어 거절 훅 데이터 보장 처리
                 await fetch("https://hooks.zapier.com/hooks/catch/27197789/ujl6khu/", { 
-                    method: "POST", 
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload) 
-                });
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify(payload) 
+});
                 alert("레슨 거절이 완료되었습니다.");
                 window.location.href = "https://pf.kakao.com/_kxawRn/chat";
             } catch (e) {
@@ -179,20 +179,10 @@
             submitBtn.disabled = true;
             submitBtn.innerText = "처리 중... ⏳";
 
-            const paymentUrl =
-`https://rlaeodn1015-oss.github.io/ssnim-request-landing/pay.html` +
-`?requestId=${encodeURIComponent(requestId)}` +
-`&price=${encodeURIComponent(price)}` +
-`&name=${encodeURIComponent(name)}` +
-`&phone=${encodeURIComponent(contact)}` +
-`&type=${encodeURIComponent(sendType)}` +
-`&selectedPro=${encodeURIComponent(selectedPro)}` +
-`&proPhone=${encodeURIComponent(proContact)}` +
-`&LOCATION=${encodeURIComponent(lessonLocationValue)}` +
-`&schedule=${encodeURIComponent(schedule)}` +
-`&personCount=${encodeURIComponent(personCount)}` +
-`&club=${encodeURIComponent(club)}` +
-`&concern=${encodeURIComponent(note)}`;
+            const lessonLocationValue = document.getElementById('lessonLocation').value;
+const noteInput = document.getElementById('proNote').value;
+
+const paymentUrl = `https://rlaeodn1015-oss.github.io/ssnim-request-landing/pay.html?requestId=${encodeURIComponent(requestId)}&price=${encodeURIComponent(price)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(contact)}&type=${encodeURIComponent(sendType)}&selectedPro=${encodeURIComponent(selectedPro)}&proPhone=${encodeURIComponent(proContact)}&LOCATION=${encodeURIComponent(location)}&schedule=${encodeURIComponent(schedule)}&personCount=${encodeURIComponent(personCount)}&club=${encodeURIComponent(club)}&concern=${encodeURIComponent(note)}`;
             
             const payload = {
                 action: "createRequest", 
@@ -227,7 +217,7 @@
     });
 
     // 2. 구글 앱스 스크립트 새 배포 주소 (원래 가던 mode: "no-cors" 구조로 복구)
-    await fetch("https://script.google.com/macros/s/AKfycbwsTEhL9LkmX0NV6Em_ktJ_Y9-M4hwdv7mBRVpb6q2bpx0lxWkmrxPA_AvzprLQGa4R/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbzQ8J_RALahps4C_Ahi4_MHwKiDKxnOzu_ZMOKwbAWcq7N0jdPVcdRgD5OzdG5o9xeV/exec", {
         method: "POST", 
         mode: "no-cors", 
         body: JSON.stringify(payload)
@@ -245,7 +235,5 @@
 }
         }
     </script>
-</body>
-</html>
 </body>
 </html>
