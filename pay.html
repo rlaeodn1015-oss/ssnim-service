@@ -124,7 +124,7 @@
             try {
                 // 1. 구글 시트 업데이트 전송 (대표님 원래 규격인 no-cors 기조 완벽 유지 + 안전한 변수 송신)
                 // 여기에 들어가는 requestId 값(reqId)이 구글 시트 U열의 REQ_... 값과 대조되어 정확한 줄만 업데이트합니다.
-                await fetch("https://script.google.com/macros/s/AKfycbwsTEhL9LkmX0NV6Em_ktJ_Y9-M4hwdv7mBRVpb6q2bpx0lxWkmrxPA_AvzprLQGa4R/exec", { 
+                await fetch("https://script.google.com/macros/s/AKfycbzQ8J_RALahps4C_Ahi4_MHwKiDKxnOzu_ZMOKwbAWcq7N0jdPVcdRgD5OzdG5o9xeV/exec", { 
                     method: "POST", 
                     mode: "no-cors", 
                     body: JSON.stringify({ 
@@ -240,7 +240,7 @@ document.getElementById('display-price').innerText = rawPrice.toLocaleString() +
 
         try {
         // 원래 가던 mode: "no-cors" 구조로 복구 + 새 주소 매핑
-        await fetch("https://script.google.com/macros/s/AKfycbwsTEhL9LkmX0NV6Em_ktJ_Y9-M4hwdv7mBRVpb6q2bpx0lxWkmrxPA_AvzprLQGa4R/exec", {
+        await fetch("https://script.google.com/macros/s/AKfycbzQ8J_RALahps4C_Ahi4_MHwKiDKxnOzu_ZMOKwbAWcq7N0jdPVcdRgD5OzdG5o9xeV/exec", {
             method: "POST",
             mode: "no-cors",
             body: JSON.stringify(initialPayload)
