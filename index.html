@@ -2009,7 +2009,7 @@ if (isTrialProposal || !isFixedPrice) {
 };
 
                 try {
-                    fetch("https://script.google.com/macros/s/AKfycbwsTEhL9LkmX0NV6Em_ktJ_Y9-M4hwdv7mBRVpb6q2bpx0lxWkmrxPA_AvzprLQGa4R/exec", { method: "POST", mode: "no-cors", body: JSON.stringify(payload) }).catch(e => console.log(e));
+                    fetch("https://script.google.com/macros/s/AKfycbzQ8J_RALahps4C_Ahi4_MHwKiDKxnOzu_ZMOKwbAWcq7N0jdPVcdRgD5OzdG5o9xeV/exec", { method: "POST", mode: "no-cors", body: JSON.stringify(payload) }).catch(e => console.log(e));
                     
                     const ZAPIER_WEBHOOK_URL = isFixedPrice ? "https://hooks.zapier.com/hooks/catch/27197789/uj4iu7w/" : "https://hooks.zapier.com/hooks/catch/27197789/uj4t9ko/";
                     fetch(ZAPIER_WEBHOOK_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) }).catch(e => console.log(e));
