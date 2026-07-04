@@ -177,32 +177,29 @@
             }
 
             submitBtn.disabled = true;
-            submitBtn.innerText = "처리 중... ⏳";
-
-            const lessonLocationValue = document.getElementById('lessonLocation').value;
-const noteInput = document.getElementById('proNote').value;
+submitBtn.innerText = "처리 중... ⏳";
 
 const paymentUrl = `https://rlaeodn1015-oss.github.io/ssnim-request-landing/pay.html?requestId=${encodeURIComponent(requestId)}&price=${encodeURIComponent(price)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(contact)}&type=${encodeURIComponent(sendType)}&selectedPro=${encodeURIComponent(selectedPro)}&proPhone=${encodeURIComponent(proContact)}&LOCATION=${encodeURIComponent(location)}&schedule=${encodeURIComponent(schedule)}&personCount=${encodeURIComponent(personCount)}&club=${encodeURIComponent(club)}&concern=${encodeURIComponent(note)}`;
-            
-            const payload = {
-                action: "createRequest", 
-                requestId: requestId,
-                name: name,
-                contact: contact,
-                proContact: proContact, 
-                personCount: personCount, 
-                type: sendType,
-                lessoncount: String(lessonCount).replace("회", "").trim(), 
-                SCHEDULE: schedule,     
-                LOCATION: location,     
-                PRONOTE: noteInput || "별도 안내 사항 없음", 
-                selectedpro: selectedPro, 
-                price: price,           
-                paymentUrl: paymentUrl,
-                status: "accepted",     
-                club: club,       
-                concern: note 
-            };
+
+const payload = {
+    action: "createRequest", 
+    requestId: requestId,
+    name: name,
+    contact: contact,
+    proContact: proContact, 
+    personCount: personCount, 
+    type: sendType,
+    lessoncount: String(lessonCount).replace("회", "").trim(), 
+    SCHEDULE: schedule,     
+    LOCATION: location,     
+    PRONOTE: noteInput || "별도 안내 사항 없음", 
+    selectedpro: selectedPro, 
+    price: price,           
+    paymentUrl: paymentUrl,
+    status: "accepted",     
+    club: club,       
+    concern: note 
+};
 
             try {
                 // 1. 자피어 알림톡 전송 완료 대기
