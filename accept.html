@@ -76,7 +76,7 @@
         const contact = params.get('phone') || params.get('contact') || params.get('userPhone') || "";
         const requestId = params.get('requestId') || "";
         const fixedPrice = params.get('price') || "";
-        const selectedPro = params.get('selectedPro') || params.get('proName') || "스승님";
+        const selectedPro = params.get('selectedPro') || params.get('selectedpro') || params.get('proName') || "스승님";
         const lessonCount = params.get('lessonCount') || "1회"; 
         const schedule = params.get('schedule') || "시간 협의";
         const rawType = params.get('type') || "레슨";
@@ -179,7 +179,20 @@
             submitBtn.disabled = true;
             submitBtn.innerText = "처리 중... ⏳";
 
-            const paymentUrl = `https://rlaeodn1015-oss.github.io/ssnim-request-landing/pay.html?requestId=${requestId}&price=${price}&name=${encodeURIComponent(name)}&type=${encodeURIComponent(sendType)}&selectedPro=${encodeURIComponent(selectedPro)}&proPhone=${proContact}&LOCATION=${encodeURIComponent(location)}&schedule=${encodeURIComponent(schedule)}&personCount=${encodeURIComponent(personCount)}`;
+            const paymentUrl =
+`https://rlaeodn1015-oss.github.io/ssnim-request-landing/pay.html` +
+`?requestId=${encodeURIComponent(requestId)}` +
+`&price=${encodeURIComponent(price)}` +
+`&name=${encodeURIComponent(name)}` +
+`&phone=${encodeURIComponent(contact)}` +
+`&type=${encodeURIComponent(sendType)}` +
+`&selectedPro=${encodeURIComponent(selectedPro)}` +
+`&proPhone=${encodeURIComponent(proContact)}` +
+`&LOCATION=${encodeURIComponent(lessonLocationValue)}` +
+`&schedule=${encodeURIComponent(schedule)}` +
+`&personCount=${encodeURIComponent(personCount)}` +
+`&club=${encodeURIComponent(club)}` +
+`&concern=${encodeURIComponent(note)}`;
             
             const payload = {
                 action: "createRequest", 
