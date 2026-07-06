@@ -102,7 +102,8 @@
                 </div>`;
             
             const reqId = params.get('requestId');
-            const paidAmt = params.get('price');
+            // 기존: const paidAmt = params.get('price');
+const paidAmt = params.get('price') || params.get('Price') || params.get('PRICE');
             const userName = params.get('name') || "고객";
             const userPhone = params.get('phone') || "";
             const lessonType = params.get('type') || "";
@@ -162,11 +163,16 @@
         }
 
         // --- [초기 페이지 로드 로직 기존 상태 100% 보존] ---
-        const priceParam = params.get('price') || "0";
-        rawPrice = parseInt(priceParam.replace(/[^0-9]/g, '')) || 0; 
-        name = params.get('name') || "고객님";
-        requestId = params.get('requestId') || "req_" + new Date().getTime();
-        globalProPhone = params.get('proPhone') || "";
+        const priceParam = params.get('price') || params.get('Price') || params.get('PRICE') || "0";
+rawPrice = parseInt(String(priceParam).replace(/[^0-9]/g, ''), 10) || 0;
+
+if (rawPrice <= 0) {
+    alert("결제 금액이 정상적으로 전달되지 않았습니다. 운영팀에 문의해주세요.");
+}
+
+name = params.get('name') || "고객님";
+requestId = params.get('requestId') || "req_" + new Date().getTime();
+globalProPhone = params.get('proPhone') || "";
         
         const lessonType = params.get('type') || "레슨";
         const isOneOnOne = lessonType.includes('1:1') || lessonType === '레슨' || lessonType === '1' || lessonType.trim() === '';
