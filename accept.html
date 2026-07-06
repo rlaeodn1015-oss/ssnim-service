@@ -179,7 +179,7 @@
             submitBtn.disabled = true;
 submitBtn.innerText = "처리 중... ⏳";
 
-const paymentUrl = `https://rlaeodn1015-oss.github.io/ssnim-request-landing/pay.html?requestId=${encodeURIComponent(requestId)}&price=${encodeURIComponent(price)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(contact)}&type=${encodeURIComponent(sendType)}&selectedPro=${encodeURIComponent(selectedPro)}&proPhone=${encodeURIComponent(proContact)}&LOCATION=${encodeURIComponent(location)}&schedule=${encodeURIComponent(schedule)}&personCount=${encodeURIComponent(personCount)}&club=${encodeURIComponent(club)}&concern=${encodeURIComponent(note)}`;
+const paymentUrl = `https://rlaeodn1015-oss.github.io/ssnim-service/pay.html?requestId=${encodeURIComponent(requestId)}&price=${encodeURIComponent(price)}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(contact)}&type=${encodeURIComponent(sendType)}&selectedPro=${encodeURIComponent(selectedPro)}&proPhone=${encodeURIComponent(proContact)}&LOCATION=${encodeURIComponent(location)}&schedule=${encodeURIComponent(schedule)}&personCount=${encodeURIComponent(personCount)}&club=${encodeURIComponent(club)}&concern=${encodeURIComponent(note)}`;
 
 const payload = {
     action: "createRequest", 
