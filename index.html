@@ -116,7 +116,7 @@
             <!-- JS에서 선택 버튼 생성 -->
         </div>
 
-        <div id="location-helper" class="hidden mt-4 bg-blue-50 border border-blue-100 rounded-2xl p-4">
+        <div id="location-helper" class="hidden mt-4 bg-blue-50 border border-blue-100 rounded-2xl p-4" aria-hidden="true">
             <div class="flex items-start gap-3">
                 <div class="w-9 h-9 rounded-full bg-white text-blue-600 flex items-center justify-center shrink-0 shadow-sm">
                     <i class="fa-solid fa-location-crosshairs"></i>
@@ -206,7 +206,7 @@
                     입력하신 지역과 골프 고민을 바탕으로 어울리는 스승님을 추천해드렸습니다.
                 </p>
 
-                <div class="mt-3">
+                <div id="results-location-helper" class="hidden mt-3" aria-hidden="true">
                     <button
                         id="btn-results-current-location"
                         type="button"
@@ -923,7 +923,7 @@ renderChoiceFlow: function() {
         location: {
             label: "STEP 2 / 3",
             title: "어느 지역이 편하세요?",
-            subtitle: "레슨을 받기 편한 지역을 선택해주세요.",
+            subtitle: "레슨받기 편한 지역을 선택해주세요. 추천 결과에서 각 프로의 실제 레슨 위치를 확인할 수 있습니다.",
             progress: "66%"
         },
         schedule: {
@@ -966,7 +966,10 @@ renderChoiceFlow: function() {
 
     const locationHelper = document.getElementById('location-helper');
     if (locationHelper) {
-        locationHelper.classList.toggle('hidden', step !== 'location');
+        // 현재 배포 버전에서는 위치 권한 요청 UI를 사용자에게 노출하지 않습니다.
+        // 관련 함수와 데이터 구조는 추후 재활성화를 위해 그대로 유지합니다.
+        locationHelper.classList.add('hidden');
+        locationHelper.setAttribute('aria-hidden', 'true');
     }
 
     const locationStatus = document.getElementById('location-status');
@@ -1802,10 +1805,7 @@ toggleDirectInput: function() {
 
     const desc = document.getElementById('result-desc');
     if (desc) {
-        const hasCurrentLocation = this.formData.userLat !== null && this.formData.userLng !== null;
-        desc.innerText = hasCurrentLocation
-            ? "입력한 고민과 지역 조건을 우선 적용하고, 좌표가 등록된 레슨장은 현재 위치 직선거리도 함께 보여드립니다."
-            : "먼저 요청해볼 만한 스승님을 기준으로 추천 순서를 정리했습니다.";
+        desc.innerText = "입력한 고민과 선택한 지역을 기준으로 먼저 요청해볼 만한 스승님을 정리했습니다.";
     }
 
     this.navigate('results');
@@ -2089,17 +2089,24 @@ toggleDirectInput: function() {
                         </p>
                     ` : ''}
 
-                    ${d.hasExactMapLocation ? `
-                        <div class="flex flex-wrap gap-1.5 mt-2">
-                            <button type="button" onclick="event.stopPropagation(); app.openNaverMap(${selected.id});" class="inline-flex items-center gap-1 text-[9px] font-black text-blue-600 bg-white border border-blue-100 px-2 py-1.5 rounded-lg active:scale-95 transition-all">
-                                <i class="fa-solid fa-map-location-dot"></i>네이버지도
-                            </button>
-                            <button type="button" onclick="event.stopPropagation(); app.openNaverRoute(${selected.id});" class="inline-flex items-center gap-1 text-[9px] font-black text-white bg-blue-600 border border-blue-600 px-2 py-1.5 rounded-lg active:scale-95 transition-all">
-                                <i class="fa-solid fa-route"></i>${d.hasCoordinates ? '현재 위치 길찾기' : '길찾기 열기'}
-                            </button>
-                        </div>
-                        ${!d.hasCoordinates ? `<p class="text-[8px] font-bold text-slate-400 mt-1.5 leading-relaxed">주소 검색 후 네이버지도에서 길찾기를 선택해주세요.</p>` : ''}
-                    ` : `<p class="text-[9px] font-bold text-slate-400 mt-2 leading-relaxed">정확한 기준 레슨장 확인 후 지도와 길찾기가 제공됩니다.</p>`}
+                    ${d.hasExactMapLocation ? (
+                        d.hasCoordinates ? `
+                            <div class="flex flex-wrap gap-1.5 mt-2">
+                                <button type="button" onclick="event.stopPropagation(); app.openNaverMap(${selected.id});" class="inline-flex items-center gap-1 text-[9px] font-black text-blue-600 bg-white border border-blue-100 px-2 py-1.5 rounded-lg active:scale-95 transition-all">
+                                    <i class="fa-solid fa-map-location-dot"></i>네이버지도
+                                </button>
+                                <button type="button" onclick="event.stopPropagation(); app.openNaverRoute(${selected.id});" class="inline-flex items-center gap-1 text-[9px] font-black text-white bg-blue-600 border border-blue-600 px-2 py-1.5 rounded-lg active:scale-95 transition-all">
+                                    <i class="fa-solid fa-route"></i>현재 위치에서 길찾기
+                                </button>
+                            </div>
+                        ` : `
+                            <div class="flex flex-wrap gap-1.5 mt-2">
+                                <button type="button" onclick="event.stopPropagation(); app.openNaverMap(${selected.id});" class="inline-flex items-center gap-1 text-[9px] font-black text-blue-600 bg-white border border-blue-100 px-2 py-1.5 rounded-lg active:scale-95 transition-all">
+                                    <i class="fa-solid fa-map-location-dot"></i>네이버지도에서 위치 확인
+                                </button>
+                            </div>
+                        `
+                    ) : `<p class="text-[9px] font-bold text-slate-400 mt-2 leading-relaxed">레슨 장소는 프로가 최종 안내합니다.</p>`}
                 </div>
 
                 <div class="bg-slate-50 rounded-2xl p-3">
@@ -2180,22 +2187,18 @@ toggleDirectInput: function() {
         ctaButton.innerText = '원하는 체험가 제안하기';
     }
 
-    const hasCurrentLocation =
-        this.formData.userLat !== null &&
-        this.formData.userLng !== null;
-
     const resultsLocationButton = document.getElementById('btn-results-current-location');
     const resultsLocationStatus = document.getElementById('results-location-status');
+    const resultsLocationHelper = document.getElementById('results-location-helper');
 
-    if (resultsLocationButton && hasCurrentLocation) {
-        resultsLocationButton.innerHTML = '<i class="fa-solid fa-circle-check"></i> 현재 위치 적용 완료';
+    // 현재 배포 버전에서는 위치 권한 요청 UI를 노출하지 않습니다.
+    // 위치 관련 함수는 추후 재활성화를 위해 그대로 유지합니다.
+    if (resultsLocationHelper) {
+        resultsLocationHelper.classList.add('hidden');
+        resultsLocationHelper.setAttribute('aria-hidden', 'true');
     }
-
-    if (resultsLocationStatus && hasCurrentLocation) {
-        resultsLocationStatus.classList.remove('hidden', 'text-slate-400', 'text-rose-500');
-        resultsLocationStatus.classList.add('text-blue-600');
-        resultsLocationStatus.innerText = '좌표가 등록된 레슨장은 현재 위치 직선거리가 함께 표시됩니다.';
-    }
+    if (resultsLocationButton) resultsLocationButton.disabled = true;
+    if (resultsLocationStatus) resultsLocationStatus.classList.add('hidden');
 },
 
             selectPro: function(id) {
