@@ -115,6 +115,38 @@
         <div id="flow-options" class="grid grid-cols-1 gap-2">
             <!-- JS에서 선택 버튼 생성 -->
         </div>
+
+        <div id="location-helper" class="hidden mt-4 bg-blue-50 border border-blue-100 rounded-2xl p-4">
+            <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-full bg-white text-blue-600 flex items-center justify-center shrink-0 shadow-sm">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-black text-slate-900">
+                        현재 위치와 가까운 스승님도 확인해보세요
+                    </p>
+
+                    <p class="text-[11px] font-bold text-slate-500 mt-1 leading-relaxed">
+                        선택 사항입니다. 허용하면 좌표가 등록된 레슨장까지의 직선거리를 함께 보여드립니다.
+                    </p>
+
+                    <button
+                        id="btn-use-current-location"
+                        type="button"
+                        onclick="app.useCurrentLocation()"
+                        class="mt-3 w-full bg-white border border-blue-200 text-blue-600 rounded-xl py-3 text-xs font-black active:scale-[0.98] transition-all"
+                    >
+                        <i class="fa-solid fa-location-arrow mr-1"></i>
+                        현재 위치 사용하기
+                    </button>
+
+                    <p id="location-status" class="text-[10px] font-bold text-slate-400 mt-2 leading-relaxed">
+                        위치 정보는 브라우저 안에서 거리 계산에만 사용되며 신청 데이터에는 전송하지 않습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 선택 요약 -->
@@ -482,41 +514,7 @@
     };
 };
 
-        const pros = [
-            { id: 1, name: "곽시랑 스승", phone: "01082243434", lessonTypes: ["18홀 필드레슨", "파3 레슨", "숏게임레슨", "1:1 레슨"], activeLocations: ["강남", "서초", "대치", "도곡", "개포", "삼성", "역삼", "선릉", "압구정", "신사", "논현"], specialties: ["슬라이스 교정", "구질 교정", "드라이버 정확도", "비거리 증가"], price: 100000, rating: 5.0, review: 142, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260327_165459882.png", intro: "KLPGA 정회원, 초보 슬라이스 및 깎여 맞는 스윙 교정 전문", career: "KLPGA 정회원 7년", lessonCount: 1300, priceRange: "10~12만원", reviewHighlight: "한 달 만에 슬라이스 완쾌", reasons: ["초보 골퍼의 터지는 슬라이스 구질 즉시 교정", "직관적인 1:1 스윙 상하체 회전 타이밍 피드백", "강남권 실전 원포인트 매칭 및 교습 경험 다수"], tags: ["슬라이스 교정", "드라이버 방향성", "필드 레슨"], stats: [85, 80, 75, 90, 85] },
-            { id: 2, name: "조이현 스승", phone: "01056323190", lessonTypes: ["1:1 레슨", "숏게임레슨", "9홀 레슨"], activeLocations: ["송파", "강남", "분당", "용인", "잠실", "문정", "판교", "정자"], specialties: ["비거리 증가", "롱아이언", "스윙 궤도", "초보 레슨"], price: 130000, rating: 4.9, review: 89, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/JYH.jpg", intro: "여성 골퍼 체형 맞춤형 바디턴 스윙 및 비거리 향상 전문", career: "KPGA 투어 프로 5년", lessonCount: 450, priceRange: "13~15만원", reviewHighlight: "비거리 30m 실질적 향상", reasons: ["여성 골퍼 특화 정타율 개선 프로그램 운영", "근력에 맞춘 무리 없는 바디턴 스윙 리듬 전수", "아이언 컨택 일관성 향상 및 백돌이 탈출 타겟 레슨"], tags: ["비거리 증가", "롱아이언", "초보 레슨"], stats: [80, 95, 70, 85, 80] },
-            { id: 3, name: "서수연 스승", phone: "01094856241", lessonTypes: ["숏게임레슨", "파3 레슨", "1:1 레슨"], activeLocations: ["분당", "강남", "서초", "판교", "정자", "양재", "도곡"], specialties: ["실전 숏게임", "어프로치 거리감", "퍼팅 거리감", "생크 교정", "슬라이스 교정", "초보 레슨"], price: 150000, rating: 5.0, review: 215, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260309_200933587.jpg", intro: "그린 주변 어프로치 입스 극복 및 퍼터 정밀 교습 전문가", career: "숏게임 전문 스승님, 후기 다수 보유", lessonCount: 880, priceRange: "12~14만원", reviewHighlight: "퍼팅 수 평균 8개 감소", reasons: ["30m 이내 웨지 거리감 세팅 및 뒤땅 방지 교정", "그린 에이밍 정렬 오류 조율 및 쓰리퍼트 방지 루틴", "파3 골프장 현장 동반 숏게임 밀착 교습"], tags: ["어프로치 거리감", "퍼팅 거리감", "생크 교정", "초보 레슨"], stats: [90, 60, 100, 80, 95] },
-            { id: 4, name: "석준형 스승", phone: "01054263433", lessonTypes: ["1:1 레슨", "18홀 필드레슨"], activeLocations: ["강남", "서초", "삼성", "역삼", "선릉"], specialties: ["비거리 증가", "드라이버 정확도", "우드/유틸 활용", "장타", "상급자 레슨"], price: 250000, rating: 5.0, review: 95, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/SJH.png", intro: "현역 GTOUR 대회 선수, 스윙 스피드 최적화 비거리 전문", career: "현역 GTOUR 선수", lessonCount: 850, priceRange: "20~30만원", reviewHighlight: "드라이버 비거리 270m 달성", reasons: ["현역 프로가 직접 진단하는 헤드 스피드 정체 해결", "다운스윙 시 올바른 하체 리드와 체중 이동 피드백", "싱글 진입을 목표로 하는 상급자용 구질 제어 솔루션"], tags: ["비거리 증가", "드라이버 정확도", "체중이동"], stats: [85, 100, 75, 90, 85] },
-            { id: 5, name: "홍주연 스승", phone: "01033969628", lessonTypes: ["1:1 레슨", "숏게임레슨"], activeLocations: ["강남", "서초", "압구정", "신사", "청담"], specialties: ["숏아이언", "비거리 증가", "스윙 궤도", "배치기 교정", "초보 레슨", "키즈 골프"], price: 150000, rating: 4.9, review: 178, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/HJY.png", intro: "예쁜 스윙 궤도 형성 및 배치기 습관 교정 전문", career: "11년 투어생활, 골프유튜버", lessonCount: 370, priceRange: "15~20만원", reviewHighlight: "인생에서 가장 예쁜 스윙", reasons: ["어드레스 자세 유지를 통한 정교한 아이언 임팩트 개선", "부상을 방지하고 몸에 힘을 빼는 바디턴 스윙 구축", "골프 입문자를 위한 그립부터 풀스윙 단계별 교습"], tags: ["초보 레슨", "스윙 궤도", "자세 교정"], stats: [95, 70, 80, 95, 85] },
-            { id: 6, name: "양형철 스승", phone: "01093996255", lessonTypes: ["18홀 필드레슨", "9홀 레슨", "숏게임레슨"], activeLocations: ["강남", "서초", "반포", "방배", "잠원"], specialties: ["필드 레슨", "코스 매니지먼트", "상급자_레슨", "실전 숏게임"], price: 170000, rating: 5.0, review: 56, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YHC.png", intro: "전 KPGA 투어 프로, 실전 라운딩 코스 매니지먼트 전문", career: "전 KPGA 투어 프로", lessonCount: 230, priceRange: "15~20만원", reviewHighlight: "생애 첫 싱글 기록 성공", reasons: ["실전 필드 경사면 라이별 클럽 선택 및 컨택 요령", "티샷 OB 방지를 위한 에이밍 정렬 및 코스 공략법", "미스 샷 발생 시 타수를 방어하는 실전 위기대응 루틴"], tags: ["필드 레슨", "코스 매니지먼트", "실전 루틴"], stats: [85, 80, 90, 85, 100] },
-            { id: 7, name: "조동요 스승", phone: "01026578395", lessonTypes: ["1:1 레슨", "숏게임레슨", "파3 레슨"], activeLocations: ["서초", "강남", "교대", "방배"], specialties: ["초보 레슨", "드라이버 정확도", "비거리 증가", "슬라이스 교정", "실전 숏게임"], price: 250000, rating: 4.8, review: 120, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/JDY.png", intro: "구독자 13만 골프 크리에이터, 쉽고 직관적인 눈높이 교습", career: "유튜브 구독자 13만명", lessonCount: 2500, priceRange: "25~30만원", reviewHighlight: "눈높이 골프레슨의 최강자", reasons: ["어려운 용어 없는 직관적인 신체 감각 중심 설명", "스윙 핵심 문제점 파악 및 즉각적인 원포인트 피드백", "독학 골퍼들이 놓치기 쉬운 잘못된 스윙 패턴 정형화"], tags: ["드라이버 방향성", "슬라이스 교정", "비거리 증가"], stats: [85, 85, 80, 90, 90] },
-            { id: 8, name: "공나연 스승", phone: "01036012385", lessonTypes: ["1:1 레슨", "캠프 레슨"], activeLocations: ["송파", "강남", "잠실", "신천", "방이"], specialties: ["드라이버 정확도", "템포/리듬", "자세 교정", "숏아이언", "롱아이언", "스윙 궤도"], price: 180000, rating: 4.7, review: 88, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KNY.jpg", intro: "KLPGA 프로, 아이언 정타 확률 및 방향성 제어 전문", career: "KLPGA 정회원", lessonCount: 490, priceRange: "16~20만원", reviewHighlight: "아이언 정타 확률 80% 향상", reasons: ["정확한 임팩트 타이밍 교정을 통한 정타율 증가", "롱아이언 탄도 저하 및 우측 밀림 현상 즉각 해결", "일관성 있는 아이언 샷을 위한 스윙 궤도 정립"], tags: ["아이언 정확도", "임팩트 교정", "스윙 궤도"], stats: [95, 75, 80, 90, 85] },
-            { id: 9, name: "이원영 스승", phone: "01075397997", lessonTypes: ["1:1 레슨", "숏게임레슨", "9홀 레슨"], activeLocations: ["강남", "분당", "용인", "수지", "죽전", "기흥", "판교", "정자"], specialties: ["우드/유틸 활용", "비거리 증가", "초보 레슨"], price: 150000, rating: 4.9, review: 154, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/lwy.webp", intro: "KLPGA 프로, 다루기 어려운 페어웨이 우드 및 유틸리티 특화 교습", career: "KLPGA 정회원", lessonCount: 2200, priceRange: "15~20만원", reviewHighlight: "우드가 드라이버만큼 쉬워짐", reasons: ["우드와 유틸리티의 깔끔한 쓸어치기 타격 각도 세팅", "지면 타격 실패로 인한 탑볼 및 헤드업 현상 교정", "여성 초보 골퍼 대상 클럽별 기초 스윙 궤도 정립"], tags: ["비거리 증가", "초보 레슨", "우드/유틸리티 활용"], stats: [85, 85, 75, 90, 85] },
-            { id: 10, name: "유민혁 스승", phone: "01083924008", lessonTypes: ["1:1 레슨", "원포인트"], activeLocations: ["서초", "강남", "양재", "개포", "도곡"], specialties: ["생크 교정", "슬라이스 교정", "드라이버 정확도", "비거리 증가", "구질 교정"], price: 70000, rating: 5.0, review: 422, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YMH.png", intro: "고질적인 생크 현상 및 갑작스러운 스윙 붕괴 해결 전문", career: "스윙 분석 전문가", lessonCount: 120, priceRange: "7~10만원", reviewHighlight: "단 한 번의 레슨으로 problem 교정", reasons: ["갑자기 발생하는 생크 현상 원인 즉각 진단 및 해결", "손목 풀림으로 발생하는 리딩에지 타격 문제 교정", "부담 없는 가성비 1회 집중 원포인트 세션 진행"], tags: ["생크 교정", "슬라이스 교정", "임팩트 교정"], stats: [95, 80, 80, 85, 90] },
-            { id: 11, name: "강도윤 스승", phone: "01077587383", lessonTypes: ["1:1 레슨", "18홀 필드레슨", "숏게임레슨"], activeLocations: ["강남", "분당", "용인", "수지", "죽전", "판교"], specialties: ["비거리 증가", "롱아이언", "드라이버 정확도", "실전 숏게임", "상급자 레슨"], price: 150000, rating: 5.0, review: 73, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kdy.webp", intro: "KPGA 투어프로, 세컨샷 정확도 향상 및 아이언 거리감 교정", career: "KPGA 투어프로 정회원", lessonCount: 195, priceRange: "15~20만원", reviewHighlight: "투 온에 자신감을 붙이는 레슨", reasons: ["백스윙 탑 오류 교정을 통한 일관된 정타 타이밍 확보", "페어웨이 우드 및 유틸리티 세컨 샷 안착률 증가 트레이닝", "실전 필드 동반을 통한 코스 공략 실시간 피드백"], tags: ["비거리 증가", "롱아이언", "드라이버 정확도"], stats: [90, 85, 85, 85, 90] },
-            { id: 12, name: "김지영 스승", phone: "01071595448", lessonTypes: ["1:1 레슨", "초보레슨"], activeLocations: ["강남", "분당", "판교", "서현", "정자"], specialties: ["초보 레슨", "퍼팅 방향성", "드라이버 정확도", "자세 교정", "비거리 증가"], price: 150000, rating: 4.7, review: 143, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KTY.png", intro: "골프 입문 3개월 이내 골린이 맞춤 풀스윙 형성 전문가", career: "초보 및 자세교정 전문 스승", lessonCount: 354, priceRange: "15~20만원", reviewHighlight: "소통을 중시하며 디테일한 레슨", reasons: ["기초 어드레스부터 하체 리드 풀스윙까지 단계별 교습", "신체 조건에 맞춘 정석적인 스윙 궤도 형성 및 자세 교정", "입문 골퍼의 부상 방지를 위한 바디 메커니즘 가이드"], tags: ["초보 레슨", "자세 교정", "퍼팅 방향성"], stats: [85, 75, 80, 95, 85] },
-            { id: 13, name: "이상준 스승", phone: "01041900478", lessonTypes: ["1:1 레슨", "초보레슨", "숏게임레슨"], activeLocations: ["강남", "송파", "잠실", "신천", "삼성", "역삼"], specialties: ["초보 레슨", "우드/유틸 활용", "드라이버 정확도", "실전 스코어 감소"], price: 130000, rating: 5.0, review: 422, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/LSJ.png", intro: "직관적이고 쉬운 이미지 기법을 활용한 백돌이 탈출 전문", career: "유튜브 운영 및 레슨 프로", lessonCount: 691, priceRange: "15~20만원", reviewHighlight: "감각을 중시하며 직관적이고 진지한 레슨", reasons: ["엎어치는 스윙을 고쳐 자연스러운 드로우 구질로 수정", "드라이버 헤드 무게를 느끼게 하는 손목 풀림 현상 교정", "100타 및 90타대 정체 구간 돌파를 위한 실전 원포인트"], tags: ["초보 레슨", "드라이버 비거리", "우드/유틸 활용"], stats: [85, 80, 80, 85, 95] },
-            { id: 14, name: "권두욱 스승", phone: "01040134484", lessonTypes: ["숏게임레슨", "파3 레슨", "1:1 레슨"], activeLocations: ["강남", "서초", "양재", "개포", "반포", "방배"], specialties: ["실전 숏게임", "퍼팅 방향성", "드라이버 정확도", "어프로치 거리감", "에임포인트"], price: 80000, rating: 4.8, review: 122, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KDW.jpg", intro: "유명 퍼팅 아카데미 정식 수료, 그린 주변 전문 스승님", career: "퍼팅 및 숏게임 인증 프로", lessonCount: 691, priceRange: "8~20만원", reviewHighlight: "이론과 실전을 병행하며 디테일하고 꼼꼼한 레슨", reasons: ["그린 경사 정밀 판별 및 일관된 스트로크 정렬 교정", "퍼터 페이스 각도 수정을 통한 퍼팅 방향성 개선", "핀에 바로 붙이는 실전 어프로치 및 웨지 샷 조율"], tags: ["어프로치 거리감", "퍼팅 라인 읽기", "실전 스코어"], stats: [90, 65, 100, 80, 95] },
-            { id: 15, name: "이근협 스승", phone: "01050278421", lessonTypes: ["1:1 레슨", "18홀 필드레슨"], activeLocations: ["분당", "수원", "영통", "광교", "판교", "정자"], specialties: ["드라이버 정확도", "비거리 증가", "바디스윙", "임팩트 교정"], price: 120000, rating: 4.5, review: 243, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/LGH.webp", intro: "KPGA 정회원, 투어 출전 경험 기반 바디스윙 및 정타 전문", career: "KPGA CLASS A 정회원, 코리안투어 출전 경험", lessonCount: 191, priceRange: "12~20만원", reviewHighlight: "분석을 중심으로 열정적인 스타일로 원하는 비거리를 만들어드립니다", reasons: ["투어 경험 기반 실전형 상하체 체중이동 타이밍 분석", "팔로만 치는 스윙을 교정하여 묵직한 몸통 회전 스윙 안착", "드라이버 정타 확률 증가를 위한 어드레스 자세 교정"], tags: ["드라이버 정확도", "비거리 증가", "임팩트 교정"], stats: [85, 90, 75, 85, 85] },
-            { id: 16, name: "강소율 스승", phone: "01099348472", lessonTypes: ["1:1 레슨", "파3 레슨", "숏게임 레슨"], activeLocations: ["분당", "용인", "판교", "정자", "수지"], specialties: ["드라이버 정확도", "롱아이언", "비거리 증가", "임팩트 교정"], price: 350000, rating: 4.5, review: 124, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ksy.png", intro: "KLPGA 정규투어 3승 챔피언, 프리미엄 하이엔드 1:1 교습", career: "정규투어 멤버, 투어 통산 3승, 뉴질랜드 전국체전 금메달", lessonCount: 506, priceRange: "35~50만원", reviewHighlight: "레슨비는 비싸지만 확실한 레슨 효과로 100%만족", reasons: ["정규투어 우승 경험 기반 실전 구질 컨트롤 노하우 전수", "상급자 및 싱글 지향 골퍼를 위한 정밀 스윙 궤도 미세 조정", "체형 조건별 힘 손실을 유발하는 지점 원포인트 스캔"], tags: ["드라이버 정확도", "롱아이언", "비거리 증가", "슬라이스 교정"], stats: [95, 90, 85, 95, 100] },
-            { id: 17, name: "권민규 스승", phone: "01093377132", lessonTypes: ["1:1 레슨", "숏게임 레슨", "파3 레슨"], activeLocations: ["강남", "서초", "교대", "대치", "선릉", "삼성"], specialties: ["비거리 증가", "슬라이스 교정"], price: 180000, rating: 5.0, review: 58, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kmg.jpg", intro: "KPGA 프로, 정교한 드라이버 방향성 교정 및 구질 최적화 전문가", career: "KPGA 프로, 미국 투어 활동 및 다수 대회 입상", lessonCount: 110, priceRange: "18~40만원", reviewHighlight: "매의 눈으로 스윙의 기본적인 문제점을 확실하게 교정해주십니다", reasons: ["티샷 미스 훅 and 슬라이스를 방지하는 그립 및 손목 각도 교정", "해외 투어 무대 경험 기반의 정교한 다운스윙 타이밍 매칭", "아이언 컨택 일관성 확보 및 코어 회전을 이용한 장타 유도"], tags: ["슬라이스 교정", "비거리 증가", "드라이버 정확도"], stats: [90, 95, 80, 85, 90] },
-            { id: 18, name: "허민형 스승", phone: "01020601838", lessonTypes: ["1:1 레슨", "숏게임레슨", "18홀 필드레슨"], activeLocations: ["서초", "교대", "방배", "반포", "강남"], specialties: ["슬라이스 교정", "비거리 증가", "실전 숏게임", "자세 교정"], price: 130000, rating: 4.9, review: 39, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/hmh.webp", intro: "KPGA 프로, 체형 맞춤형 스윙 디자인 및 실전 숏게임 전문", career: "KPGA 프로, 15년 레슨 경력, 테일러메이드 인증 교습가", lessonCount: 280, priceRange: "11~13만원", reviewHighlight: "체형에 맞는 스윙 궤도 안착", reasons: ["골퍼 개인별 신체 조건에 맞춘 스윙 자세 교정", "드라이버 슬라이스 교정 및 비거리 증가 피드백", "필드와 숏게임 현장에서 즉각적인 타수 줄이기 솔루션"], tags: ["자세 교정", "슬라이스 교정", "숏게임 레슨"], stats: [85, 85, 90, 90, 85] },
-            { id: 19, name: "강희진 스승", phone: "01050622964", lessonTypes: ["1:1 레슨"], activeLocations: ["역삼", "삼성", "선릉", "강남역", "강남"], specialties: ["드라이버 정확도", "초보 레슨", "체중이동", "슬라이스 교정"], price: 70000, rating: 4.9, review: 114, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/khj.webp", intro: "KPGA CLASS A, 스포츠의학 석사 기반 신체 맞춤 스윙 교정 전문", career: "KPGA CLASS A 정회원, 스포츠의학 석사, BMW 차이나 오픈 7위", lessonCount: 361, priceRange: "5~7만원", reviewHighlight: "몸 안 아프고 정교한 스윙 안착", reasons: ["스포츠의학 기반 부상 없는 체중이동 및 스윙 자세 교정", "드라이버 슬라이스 및 배치기 습관 즉각 원인 진단", "입문 골퍼와 주니어를 위한 단계별 체계적 커리큘럼 교습"], tags: ["초보 레슨", "체중이동", "슬라이스 교정"], stats: [90, 80, 75, 95, 85] },
-            { id: 20, name: "김숙정 스승", phone: "01033559555", lessonTypes: ["1:1 레슨", "숏게임레슨"], activeLocations: ["도곡", "대치", "개포", "강남"], specialties: ["바디스윙", "체중이동", "훅 교정", "오버스윙"], price: 150000, rating: 4.9, review: 92, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ksj.webp", intro: "KLPGA 프로, 국가대표 상비군 출신의 하체 리드 바디스윙 전문", career: "KLPGA 정회원, 육상 세단뛰기 국가대표 상비군, 트레이너 경력", lessonCount: 160, priceRange: "12~15만원", reviewHighlight: "유쾌하고 간결한 스윙 교정", reasons: ["육상 상비군 출신의 정교한 지면 활용 체중이동 피드백", "드라이버 오버스윙 및 악성 훅 구질 즉시 교정", "팔로만 치는 스윙을 고쳐 타수를 줄이는 몸통 회전 안착"], tags: ["체중이동", "훅 교정", "자세 교정"], stats: [85, 90, 75, 85, 90] },
-            { id: 21, name: "김혜연 스승", phone: "01056993889", lessonTypes: ["1:1 레슨"], activeLocations: ["신사", "압구정", "청담", "강남"], specialties: ["롱아이언", "바디스윙", "비거리 증가", "자세 교정"], price: 130000, rating: 4.9, review: 78, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/khy.webp", intro: "KLPGA 프로, 점프투어 상위 입상 기반 통증 없는 바디스윙 전문", career: "KLPGA 정회원, 점프투어 4위/8위 입상, 더프라자 전속 레슨", lessonCount: 95, priceRange: "12~13만원", reviewHighlight: "일관된 실전 스윙 루틴 확립", reasons: ["골퍼 개인별 체형에 맞춘 부상 없는 풀스윙 궤도 형성", "롱아이언 컨택 실패 및 손목 풀림 현상 집중 교정", "몸통 회전을 이용한 하체 리드 중심의 비거리 증가 솔루션"], tags: ["롱아이언", "비거리 증가", "자세 교정"], stats: [85, 85, 80, 90, 90] },
-            { id: 22, name: "김도한 스승", phone: "01040239665", lessonTypes: ["1:1 레슨"], activeLocations: ["신사", "압구정", "청담", "강남"], specialties: ["롱아이언", "생크 교정", "비거리 증가", "슬라이스 교정"], price: 60000, rating: 4.8, review: 14, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kdh.webp", intro: "KPGA 프로, 롱아이언 컨택 정타 및 고질적 생크 즉시 교정", career: "KPGA 정회원 자격 인증, 신사권 인도어 및 스튜디오 레슨", lessonCount: 70, priceRange: "5~6만원", reviewHighlight: "답답했던 롱아이언 정타율 개선", reasons: ["다루기 힘든 롱아이언의 일관된 진입 궤도 및 컨택 집중 조율", "갑자기 터지는 악성 생크와 드라이버 슬라이스 원인 즉각 해결", "이론과 실전을 연계한 빠르고 체계적인 스윙 자세 교정"], tags: ["롱아이언", "생크 교정", "슬라이스 교정"], stats: [90, 80, 75, 85, 85] },
-            { id: 23, name: "박민성 스승", phone: "01038672441", lessonTypes: ["1:1 레슨"], activeLocations: ["역삼", "삼성", "선릉", "강남역", "강남"], specialties: ["우드/유틸 활용", "자세 교정", "오버스윙", "배치기 교정"], price: 100000, rating: 4.9, review: 64, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/pms.webp", intro: "KGF 투어프로, 역삼 대형 스튜디오 수석 프로 출신의 스윙 교정 전문가", career: "KGF 한국골프연맹 정회원 투어프로, KPGA 챌린지 투어 활동, 현 티랩골프 수석 프로", lessonCount: 189, priceRange: "5~10만원", reviewHighlight: "오버스윙 및 배치기 습관 교정", reasons: ["임팩트 순간 타구가 뜨는 배치기 및 탑핑 현상 즉시 교정", "백스윙 탑에서 축이 무너지는 오버스윙 구간 제어", "드라이버와 다루기 힘든 페어웨이 우드 정타율 증가 솔루션"], tags: ["우드/유틸 활용", "자세 교정", "초보 레슨"], stats: [85, 80, 80, 95, 90] },
-            { id: 24, name: "김형준 스승", phone: "01046210766", lessonTypes: ["1:1 레슨"], activeLocations: ["수지", "죽전", "기흥", "용인"], specialties: ["드라이버 정확도", "초보 레슨", "비거리 증가", "슬라이스 교정"], price: 60000, rating: 4.9, review: 72, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/khj1.webp", intro: "KPGA 투어프로, 코리안투어 출전 경험 기반 드라이버 및 정타 전문", career: "KPGA 정회원 투어프로, 챌린지투어 준우승, 코리안투어 출전", lessonCount: 221, priceRange: "5~6만원", reviewHighlight: "답답했던 뒤땅, 탑볼 미스 해결", reasons: ["헤드가 밀려 맞아 발생하는 드라이버 슬라이스 궤도 수정", "아이언 임팩트 순간 일어나는 뒤땅 및 탑핑 현상 즉시 교정", "골프 입문자의 기초 스윙 아크 형성을 위한 실전 원포인트"], tags: ["드라이버 정확도", "초보 레슨", "임팩트 교정"], stats: [90, 85, 80, 85, 90] },
-            { id: 25, name: "정우진 스승", phone: "01086668619", lessonTypes: ["1:1 레슨", "숏게임레슨", "파3 레슨", "18홀 필드레슨"], activeLocations: ["강남", "서초", "분당", "용인"], specialties: ["트러블샷", "드라이버 정확도", "비거리 증가", "배치기 교정"], price: 120000, rating: 5.0, review: 105, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/jwj.webp", intro: "국가대표 상비군 출신, DP월드투어 및 한국오픈 출전 실전 타수 관리 전문", career: "국가대표 상비군, 중국 투어 우승, DP월드투어 및 코오롱 한국오픈 출전", lessonCount: 244, priceRange: "11~12만원", reviewHighlight: "필드 트러블샷 및 미스샷 즉시 해결", reasons: ["국가대표 상비군 출신의 코스 라이별 실전 트러블샷 요령 전수", "해드가 열려 맞거나 밀려 나가는 드라이버 슬라이스 교정", "타구가 뜨고 정타가 안 나는 배치기 및 뒤땅 현상 원인 해결"], tags: ["필드 레슨", "비거리 증가", "임팩트 교정"], stats: [90, 95, 95, 85, 95] },
-            { id: 26, name: "소민수 스승", phone: "01080609497", lessonTypes: ["1:1 레슨"], activeLocations: ["대치", "도곡", "개포", "강남"], specialties: ["비거리 증가", "슬라이스 교정", "캐스팅", "뒤땅/탑볼"], price: 180000, rating: 4.9, review: 258, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/sms.webp", intro: "18년 교습 경력, 다른 곳에서 고치지 못한 고질적인 스윙 오류 교정 전문", career: "PGA 프로 자격 인증, 18년 레슨 경력, 입문부터 싱글까지 다수 배출", lessonCount: 420, priceRange: "16~18만원", reviewHighlight: "오래된 안 좋은 스윙 습관 교정", reasons: ["18년 베테랑의 안 고쳐지는 고질적인 백스윙 및 다운스윙 원인 분석", "드라이버 슬라이스 교정 및 손목 풀림 현상 즉각 해결", "웨지 샷 뒤땅 방지 및 퍼팅 정렬 오류 집중 조율"], tags: ["자세 교정", "슬라이스 교정", "비거리 증가"], stats: [85, 85, 90, 95, 95] },
-            { id: 27, name: "김민성 스승", phone: "01057380816", lessonTypes: ["1:1 레슨"], activeLocations: ["송파", "잠실", "문정", "강남"], specialties: ["드라이버 정확도", "우드/유틸 활용", "체중이동", "슬라이스 교정"], price: 60000, rating: 4.9, review: 128, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kms.webp", intro: "KPGA 투어프로, 나이키 장타대회 우승 출신의 비거리 및 구질 교정 전문", career: "KPGA 정회원 투어프로, 나이키골프 코리아 장타대회 우승, 넥스트 오픈 우승", lessonCount: 210, priceRange: "6만원", reviewHighlight: "체중이동 오류 및 배치기 습관 교정", reasons: ["장타대회 우승 노하우 기반 올바른 하체 체중이동 시퀀스 전수", "헤드가 밀려 맞아 발생하는 드라이버 슬라이스 및 훅 구질 해결", "임팩트 순간 몸이 일어서는 배치기 현상 원인 차단"], tags: ["비거리 증가", "체중이동", "슬라이스 교정"], stats: [90, 100, 75, 85, 90] },
-            { id: 28, name: "이준우 스승", phone: "01086965977", lessonTypes: ["1:1 레슨"], activeLocations: ["청담", "압구정", "신사", "강남"], specialties: ["자세 교정", "오버스윙", "캐스팅", "배치기 교정"], price: 150000, rating: 4.7, review: 28, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ljw.webp", intro: "USGTF 티칭프로, 신체 조건 맞춤 스윙 자세 및 오버스윙 교정 전문", career: "USGTF 티칭프로 자격 인증, 최초 1회 무료 원포인트 이벤트 진행 중", lessonCount: 61, priceRange: "첫회무료 / 15만원", reviewHighlight: "부담 없는 첫 회 무료 테스트 레슨 만족", reasons: ["플랫폼 한정 최초 1회 무료 세션을 통한 스윙 성향 정밀 진단", "백스윙 탑에서 축이 무너지는 오버스윙 구간 제어", "임팩트 시 몸이 일어서는 배치기 현상 신체 맞춤형 피드백"], tags: ["자세 교정", "초보 레슨", "우드/유틸 활용"], stats: [80, 75, 75, 90, 85] },
-            { id: 29, name: "강예빈 스승", phone: "01083590533", lessonTypes: ["1:1 레슨", "숏게임레슨", "파3 레슨"], activeLocations: ["잠실", "송파", "문정", "강남"], specialties: ["바디스윙", "오버스윙", "체중이동", "슬라이스 교정"], price: 50000, rating: 4.8, review: 52, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kyb.webp", intro: "USGTF 티칭프로, 주니어 및 입문 골퍼 대상 스윙 자세 교정 전문", career: "USGTF 티칭프로 자격 인증, 최초 1회 체험 3만원 이벤트 진행", lessonCount: 680, priceRange: "3~5만원", reviewHighlight: "입문 골퍼 눈높이에 맞춘 쉬운 레슨", reasons: ["골린이 및 주니어 골퍼를 위한 단계별 스윙 아크 정립", "백스윙 탑 축이 흔들리는 오버스윙 및 체중이동 오류 교정", "그린 주변 웨지 샷 조율 및 외부 실전 필드 매칭"], tags: ["초보 레슨", "자세 교정", "체중이동"], stats: [85, 75, 85, 90, 85] },
-            { id: 30, name: "안병현 스승", phone: "01066421234", lessonTypes: ["1:1 레슨", "숏게임레슨"], activeLocations: ["분당", "판교", "정자", "용인"], specialties: ["생크 교정", "뒤땅/탑볼", "실전 숏게임", "퍼팅 방향성"], price: 150000, rating: 4.9, review: 86, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/abh.webp", intro: "티칭프로, 퍼팅 아카데미 지도자 출신의 숏게임 및 타수 관리 전문", career: "티칭프로 자격 인증, 팀글로리어스 골프퍼포먼스 지도자과정 수료", lessonCount: 1400, priceRange: "14~15만원", reviewHighlight: "그린 주변 웨지 샷 및 퍼팅 실전 감각 개선", reasons: ["그린 주변 웨지 터치 정밀 수정을 통한 뒤땅 및 탑볼 교정", "퍼터 페이스 앵글 정렬 오류 조율 및 꼼꼼한 실전 피드백", "갑자기 터지는 고질적인 아이언 생크 현상 즉각 원인 해결"], tags: ["숏게임 레슨", "퍼팅 거리감", "생크 교정"], stats: [85, 75, 100, 85, 95] },
-            { id: 31, name: "이형석 스승", phone: "01086084619", lessonTypes: ["1:1 레슨", "숏게임 레슨", "파3 레슨", "18홀 필드레슨"], activeLocations: ["강남", "서초", "분당", "판교"], specialties: ["비거리 증가", "슬라이스 교정", "아이언 거리"], price: 100000, rating: 5.0, review: 124, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/lhs.jpg", intro: "체계적인 커리큐럼 레슨 (KPGA 투어프로 / 연세대 골프 CEO 과정 교수)", career: "KPGA 투어프로, GTOUR 프로, 연세대학교 골프 CEO 과정 담당 교수, JTBC GOLF 골프마니아 시즌2 촬영, NAVER·YOUTUBE 1분 레슨 진행", lessonCount: 2100, priceRange: "10~11만원", reviewHighlight: "체계적인 커리큘럼을 통한 슬라이스 교정 및 비거리 증대", reasons: ["KPGA 투어프로의 데이터 기반 분석을 통한 고질적인 슬라이스 구질 완벽 교정", "일관성 없는 아이언 컨택 원인을 분석하여 정밀한 정타율 및 방향성 개선", "개인별 스윙 메커니즘 최적화를 통한 확실한 드라이버 비거리 증대 효과"], tags: ["비거리 증가", "슬라이스 교정", "투어프로 레슨"], stats: [90, 95, 80, 90, 90] },
-            { id: 32, name: "이현우 스승", phone: "01034754588", lessonTypes: ["1:1 레슨", "숏게임 레슨", "필드 레슨"], activeLocations: ["김포", "인천", "영종도"], specialties: ["드라이버 비거리", "골프 스윙", "숏게임 전문"], price: 100000, rating: 5.0, review: 94, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/lhw.jpg", intro: "KPGA 정회원 투어 출신의 체계적이고 확실한 맞춤형 레슨", career: "KPGA 정회원 (TP 1073), 2011년 KPGA 아카데미투어 준우승, 2011년 KPGA 2부투어 다수 입상, 2011~2013년 원아시아 투어 활동, 현 쇼골프 김포공항점 소속 프로", lessonCount: 1850, priceRange: "10~12만원", reviewHighlight: "KPGA 정회원의 체계적인 스윙 교정 및 실전 숏게임 마스터", reasons: ["KPGA 정회원 및 투어 출신의 검증된 메커니즘으로 개개인에 맞춘 체계적인 스윙 교정", "클럽72 숏게임 전문 레슨을 통한 그린 주변 어프로치 및 타수 줄이기 실전 노하우 전수", "쇼골프 김포공항점에서 진행되는 정밀 분석 기반의 확실한 드라이버 비거리 증대"], tags: ["KPGA 정회원", "숏게임 전문", "비거리 증가"], stats: [90, 85, 95, 90, 90] },
-            { id: 33, name: "홍태양 스승", phone: "01020792021", lessonTypes: ["1:1 개인레슨", "숏게임 레슨", "파3 레슨", "필드 레슨"], activeLocations: ["강남", "용산", "여의도"], specialties: ["비거리 증가", "실전 숏게임", "자세 교정"], price: 112500, rating: 5.0, review: 142, img: "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/hty.jpg", intro: "본인 체형에 맞게 아프지 않고 즐길 수 있는 골프스윙을 만들어드립니다.", career: "KLPGA 투어프로 (회원번호 1270), 2018년 KLPGA 점프투어 3차전 우승, 2018년 KLPGA 점프투어 상금랭킹 1위, 2018~2021년 KLPGA 드림투어 활동, 전 다빈골프 용산해링턴 프로, 현 용산 내셔널짐 및 더프라자(용산·신사·옥수·여의도) 출강", lessonCount: 2400, priceRange: "11~18만원", reviewHighlight: "KLPGA 상금왕 출신의 체형별 맞춤 스윙 및 부상 없는 골프", reasons: ["KLPGA 점프투어 상금왕 및 우승 출신의 검증된 실력으로 다져진 탄탄한 기본기 레슨", "억지로 맞추는 스윙이 아닌 개인별 체형과 유연성을 고려한 아프지 않은 맞춤형 스윙 메커니즘 구축", "용산, 여의도, 강남 등 접근성 높은 프리미엄 스튜디오에서의 정밀 데이터 분석 및 숏게임 마스터"], tags: ["KLPGA 투어프로", "상금왕 출신", "체형별 맞춤스윙"], stats: [90, 90, 85, 95, 95] }
-        ];
+        const pros = [{"id": 1, "name": "곽시랑 스승", "phone": "01082243434", "lessonTypes": ["18홀 필드레슨", "파3 레슨", "숏게임레슨", "1:1 레슨"], "activeLocations": ["강남", "서초", "대치", "도곡", "개포", "삼성", "역삼", "선릉", "압구정", "신사", "논현"], "specialties": ["슬라이스 교정", "구질 교정", "드라이버 정확도", "비거리 증가"], "price": 100000, "rating": 5, "review": 142, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260327_165459882.png", "intro": "KLPGA 준회원, 초보 골퍼의 드라이버 슬라이스와 깎여 맞는 스윙 교정 전문", "career": "KLPGA 준회원", "lessonCount": 1300, "priceRange": "10~12만원", "reviewHighlight": "드라이버가 계속 우측으로 밀렸는데 첫 레슨부터 원인을 정확히 알려주셨어요.", "reasons": ["초보 골퍼의 터지는 슬라이스 구질 즉시 교정", "직관적인 1:1 스윙 상하체 회전 타이밍 피드백", "강남권 실전 원포인트 매칭 및 교습 경험 다수"], "tags": ["슬라이스 교정", "드라이버 방향성", "필드 레슨"], "stats": [85, 80, 75, 90, 85], "verifiedItems": ["KLPGA 준회원 확인"], "licenseType": "KLPGA 준회원", "licenseNumber": "", "studioName": "상지카일룸 블랙", "studioAddress": "서울 강남구 언주로 565", "studioAddressJibun": "서울 강남구 역삼동 653-3", "nearestStation": "언주역", "walkMinutes": 7, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%83%81%EC%A7%80%EC%B9%B4%EC%9D%BC%EB%A3%B8%20%EB%B8%94%EB%9E%99%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%96%B8%EC%A3%BC%EB%A1%9C%20565", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "드라이버 슬라이스와 우측으로 밀리는 구질을 빠르게 교정하고 싶은 90~110타 골퍼에게 추천", "realReviews": [{"text": "드라이버가 계속 우측으로 밀렸는데 첫 레슨부터 원인을 정확히 알려주셨어요.", "meta": "90타대 남성 골퍼 · 2026년 6월 수강"}], "reviewSourceType": "actual", "reviewDisplayTitle": "실제 수강 후기", "buildingName": "상지카일룸 블랙", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%83%81%EC%A7%80%EC%B9%B4%EC%9D%BC%EB%A3%B8%20%EB%B8%94%EB%9E%99%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%96%B8%EC%A3%BC%EB%A1%9C%20565"}, {"id": 2, "name": "조이현 스승", "phone": "01056323190", "lessonTypes": ["1:1 레슨", "숏게임레슨", "9홀 레슨"], "activeLocations": ["송파", "강남", "분당", "용인", "잠실", "문정", "판교", "정자"], "specialties": ["비거리 증가", "롱아이언", "스윙 궤도", "초보 레슨"], "price": 130000, "rating": 4.9, "review": 89, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/JYH.jpg", "intro": "여성 골퍼 체형 맞춤형 바디턴 스윙 및 비거리 향상 전문", "career": "KLPGA 프로 자격번호 1227 확인", "lessonCount": 450, "priceRange": "13~15만원", "reviewHighlight": "시간 안에 가능한 범위에서 꼭 필요한 부분을 정확하게 교정해주셨어요.", "reasons": ["여성 골퍼 특화 정타율 개선 프로그램 운영", "근력에 맞춘 무리 없는 바디턴 스윙 리듬 전수", "아이언 컨택 일관성 향상 및 백돌이 탈출 타겟 레슨"], "tags": ["비거리 증가", "롱아이언", "초보 레슨"], "stats": [80, 95, 70, 85, 80], "verifiedItems": ["KLPGA 1227 확인"], "licenseType": "KLPGA", "licenseNumber": "1227", "studioName": "유스페이스1", "studioAddress": "경기 성남시 분당구 대왕판교로 660", "studioAddressJibun": "경기 성남시 분당구 삼평동 670", "nearestStation": "판교역 4번 출구", "walkMinutes": 15, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%9C%A0%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A41%20%EA%B2%BD%EA%B8%B0%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EB%B6%84%EB%8B%B9%EA%B5%AC%20%EB%8C%80%EC%99%95%ED%8C%90%EA%B5%90%EB%A1%9C%20660", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "여성 골퍼의 비거리와 아이언 정타, 잘못된 스윙 습관을 세밀하게 교정하고 싶은 골퍼에게 추천", "realReviews": [{"text": "시간 안에 가능한 범위에서 꼭 필요한 부분을 정확하게 교정해주셨어요.", "meta": "실제 수강생 후기"}, {"text": "그립, 힌지, 치킨윙처럼 혼자 연습할 때 인지하지 못했던 습관을 세세하게 나눠 교정해주셔서 이후 연습할 때도 계속 기억에 남았습니다.", "meta": "실제 수강생 후기"}], "reviewSourceType": "actual", "reviewDisplayTitle": "실제 수강 후기", "buildingName": "유스페이스1", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%9C%A0%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A41%20%EA%B2%BD%EA%B8%B0%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EB%B6%84%EB%8B%B9%EA%B5%AC%20%EB%8C%80%EC%99%95%ED%8C%90%EA%B5%90%EB%A1%9C%20660"}, {"id": 3, "name": "서수연 스승", "phone": "01094856241", "lessonTypes": ["숏게임레슨", "파3 레슨", "1:1 레슨"], "activeLocations": ["분당", "강남", "서초", "판교", "정자", "양재", "도곡"], "specialties": ["실전 숏게임", "어프로치 거리감", "퍼팅 거리감", "생크 교정", "슬라이스 교정", "초보 레슨"], "price": 150000, "rating": 5, "review": 215, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KakaoTalk_20260309_200933587.jpg", "intro": "그린 주변 어프로치 입스 극복 및 퍼터 정밀 교습 전문가", "career": "숏게임 전문 스승님, 후기 다수 보유", "lessonCount": 880, "priceRange": "12~14만원", "reviewHighlight": "친절하고 자세하게 알려주셨고, 배운 퍼터 스트로크대로 연습해보니 공이 잘 들어가 큰 도움이 됐습니다.", "reasons": ["30m 이내 웨지 거리감 세팅 및 뒤땅 방지 교정", "그린 에이밍 정렬 오류 조율 및 쓰리퍼트 방지 루틴", "파3 골프장 현장 동반 숏게임 밀착 교습"], "tags": ["어프로치 거리감", "퍼팅 거리감", "생크 교정", "초보 레슨"], "stats": [90, 60, 100, 80, 95], "verifiedItems": ["KLPGA 1237 확인"], "licenseType": "KLPGA", "licenseNumber": "1237", "studioName": "푸른빌딩", "studioAddress": "서울 서초구 강남대로 581", "studioAddressJibun": "서울 서초구 잠원동 28-1", "nearestStation": "신사역", "walkMinutes": 4, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%ED%91%B8%EB%A5%B8%EB%B9%8C%EB%94%A9%20%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EA%B0%95%EB%82%A8%EB%8C%80%EB%A1%9C%20581", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "30m 이내 어프로치와 퍼팅 거리감 때문에 타수를 잃는 골퍼에게 추천", "realReviews": [{"text": "친절하고 자세하게 알려주셨고, 배운 퍼터 스트로크대로 연습해보니 공이 잘 들어가 큰 도움이 됐습니다.", "meta": "실제 수강생 후기"}], "reviewSourceType": "actual", "reviewDisplayTitle": "실제 수강 후기", "buildingName": "푸른빌딩", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%ED%91%B8%EB%A5%B8%EB%B9%8C%EB%94%A9%20%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EA%B0%95%EB%82%A8%EB%8C%80%EB%A1%9C%20581"}, {"id": 4, "name": "석준형 스승", "phone": "01054263433", "lessonTypes": ["1:1 레슨", "18홀 필드레슨"], "activeLocations": ["강남", "서초", "삼성", "역삼", "선릉"], "specialties": ["비거리 증가", "드라이버 정확도", "우드/유틸 활용", "장타", "상급자 레슨"], "price": 250000, "rating": 5, "review": 95, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/SJH.png", "intro": "현역 GTOUR 대회 선수, 스윙 스피드 최적화 비거리 전문", "career": "현역 GTOUR 선수", "lessonCount": 850, "priceRange": "20~30만원", "reviewHighlight": "첫 필드레슨에서 18홀을 돌며 하나씩 열정적으로 배웠고, 골프의 기준과 개념이 잡히는 느낌이었습니다. 제 골프에 터닝포인트가 된 잊지 못할 하루였습니다.", "reasons": ["현역 프로가 직접 진단하는 헤드 스피드 정체 해결", "다운스윙 시 올바른 하체 리드와 체중 이동 피드백", "싱글 진입을 목표로 하는 상급자용 구질 제어 솔루션"], "tags": ["비거리 증가", "드라이버 정확도", "체중이동"], "stats": [85, 100, 75, 90, 85], "verifiedItems": ["KPGA 1257 확인"], "licenseType": "KPGA", "licenseNumber": "1257", "studioName": "", "studioAddress": "서울 강남구 논현동 96-3", "studioAddressJibun": "서울 강남구 논현동 96-3", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EB%85%BC%ED%98%84%EB%8F%99%2096-3", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "필드에서 드라이버 비거리와 코스 운영의 기준을 함께 잡고 싶은 골퍼에게 추천", "realReviews": [{"text": "첫 필드레슨에서 18홀을 돌며 하나씩 열정적으로 배웠고, 골프의 기준과 개념이 잡히는 느낌이었습니다. 제 골프에 터닝포인트가 된 잊지 못할 하루였습니다.", "meta": "실제 수강생 후기"}], "reviewSourceType": "actual", "reviewDisplayTitle": "실제 수강 후기", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EB%85%BC%ED%98%84%EB%8F%99%2096-3"}, {"id": 5, "name": "홍주연 스승", "phone": "01033969628", "lessonTypes": ["1:1 레슨", "숏게임레슨"], "activeLocations": ["강남", "서초", "압구정", "신사", "청담"], "specialties": ["숏아이언", "비거리 증가", "스윙 궤도", "배치기 교정", "초보 레슨", "키즈 골프"], "price": 150000, "rating": 4.9, "review": 178, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/HJY.png", "intro": "예쁜 스윙 궤도 형성 및 배치기 습관 교정 전문", "career": "11년 투어생활, 골프유튜버", "lessonCount": 370, "priceRange": "15~20만원", "reviewHighlight": "인생에서 가장 예쁜 스윙", "reasons": ["어드레스 자세 유지를 통한 정교한 아이언 임팩트 개선", "부상을 방지하고 몸에 힘을 빼는 바디턴 스윙 구축", "골프 입문자를 위한 그립부터 풀스윙 단계별 교습"], "tags": ["초보 레슨", "스윙 궤도", "자세 교정"], "stats": [95, 70, 80, 95, 85], "verifiedItems": ["KLPGA TOUR 951 확인"], "licenseType": "KLPGA TOUR", "licenseNumber": "951", "studioName": "", "studioAddress": "서울 강남구 봉은사로21길 58", "studioAddressJibun": "서울 강남구 논현동 156-21", "nearestStation": "언주역 인근", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EB%B4%89%EC%9D%80%EC%82%AC%EB%A1%9C21%EA%B8%B8%2058", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "초보 골퍼의 스윙 궤도와 배치기 습관을 자연스럽고 보기 좋은 스윙으로 바꾸고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EB%B4%89%EC%9D%80%EC%82%AC%EB%A1%9C21%EA%B8%B8%2058"}, {"id": 6, "name": "양형철 스승", "phone": "01093996255", "lessonTypes": ["18홀 필드레슨", "9홀 레슨", "숏게임레슨"], "activeLocations": ["강남", "서초", "반포", "방배", "잠원"], "specialties": ["필드 레슨", "코스 매니지먼트", "상급자_레슨", "실전 숏게임"], "price": 170000, "rating": 5, "review": 56, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YHC.png", "intro": "전 KPGA 투어 프로, 실전 라운딩 코스 매니지먼트 전문", "career": "전 KPGA 투어 프로", "lessonCount": 230, "priceRange": "15~20만원", "reviewHighlight": "생애 첫 싱글 기록 성공", "reasons": ["실전 필드 경사면 라이별 클럽 선택 및 컨택 요령", "티샷 OB 방지를 위한 에이밍 정렬 및 코스 공략법", "미스 샷 발생 시 타수를 방어하는 실전 위기대응 루틴"], "tags": ["필드 레슨", "코스 매니지먼트", "실전 루틴"], "stats": [85, 80, 90, 85, 100], "verifiedItems": ["KPGA TOUR 1577 확인"], "licenseType": "KPGA TOUR", "licenseNumber": "1577", "studioName": "", "studioAddress": "서울 강남구 청담동 1-23", "studioAddressJibun": "서울 강남구 청담동 1-23", "nearestStation": "압구정로데오역", "walkMinutes": 9, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/SS%EB%B9%8C%EB%94%A9%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%B2%AD%EB%8B%B4%EB%8F%99%201-23", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "필드에서 클럽 선택과 코스 매니지먼트 때문에 타수를 잃는 중상급 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "SS빌딩", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/SS%EB%B9%8C%EB%94%A9%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%B2%AD%EB%8B%B4%EB%8F%99%201-23"}, {"id": 7, "name": "조동요 스승", "phone": "01026578395", "lessonTypes": ["1:1 레슨", "숏게임레슨", "파3 레슨"], "activeLocations": ["서초", "강남", "교대", "방배"], "specialties": ["초보 레슨", "드라이버 정확도", "비거리 증가", "슬라이스 교정", "실전 숏게임"], "price": 250000, "rating": 4.8, "review": 120, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/JDY.png", "intro": "구독자 13만 골프 크리에이터, 쉽고 직관적인 눈높이 교습", "career": "유튜브 구독자 13만명", "lessonCount": 2500, "priceRange": "25~30만원", "reviewHighlight": "눈높이 골프레슨의 최강자", "reasons": ["어려운 용어 없는 직관적인 신체 감각 중심 설명", "스윙 핵심 문제점 파악 및 즉각적인 원포인트 피드백", "독학 골퍼들이 놓치기 쉬운 잘못된 스윙 패턴 정형화"], "tags": ["드라이버 방향성", "슬라이스 교정", "비거리 증가"], "stats": [85, 85, 80, 90, 90], "verifiedItems": ["KPGA 20146592 확인"], "licenseType": "KPGA", "licenseNumber": "20146592", "studioName": "문영빌딩", "studioAddress": "서울 강남구 논현로132길 5", "studioAddressJibun": "서울 강남구 논현동 86-7", "nearestStation": "학동역", "walkMinutes": 1, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EB%AC%B8%EC%98%81%EB%B9%8C%EB%94%A9%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EB%85%BC%ED%98%84%EB%A1%9C132%EA%B8%B8%205", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "어려운 용어 없이 슬라이스와 비거리 문제를 직관적으로 이해하고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "문영빌딩", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EB%AC%B8%EC%98%81%EB%B9%8C%EB%94%A9%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EB%85%BC%ED%98%84%EB%A1%9C132%EA%B8%B8%205"}, {"id": 8, "name": "공나연 스승", "phone": "01036012385", "lessonTypes": ["1:1 레슨", "캠프 레슨"], "activeLocations": ["송파", "강남", "잠실", "신천", "방이"], "specialties": ["드라이버 정확도", "템포/리듬", "자세 교정", "숏아이언", "롱아이언", "스윙 궤도"], "price": 180000, "rating": 4.7, "review": 88, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KNY.jpg", "intro": "KLPGA 프로, 아이언 정타 확률 및 방향성 제어 전문", "career": "KLPGA 정회원", "lessonCount": 490, "priceRange": "16~20만원", "reviewHighlight": "아이언 정타 확률 80% 향상", "reasons": ["정확한 임팩트 타이밍 교정을 통한 정타율 증가", "롱아이언 탄도 저하 및 우측 밀림 현상 즉각 해결", "일관성 있는 아이언 샷을 위한 스윙 궤도 정립"], "tags": ["아이언 정확도", "임팩트 교정", "스윙 궤도"], "stats": [95, 75, 80, 90, 85], "verifiedItems": ["KLPGA 1212 확인"], "licenseType": "KLPGA", "licenseNumber": "1212", "studioName": "아시아선수촌 상가", "studioAddress": "서울 송파구 올림픽로4길 17", "studioAddressJibun": "서울 송파구 잠실동 85", "nearestStation": "종합운동장역", "walkMinutes": 5, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%95%84%EC%8B%9C%EC%95%84%EC%84%A0%EC%88%98%EC%B4%8C%20%EC%83%81%EA%B0%80%20%EC%84%9C%EC%9A%B8%20%EC%86%A1%ED%8C%8C%EA%B5%AC%20%EC%98%AC%EB%A6%BC%ED%94%BD%EB%A1%9C4%EA%B8%B8%2017", "lat": 37.50862783, "lng": 127.0771798, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "아이언 정타와 방향성, 스윙 템포를 안정적으로 만들고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "아시아선수촌 상가", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%95%84%EC%8B%9C%EC%95%84%EC%84%A0%EC%88%98%EC%B4%8C%20%EC%83%81%EA%B0%80%20%EC%84%9C%EC%9A%B8%20%EC%86%A1%ED%8C%8C%EA%B5%AC%20%EC%98%AC%EB%A6%BC%ED%94%BD%EB%A1%9C4%EA%B8%B8%2017"}, {"id": 9, "name": "이원영 스승", "phone": "01075397997", "lessonTypes": ["1:1 레슨", "숏게임레슨", "9홀 레슨"], "activeLocations": ["강남", "분당", "용인", "수지", "죽전", "기흥", "판교", "정자"], "specialties": ["우드/유틸 활용", "비거리 증가", "초보 레슨"], "price": 150000, "rating": 4.9, "review": 154, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/lwy.webp", "intro": "KLPGA 프로, 다루기 어려운 페어웨이 우드 및 유틸리티 특화 교습", "career": "KLPGA 정회원", "lessonCount": 2200, "priceRange": "15~20만원", "reviewHighlight": "우드가 드라이버만큼 쉬워짐", "reasons": ["우드와 유틸리티의 깔끔한 쓸어치기 타격 각도 세팅", "지면 타격 실패로 인한 탑볼 및 헤드업 현상 교정", "여성 초보 골퍼 대상 클럽별 기초 스윙 궤도 정립"], "tags": ["비거리 증가", "초보 레슨", "우드/유틸리티 활용"], "stats": [85, 85, 75, 90, 85], "verifiedItems": ["KLPGA 1789 확인"], "licenseType": "KLPGA", "licenseNumber": "1789", "studioName": "", "studioAddress": "서울 강남구 역삼동 652-10", "studioAddressJibun": "서울 강남구 역삼동 652-10", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%97%AD%EC%82%BC%EB%8F%99%20652-10", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "우드와 유틸리티가 어렵고 클럽별 정타율을 높이고 싶은 초보 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%97%AD%EC%82%BC%EB%8F%99%20652-10"}, {"id": 10, "name": "유민혁 스승", "phone": "01083924008", "lessonTypes": ["1:1 레슨", "원포인트"], "activeLocations": ["서초", "강남", "양재", "개포", "도곡"], "specialties": ["생크 교정", "슬라이스 교정", "드라이버 정확도", "비거리 증가", "구질 교정"], "price": 70000, "rating": 5, "review": 422, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/YMH.png", "intro": "고질적인 생크 현상 및 갑작스러운 스윙 붕괴 해결 전문", "career": "스윙 분석 전문가", "lessonCount": 120, "priceRange": "7~10만원", "reviewHighlight": "단 한 번의 레슨으로 problem 교정", "reasons": ["갑자기 발생하는 생크 현상 원인 즉각 진단 및 해결", "손목 풀림으로 발생하는 리딩에지 타격 문제 교정", "부담 없는 가성비 1회 집중 원포인트 세션 진행"], "tags": ["생크 교정", "슬라이스 교정", "임팩트 교정"], "stats": [95, 80, 80, 85, 90], "verifiedItems": ["KPGA 20177695 확인"], "licenseType": "KPGA", "licenseNumber": "20177695", "studioName": "태릉골프장", "studioAddress": "서울 노원구 화랑로 682", "studioAddressJibun": "서울 노원구 공릉동 1-2", "nearestStation": "갈매역 인근", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%ED%83%9C%EB%A6%89%EA%B3%A8%ED%94%84%EC%9E%A5%20%EC%84%9C%EC%9A%B8%20%EB%85%B8%EC%9B%90%EA%B5%AC%20%ED%99%94%EB%9E%91%EB%A1%9C%20682", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "갑자기 발생한 생크와 슬라이스를 원포인트로 빠르게 진단받고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "태릉골프장", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%ED%83%9C%EB%A6%89%EA%B3%A8%ED%94%84%EC%9E%A5%20%EC%84%9C%EC%9A%B8%20%EB%85%B8%EC%9B%90%EA%B5%AC%20%ED%99%94%EB%9E%91%EB%A1%9C%20682"}, {"id": 11, "name": "강도윤 스승", "phone": "01077587383", "lessonTypes": ["1:1 레슨", "18홀 필드레슨", "숏게임레슨"], "activeLocations": ["강남", "분당", "용인", "수지", "죽전", "판교"], "specialties": ["비거리 증가", "롱아이언", "드라이버 정확도", "실전 숏게임", "상급자 레슨"], "price": 150000, "rating": 5, "review": 73, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kdy.webp", "intro": "KPGA 투어프로, 세컨샷 정확도 향상 및 아이언 거리감 교정", "career": "KPGA 투어프로 정회원", "lessonCount": 195, "priceRange": "15~20만원", "reviewHighlight": "투 온에 자신감을 붙이는 레슨", "reasons": ["백스윙 탑 오류 교정을 통한 일관된 정타 타이밍 확보", "페어웨이 우드 및 유틸리티 세컨 샷 안착률 증가 트레이닝", "실전 필드 동반을 통한 코스 공략 실시간 피드백"], "tags": ["비거리 증가", "롱아이언", "드라이버 정확도"], "stats": [90, 85, 85, 85, 90], "verifiedItems": ["KPGA TOUR 2534 확인"], "licenseType": "KPGA TOUR", "licenseNumber": "2534", "studioName": "분당우성프라자", "studioAddress": "경기 성남시 분당구 돌마로 481", "studioAddressJibun": "경기 성남시 분당구 서현동 95", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EB%B6%84%EB%8B%B9%EC%9A%B0%EC%84%B1%ED%94%84%EB%9D%BC%EC%9E%90%20%EA%B2%BD%EA%B8%B0%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EB%B6%84%EB%8B%B9%EA%B5%AC%20%EB%8F%8C%EB%A7%88%EB%A1%9C%20481", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "롱아이언과 세컨드샷 정확도를 높여 필드 스코어를 줄이고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "분당우성프라자", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EB%B6%84%EB%8B%B9%EC%9A%B0%EC%84%B1%ED%94%84%EB%9D%BC%EC%9E%90%20%EA%B2%BD%EA%B8%B0%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EB%B6%84%EB%8B%B9%EA%B5%AC%20%EB%8F%8C%EB%A7%88%EB%A1%9C%20481"}, {"id": 12, "name": "김지영 스승", "phone": "01071595448", "lessonTypes": ["1:1 레슨", "초보레슨"], "activeLocations": ["강남", "분당", "판교", "서현", "정자"], "specialties": ["초보 레슨", "퍼팅 방향성", "드라이버 정확도", "자세 교정", "비거리 증가"], "price": 150000, "rating": 4.7, "review": 143, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KTY.png", "intro": "골프 입문 3개월 이내 골린이 맞춤 풀스윙 형성 전문가", "career": "초보 및 자세교정 전문 스승", "lessonCount": 354, "priceRange": "15~20만원", "reviewHighlight": "소통을 중시하며 디테일한 레슨", "reasons": ["기초 어드레스부터 하체 리드 풀스윙까지 단계별 교습", "신체 조건에 맞춘 정석적인 스윙 궤도 형성 및 자세 교정", "입문 골퍼의 부상 방지를 위한 바디 메커니즘 가이드"], "tags": ["초보 레슨", "자세 교정", "퍼팅 방향성"], "stats": [85, 75, 80, 95, 85], "verifiedItems": ["KLPGA 1282 확인"], "licenseType": "KLPGA", "licenseNumber": "1282", "studioName": "미래빌딩", "studioAddress": "서울 강남구 논현로132길 6", "studioAddressJibun": "서울 강남구 논현동 87-2", "nearestStation": "학동역 인근", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EB%AF%B8%EB%9E%98%EB%B9%8C%EB%94%A9%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EB%85%BC%ED%98%84%EB%A1%9C132%EA%B8%B8%206", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "골프 입문 초기부터 그립과 자세, 풀스윙 기초를 체계적으로 배우고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "미래빌딩", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EB%AF%B8%EB%9E%98%EB%B9%8C%EB%94%A9%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EB%85%BC%ED%98%84%EB%A1%9C132%EA%B8%B8%206"}, {"id": 13, "name": "이상준 스승", "phone": "01041900478", "lessonTypes": ["1:1 레슨", "초보레슨", "숏게임레슨"], "activeLocations": ["강남", "송파", "잠실", "신천", "삼성", "역삼"], "specialties": ["초보 레슨", "우드/유틸 활용", "드라이버 정확도", "실전 스코어 감소"], "price": 130000, "rating": 5, "review": 422, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/LSJ.png", "intro": "직관적이고 쉬운 이미지 기법을 활용한 백돌이 탈출 전문", "career": "유튜브 운영 및 레슨 프로", "lessonCount": 691, "priceRange": "15~20만원", "reviewHighlight": "감각을 중시하며 직관적이고 진지한 레슨", "reasons": ["엎어치는 스윙을 고쳐 자연스러운 드로우 구질로 수정", "드라이버 헤드 무게를 느끼게 하는 손목 풀림 현상 교정", "100타 및 90타대 정체 구간 돌파를 위한 실전 원포인트"], "tags": ["초보 레슨", "드라이버 비거리", "우드/유틸 활용"], "stats": [85, 80, 80, 85, 95], "verifiedItems": ["KPGA TOUR 1724 확인"], "licenseType": "KPGA TOUR", "licenseNumber": "1724", "studioName": "아시아선수촌 상가", "studioAddress": "서울 송파구 올림픽로4길 17", "studioAddressJibun": "서울 송파구 잠실동 85", "nearestStation": "종합운동장역", "walkMinutes": 5, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%95%84%EC%8B%9C%EC%95%84%EC%84%A0%EC%88%98%EC%B4%8C%20%EC%83%81%EA%B0%80%20%EC%84%9C%EC%9A%B8%20%EC%86%A1%ED%8C%8C%EA%B5%AC%20%EC%98%AC%EB%A6%BC%ED%94%BD%EB%A1%9C4%EA%B8%B8%2017", "lat": 37.50862783, "lng": 127.0771798, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "100타 전후에서 정체되어 드라이버와 우드 실수를 줄이고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "아시아선수촌 상가", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%95%84%EC%8B%9C%EC%95%84%EC%84%A0%EC%88%98%EC%B4%8C%20%EC%83%81%EA%B0%80%20%EC%84%9C%EC%9A%B8%20%EC%86%A1%ED%8C%8C%EA%B5%AC%20%EC%98%AC%EB%A6%BC%ED%94%BD%EB%A1%9C4%EA%B8%B8%2017"}, {"id": 14, "name": "권두욱 스승", "phone": "01040134484", "lessonTypes": ["숏게임레슨", "파3 레슨", "1:1 레슨"], "activeLocations": ["강남", "서초", "양재", "개포", "반포", "방배"], "specialties": ["실전 숏게임", "퍼팅 방향성", "드라이버 정확도", "어프로치 거리감", "에임포인트"], "price": 80000, "rating": 4.8, "review": 122, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/KDW.jpg", "intro": "유명 퍼팅 아카데미 정식 수료, 그린 주변 전문 스승님", "career": "퍼팅 및 숏게임 인증 프로", "lessonCount": 691, "priceRange": "8~20만원", "reviewHighlight": "이론과 실전을 병행하며 디테일하고 꼼꼼한 레슨", "reasons": ["그린 경사 정밀 판별 및 일관된 스트로크 정렬 교정", "퍼터 페이스 각도 수정을 통한 퍼팅 방향성 개선", "핀에 바로 붙이는 실전 어프로치 및 웨지 샷 조율"], "tags": ["어프로치 거리감", "퍼팅 라인 읽기", "실전 스코어"], "stats": [90, 65, 100, 80, 95], "verifiedItems": ["KPGA 20187854 확인"], "licenseType": "KPGA", "licenseNumber": "20187854", "studioName": "", "studioAddress": "서울 강남구 역삼동 830-41", "studioAddressJibun": "서울 강남구 역삼동 830-41", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%97%AD%EC%82%BC%EB%8F%99%20830-41", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "퍼팅 라인과 어프로치 거리감을 정교하게 익혀 숏게임 타수를 줄이고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%97%AD%EC%82%BC%EB%8F%99%20830-41"}, {"id": 15, "name": "이근협 스승", "phone": "01050278421", "lessonTypes": ["1:1 레슨", "18홀 필드레슨"], "activeLocations": ["분당", "수원", "영통", "광교", "판교", "정자"], "specialties": ["드라이버 정확도", "비거리 증가", "바디스윙", "임팩트 교정"], "price": 120000, "rating": 4.5, "review": 243, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/LGH.webp", "intro": "KPGA 정회원, 투어 출전 경험 기반 바디스윙 및 정타 전문", "career": "KPGA CLASS A 정회원, 코리안투어 출전 경험", "lessonCount": 191, "priceRange": "12~20만원", "reviewHighlight": "분석을 중심으로 열정적인 스타일로 원하는 비거리를 만들어드립니다", "reasons": ["투어 경험 기반 실전형 상하체 체중이동 타이밍 분석", "팔로만 치는 스윙을 교정하여 묵직한 몸통 회전 스윙 안착", "드라이버 정타 확률 증가를 위한 어드레스 자세 교정"], "tags": ["드라이버 정확도", "비거리 증가", "임팩트 교정"], "stats": [85, 90, 75, 85, 85], "verifiedItems": ["KPGA TOUR 2211 확인"], "licenseType": "KPGA TOUR", "licenseNumber": "2211", "studioName": "", "studioAddress": "경기 화성시 비봉면 삼화리 1910", "studioAddressJibun": "경기 화성시 비봉면 삼화리 1910", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%20%ED%99%94%EC%84%B1%EC%8B%9C%20%EB%B9%84%EB%B4%89%EB%A9%B4%20%EC%82%BC%ED%99%94%EB%A6%AC%201910", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "팔로 치는 스윙을 바디스윙으로 바꾸고 드라이버 정타와 비거리를 높이고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "address_needs_confirmation", "locationDataNote": "제공된 주소가 실제 레슨장인지 확인 필요", "naverMapUrl": "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%20%ED%99%94%EC%84%B1%EC%8B%9C%20%EB%B9%84%EB%B4%89%EB%A9%B4%20%EC%82%BC%ED%99%94%EB%A6%AC%201910"}, {"id": 16, "name": "강소율 스승", "phone": "01099348472", "lessonTypes": ["1:1 레슨", "파3 레슨", "숏게임 레슨"], "activeLocations": ["분당", "용인", "판교", "정자", "수지"], "specialties": ["드라이버 정확도", "롱아이언", "비거리 증가", "임팩트 교정"], "price": 350000, "rating": 4.5, "review": 124, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ksy.png", "intro": "KLPGA 정규투어 3승 챔피언, 프리미엄 하이엔드 1:1 교습", "career": "정규투어 멤버, 투어 통산 3승, 뉴질랜드 전국체전 금메달", "lessonCount": 506, "priceRange": "35~50만원", "reviewHighlight": "레슨비는 비싸지만 확실한 레슨 효과로 100%만족", "reasons": ["정규투어 우승 경험 기반 실전 구질 컨트롤 노하우 전수", "상급자 및 싱글 지향 골퍼를 위한 정밀 스윙 궤도 미세 조정", "체형 조건별 힘 손실을 유발하는 지점 원포인트 스캔"], "tags": ["드라이버 정확도", "롱아이언", "비거리 증가", "슬라이스 교정"], "stats": [95, 90, 85, 95, 100], "verifiedItems": ["KLPGA TOUR 959 확인"], "licenseType": "KLPGA TOUR", "licenseNumber": "959", "studioName": "", "studioAddress": "경기 성남시 수정구 청계산로 752", "studioAddressJibun": "경기 성남시 수정구 고등동 608-1", "nearestStation": "고등119안전센터 정류소", "walkMinutes": 2, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EC%88%98%EC%A0%95%EA%B5%AC%20%EC%B2%AD%EA%B3%84%EC%82%B0%EB%A1%9C%20752", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "투어 우승 경험을 바탕으로 구질과 임팩트를 정밀하게 교정받고 싶은 중상급 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EC%88%98%EC%A0%95%EA%B5%AC%20%EC%B2%AD%EA%B3%84%EC%82%B0%EB%A1%9C%20752"}, {"id": 17, "name": "권민규 스승", "phone": "01093377132", "lessonTypes": ["1:1 레슨", "숏게임 레슨", "파3 레슨"], "activeLocations": ["강남", "서초", "교대", "대치", "선릉", "삼성"], "specialties": ["비거리 증가", "슬라이스 교정"], "price": 180000, "rating": 5, "review": 58, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kmg.jpg", "intro": "KPGA 프로, 정교한 드라이버 방향성 교정 및 구질 최적화 전문가", "career": "KPGA 준회원, 미국 투어 활동 및 다수 대회 입상", "lessonCount": 110, "priceRange": "18~40만원", "reviewHighlight": "매의 눈으로 스윙의 기본적인 문제점을 확실하게 교정해주십니다", "reasons": ["티샷 미스 훅 and 슬라이스를 방지하는 그립 및 손목 각도 교정", "해외 투어 무대 경험 기반의 정교한 다운스윙 타이밍 매칭", "아이언 컨택 일관성 확보 및 코어 회전을 이용한 장타 유도"], "tags": ["슬라이스 교정", "비거리 증가", "드라이버 정확도"], "stats": [90, 95, 80, 85, 90], "verifiedItems": ["KPGA 준회원 확인"], "licenseType": "KPGA 준회원", "licenseNumber": "", "studioName": "더프라자 동탄", "studioAddress": "더프라자 동탄 / 강남 / 분당", "studioAddressJibun": "더프라자 동탄 / 강남 / 분당", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EB%8D%94%ED%94%84%EB%9D%BC%EC%9E%90%20%EB%8F%99%ED%83%84%20%EB%8D%94%ED%94%84%EB%9D%BC%EC%9E%90%20%EB%8F%99%ED%83%84%20%2F%20%EA%B0%95%EB%82%A8%20%2F%20%EB%B6%84%EB%8B%B9", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "드라이버 슬라이스와 비거리 손실을 정교한 구질 교정으로 해결하고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "needs_exact_address", "locationDataNote": "동탄·강남·분당 중 실제 기준 레슨장 주소 확인 필요", "naverMapUrl": "https://map.naver.com/p/search/%EB%8D%94%ED%94%84%EB%9D%BC%EC%9E%90%20%EB%8F%99%ED%83%84%20%EB%8D%94%ED%94%84%EB%9D%BC%EC%9E%90%20%EB%8F%99%ED%83%84%20%2F%20%EA%B0%95%EB%82%A8%20%2F%20%EB%B6%84%EB%8B%B9"}, {"id": 18, "name": "허민형 스승", "phone": "01020601838", "lessonTypes": ["1:1 레슨", "숏게임레슨", "18홀 필드레슨"], "activeLocations": ["서초", "교대", "방배", "반포", "강남"], "specialties": ["슬라이스 교정", "비거리 증가", "실전 숏게임", "자세 교정"], "price": 130000, "rating": 4.9, "review": 39, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/hmh.webp", "intro": "KPGA 프로, 체형 맞춤형 스윙 디자인 및 실전 숏게임 전문", "career": "KPGA 프로, 15년 레슨 경력, 테일러메이드 인증 교습가", "lessonCount": 280, "priceRange": "11~13만원", "reviewHighlight": "체형에 맞는 스윙 궤도 안착", "reasons": ["골퍼 개인별 신체 조건에 맞춘 스윙 자세 교정", "드라이버 슬라이스 교정 및 비거리 증가 피드백", "필드와 숏게임 현장에서 즉각적인 타수 줄이기 솔루션"], "tags": ["자세 교정", "슬라이스 교정", "숏게임 레슨"], "stats": [85, 85, 90, 90, 85], "verifiedItems": ["KPGA 20259376 확인"], "licenseType": "KPGA", "licenseNumber": "20259376", "studioName": "", "studioAddress": "서울 서초구 서초동 1554-4", "studioAddressJibun": "서울 서초구 서초동 1554-4", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EB%8F%99%201554-4", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "체형에 맞는 편안한 스윙과 실전 숏게임을 함께 개선하고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EC%84%9C%EC%B4%88%EB%8F%99%201554-4"}, {"id": 19, "name": "강희진 스승", "phone": "01050622964", "lessonTypes": ["1:1 레슨"], "activeLocations": ["역삼", "삼성", "선릉", "강남역", "강남"], "specialties": ["드라이버 정확도", "초보 레슨", "체중이동", "슬라이스 교정"], "price": 70000, "rating": 4.9, "review": 114, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/khj.webp", "intro": "KPGA CLASS A, 스포츠의학 석사 기반 신체 맞춤 스윙 교정 전문", "career": "KPGA CLASS A 정회원, 스포츠의학 석사, BMW 차이나 오픈 7위", "lessonCount": 361, "priceRange": "5~7만원", "reviewHighlight": "몸 안 아프고 정교한 스윙 안착", "reasons": ["스포츠의학 기반 부상 없는 체중이동 및 스윙 자세 교정", "드라이버 슬라이스 및 배치기 습관 즉각 원인 진단", "입문 골퍼와 주니어를 위한 단계별 체계적 커리큘럼 교습"], "tags": ["초보 레슨", "체중이동", "슬라이스 교정"], "stats": [90, 80, 75, 95, 85], "verifiedItems": ["KPGA 20146532 확인"], "licenseType": "KPGA", "licenseNumber": "20146532", "studioName": "", "studioAddress": "서울 강남구 역삼동 769-12", "studioAddressJibun": "서울 강남구 역삼동 769-12", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%97%AD%EC%82%BC%EB%8F%99%20769-12", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "몸에 무리가 적은 스윙으로 체중이동과 드라이버 방향성을 바로잡고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%97%AD%EC%82%BC%EB%8F%99%20769-12"}, {"id": 20, "name": "김숙정 스승", "phone": "01033559555", "lessonTypes": ["1:1 레슨", "숏게임레슨"], "activeLocations": ["도곡", "대치", "개포", "강남"], "specialties": ["바디스윙", "체중이동", "훅 교정", "오버스윙"], "price": 150000, "rating": 4.9, "review": 92, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ksj.webp", "intro": "KLPGA 준회원, 국가대표 상비군 출신의 하체 리드 바디스윙 전문", "career": "KLPGA 준회원 S2352, 육상 세단뛰기 국가대표 상비군, 트레이너 경력", "lessonCount": 160, "priceRange": "12~15만원", "reviewHighlight": "유쾌하고 간결한 스윙 교정", "reasons": ["육상 상비군 출신의 정교한 지면 활용 체중이동 피드백", "드라이버 오버스윙 및 악성 훅 구질 즉시 교정", "팔로만 치는 스윙을 고쳐 타수를 줄이는 몸통 회전 안착"], "tags": ["체중이동", "훅 교정", "자세 교정"], "stats": [85, 90, 75, 85, 90], "verifiedItems": ["KLPGA 준회원 S2352 확인"], "licenseType": "KLPGA 준회원", "licenseNumber": "S2352", "studioName": "", "studioAddress": "서울 강남구 언주로30길 21", "studioAddressJibun": "서울 강남구 언주로30길 21", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%96%B8%EC%A3%BC%EB%A1%9C30%EA%B8%B8%2021", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "오버스윙과 훅, 하체 체중이동 문제를 바디스윙 중심으로 교정하고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%96%B8%EC%A3%BC%EB%A1%9C30%EA%B8%B8%2021"}, {"id": 21, "name": "김혜연 스승", "phone": "01056993889", "lessonTypes": ["1:1 레슨"], "activeLocations": ["신사", "압구정", "청담", "강남"], "specialties": ["롱아이언", "바디스윙", "비거리 증가", "자세 교정"], "price": 130000, "rating": 4.9, "review": 78, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/khy.webp", "intro": "KLPGA 프로, 점프투어 상위 입상 기반 통증 없는 바디스윙 전문", "career": "KLPGA 정회원, 점프투어 4위/8위 입상, 더프라자 전속 레슨", "lessonCount": 95, "priceRange": "12~13만원", "reviewHighlight": "일관된 실전 스윙 루틴 확립", "reasons": ["골퍼 개인별 체형에 맞춘 부상 없는 풀스윙 궤도 형성", "롱아이언 컨택 실패 및 손목 풀림 현상 집중 교정", "몸통 회전을 이용한 하체 리드 중심의 비거리 증가 솔루션"], "tags": ["롱아이언", "비거리 증가", "자세 교정"], "stats": [85, 85, 80, 90, 90], "verifiedItems": ["KLPGA 2430 확인"], "licenseType": "KLPGA", "licenseNumber": "2430", "studioName": "", "studioAddress": "서울 강남구 신사동 599", "studioAddressJibun": "서울 강남구 신사동 599", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%8B%A0%EC%82%AC%EB%8F%99%20599", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "롱아이언 정타와 몸통 회전을 이용한 안정적인 비거리를 만들고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%8B%A0%EC%82%AC%EB%8F%99%20599"}, {"id": 22, "name": "김도한 스승", "phone": "01040239665", "lessonTypes": ["1:1 레슨"], "activeLocations": ["신사", "압구정", "청담", "강남"], "specialties": ["롱아이언", "생크 교정", "비거리 증가", "슬라이스 교정"], "price": 60000, "rating": 4.8, "review": 14, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kdh.webp", "intro": "KPGA 프로, 롱아이언 컨택 정타 및 고질적 생크 즉시 교정", "career": "KPGA 정회원 자격 인증, 신사권 인도어 및 스튜디오 레슨", "lessonCount": 70, "priceRange": "5~6만원", "reviewHighlight": "답답했던 롱아이언 정타율 개선", "reasons": ["다루기 힘든 롱아이언의 일관된 진입 궤도 및 컨택 집중 조율", "갑자기 터지는 악성 생크와 드라이버 슬라이스 원인 즉각 해결", "이론과 실전을 연계한 빠르고 체계적인 스윙 자세 교정"], "tags": ["롱아이언", "생크 교정", "슬라이스 교정"], "stats": [90, 80, 75, 85, 85], "verifiedItems": ["KPGA 20156919 확인"], "licenseType": "KPGA", "licenseNumber": "20156919", "studioName": "", "studioAddress": "서울 강남구 신사동 522", "studioAddressJibun": "서울 강남구 신사동 522", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%8B%A0%EC%82%AC%EB%8F%99%20522", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "롱아이언 생크와 드라이버 슬라이스를 부담 없는 원포인트 레슨으로 해결하고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%8B%A0%EC%82%AC%EB%8F%99%20522"}, {"id": 23, "name": "박민성 스승", "phone": "01038672441", "lessonTypes": ["1:1 레슨"], "activeLocations": ["역삼", "삼성", "선릉", "강남역", "강남"], "specialties": ["우드/유틸 활용", "자세 교정", "오버스윙", "배치기 교정"], "price": 100000, "rating": 4.9, "review": 64, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/pms.webp", "intro": "KGF 투어프로, 역삼 대형 스튜디오 수석 프로 출신의 스윙 교정 전문가", "career": "KGF 한국골프연맹 정회원 투어프로, KPGA 챌린지 투어 활동, 현 티랩골프 수석 프로", "lessonCount": 189, "priceRange": "5~10만원", "reviewHighlight": "오버스윙 및 배치기 습관 교정", "reasons": ["임팩트 순간 타구가 뜨는 배치기 및 탑핑 현상 즉시 교정", "백스윙 탑에서 축이 무너지는 오버스윙 구간 제어", "드라이버와 다루기 힘든 페어웨이 우드 정타율 증가 솔루션"], "tags": ["우드/유틸 활용", "자세 교정", "초보 레슨"], "stats": [85, 80, 80, 95, 90], "verifiedItems": ["등록 자격 240531011661 확인"], "licenseType": "OTHER", "licenseNumber": "240531011661", "studioName": "", "studioAddress": "서울 강남구 역삼동 678", "studioAddressJibun": "서울 강남구 역삼동 678", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%97%AD%EC%82%BC%EB%8F%99%20678", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "오버스윙과 배치기, 우드 정타 문제를 체계적으로 교정하고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%97%AD%EC%82%BC%EB%8F%99%20678"}, {"id": 24, "name": "김형준 스승", "phone": "01046210766", "lessonTypes": ["1:1 레슨"], "activeLocations": ["수지", "죽전", "기흥", "용인"], "specialties": ["드라이버 정확도", "초보 레슨", "비거리 증가", "슬라이스 교정"], "price": 60000, "rating": 4.9, "review": 72, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/khj1.webp", "intro": "KPGA 투어프로, 코리안투어 출전 경험 기반 드라이버 및 정타 전문", "career": "KPGA 정회원 투어프로, 챌린지투어 준우승, 코리안투어 출전", "lessonCount": 221, "priceRange": "5~6만원", "reviewHighlight": "답답했던 뒤땅, 탑볼 미스 해결", "reasons": ["헤드가 밀려 맞아 발생하는 드라이버 슬라이스 궤도 수정", "아이언 임팩트 순간 일어나는 뒤땅 및 탑핑 현상 즉시 교정", "골프 입문자의 기초 스윙 아크 형성을 위한 실전 원포인트"], "tags": ["드라이버 정확도", "초보 레슨", "임팩트 교정"], "stats": [90, 85, 80, 85, 90], "verifiedItems": ["KPGA TOUR 20121141 확인"], "licenseType": "KPGA TOUR", "licenseNumber": "20121141", "studioName": "", "studioAddress": "경기 용인시 수지구 고기동 44-8", "studioAddressJibun": "경기 용인시 수지구 고기동 44-8", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%20%EC%9A%A9%EC%9D%B8%EC%8B%9C%20%EC%88%98%EC%A7%80%EA%B5%AC%20%EA%B3%A0%EA%B8%B0%EB%8F%99%2044-8", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "뒤땅과 탑볼, 드라이버 슬라이스 때문에 골프 입문 단계에서 막힌 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%20%EC%9A%A9%EC%9D%B8%EC%8B%9C%20%EC%88%98%EC%A7%80%EA%B5%AC%20%EA%B3%A0%EA%B8%B0%EB%8F%99%2044-8"}, {"id": 25, "name": "정우진 스승", "phone": "01086668619", "lessonTypes": ["1:1 레슨", "숏게임레슨", "파3 레슨", "18홀 필드레슨"], "activeLocations": ["강남", "서초", "분당", "용인"], "specialties": ["트러블샷", "드라이버 정확도", "비거리 증가", "배치기 교정"], "price": 120000, "rating": 5, "review": 105, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/jwj.webp", "intro": "국가대표 상비군 출신, DP월드투어 및 한국오픈 출전 실전 타수 관리 전문", "career": "국가대표 상비군, 중국 투어 우승, DP월드투어 및 코오롱 한국오픈 출전", "lessonCount": 244, "priceRange": "11~12만원", "reviewHighlight": "필드 트러블샷 및 미스샷 즉시 해결", "reasons": ["국가대표 상비군 출신의 코스 라이별 실전 트러블샷 요령 전수", "해드가 열려 맞거나 밀려 나가는 드라이버 슬라이스 교정", "타구가 뜨고 정타가 안 나는 배치기 및 뒤땅 현상 원인 해결"], "tags": ["필드 레슨", "비거리 증가", "임팩트 교정"], "stats": [90, 95, 95, 85, 95], "verifiedItems": ["KPGA TOUR 1896 확인"], "licenseType": "KPGA TOUR", "licenseNumber": "1896", "studioName": "", "studioAddress": "인천 연수구 송도동 221-2", "studioAddressJibun": "인천 연수구 송도동 221-2", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%9D%B8%EC%B2%9C%20%EC%97%B0%EC%88%98%EA%B5%AC%20%EC%86%A1%EB%8F%84%EB%8F%99%20221-2", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "필드 트러블샷과 드라이버 미스로 타수를 잃는 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%9D%B8%EC%B2%9C%20%EC%97%B0%EC%88%98%EA%B5%AC%20%EC%86%A1%EB%8F%84%EB%8F%99%20221-2"}, {"id": 26, "name": "소민수 스승", "phone": "01080609497", "lessonTypes": ["1:1 레슨"], "activeLocations": ["대치", "도곡", "개포", "강남"], "specialties": ["비거리 증가", "슬라이스 교정", "캐스팅", "뒤땅/탑볼"], "price": 180000, "rating": 4.9, "review": 258, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/sms.webp", "intro": "18년 교습 경력, 다른 곳에서 고치지 못한 고질적인 스윙 오류 교정 전문", "career": "PGA 프로 자격 인증, 18년 레슨 경력, 입문부터 싱글까지 다수 배출", "lessonCount": 420, "priceRange": "16~18만원", "reviewHighlight": "오래된 안 좋은 스윙 습관 교정", "reasons": ["18년 베테랑의 안 고쳐지는 고질적인 백스윙 및 다운스윙 원인 분석", "드라이버 슬라이스 교정 및 손목 풀림 현상 즉각 해결", "웨지 샷 뒤땅 방지 및 퍼팅 정렬 오류 집중 조율"], "tags": ["자세 교정", "슬라이스 교정", "비거리 증가"], "stats": [85, 85, 90, 95, 95], "verifiedItems": ["PGA 27549051 확인"], "licenseType": "PGA", "licenseNumber": "27549051", "studioName": "대치3차아이파크 오피스텔", "studioAddress": "서울 강남구 영동대로85길 20", "studioAddressJibun": "서울 강남구 대치동 945-20", "nearestStation": "삼성역", "walkMinutes": 4, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EB%8C%80%EC%B9%983%EC%B0%A8%EC%95%84%EC%9D%B4%ED%8C%8C%ED%81%AC%20%EC%98%A4%ED%94%BC%EC%8A%A4%ED%85%94%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%98%81%EB%8F%99%EB%8C%80%EB%A1%9C85%EA%B8%B8%2020", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "오랫동안 고치지 못한 캐스팅과 슬라이스, 뒤땅 습관을 근본적으로 교정하고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "대치3차아이파크 오피스텔", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EB%8C%80%EC%B9%983%EC%B0%A8%EC%95%84%EC%9D%B4%ED%8C%8C%ED%81%AC%20%EC%98%A4%ED%94%BC%EC%8A%A4%ED%85%94%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%98%81%EB%8F%99%EB%8C%80%EB%A1%9C85%EA%B8%B8%2020"}, {"id": 27, "name": "김민성 스승", "phone": "01057380816", "lessonTypes": ["1:1 레슨"], "activeLocations": ["송파", "잠실", "문정", "강남"], "specialties": ["드라이버 정확도", "우드/유틸 활용", "체중이동", "슬라이스 교정"], "price": 60000, "rating": 4.9, "review": 128, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kms.webp", "intro": "KPGA 투어프로, 나이키 장타대회 우승 출신의 비거리 및 구질 교정 전문", "career": "KPGA 정회원 투어프로, 나이키골프 코리아 장타대회 우승, 넥스트 오픈 우승", "lessonCount": 210, "priceRange": "6만원", "reviewHighlight": "체중이동 오류 및 배치기 습관 교정", "reasons": ["장타대회 우승 노하우 기반 올바른 하체 체중이동 시퀀스 전수", "헤드가 밀려 맞아 발생하는 드라이버 슬라이스 및 훅 구질 해결", "임팩트 순간 몸이 일어서는 배치기 현상 원인 차단"], "tags": ["비거리 증가", "체중이동", "슬라이스 교정"], "stats": [90, 100, 75, 85, 90], "verifiedItems": ["KPGA TOUR 2264 확인"], "licenseType": "KPGA TOUR", "licenseNumber": "2264", "studioName": "", "studioAddress": "서울 송파구 삼전동 111", "studioAddressJibun": "서울 송파구 삼전동 111", "nearestStation": "삼전역 인근", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%86%A1%ED%8C%8C%EA%B5%AC%20%EC%82%BC%EC%A0%84%EB%8F%99%20111", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "체중이동을 활용해 드라이버 비거리와 방향성을 함께 높이고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%86%A1%ED%8C%8C%EA%B5%AC%20%EC%82%BC%EC%A0%84%EB%8F%99%20111"}, {"id": 28, "name": "이준우 스승", "phone": "01086965977", "lessonTypes": ["1:1 레슨"], "activeLocations": ["청담", "압구정", "신사", "강남"], "specialties": ["자세 교정", "오버스윙", "캐스팅", "배치기 교정"], "price": 150000, "rating": 4.7, "review": 28, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/ljw.webp", "intro": "USGTF 티칭프로, 신체 조건 맞춤 스윙 자세 및 오버스윙 교정 전문", "career": "USGTF 티칭프로 자격 인증, 최초 1회 무료 원포인트 이벤트 진행 중", "lessonCount": 61, "priceRange": "첫회무료 / 15만원", "reviewHighlight": "부담 없는 첫 회 무료 테스트 레슨 만족", "reasons": ["플랫폼 한정 최초 1회 무료 세션을 통한 스윙 성향 정밀 진단", "백스윙 탑에서 축이 무너지는 오버스윙 구간 제어", "임팩트 시 몸이 일어서는 배치기 현상 신체 맞춤형 피드백"], "tags": ["자세 교정", "초보 레슨", "우드/유틸 활용"], "stats": [80, 75, 75, 90, 85], "verifiedItems": ["USGTF 1452 확인"], "licenseType": "USGTF", "licenseNumber": "1452", "studioName": "", "studioAddress": "서울 강남구 청담동 77", "studioAddressJibun": "서울 강남구 청담동 77", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%B2%AD%EB%8B%B4%EB%8F%99%2077", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "오버스윙과 캐스팅, 배치기 등 기본 자세를 부담 없이 점검받고 싶은 초보 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%B2%AD%EB%8B%B4%EB%8F%99%2077"}, {"id": 29, "name": "강예빈 스승", "phone": "01083590533", "lessonTypes": ["1:1 레슨", "숏게임레슨", "파3 레슨"], "activeLocations": ["잠실", "송파", "문정", "강남"], "specialties": ["바디스윙", "오버스윙", "체중이동", "슬라이스 교정"], "price": 50000, "rating": 4.8, "review": 52, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/kyb.webp", "intro": "USGTF 티칭프로, 주니어 및 입문 골퍼 대상 스윙 자세 교정 전문", "career": "USGTF 티칭프로 자격 인증, 최초 1회 체험 3만원 이벤트 진행", "lessonCount": 680, "priceRange": "3~5만원", "reviewHighlight": "입문 골퍼 눈높이에 맞춘 쉬운 레슨", "reasons": ["골린이 및 주니어 골퍼를 위한 단계별 스윙 아크 정립", "백스윙 탑 축이 흔들리는 오버스윙 및 체중이동 오류 교정", "그린 주변 웨지 샷 조율 및 외부 실전 필드 매칭"], "tags": ["초보 레슨", "자세 교정", "체중이동"], "stats": [85, 75, 85, 90, 85], "verifiedItems": ["USGTF 2351 확인"], "licenseType": "USGTF", "licenseNumber": "2351", "studioName": "", "studioAddress": "서울 성동구 성수동2가 289-20", "studioAddressJibun": "서울 성동구 성수동2가 289-20", "nearestStation": "성수역 인근", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%B1%EB%8F%99%EA%B5%AC%20%EC%84%B1%EC%88%98%EB%8F%992%EA%B0%80%20289-20", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "초보 골퍼의 체중이동과 바디스윙을 친근하게 배우며 슬라이스를 줄이고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%84%B1%EB%8F%99%EA%B5%AC%20%EC%84%B1%EC%88%98%EB%8F%992%EA%B0%80%20289-20"}, {"id": 30, "name": "안병현 스승", "phone": "01066421234", "lessonTypes": ["1:1 레슨", "숏게임레슨"], "activeLocations": ["분당", "판교", "정자", "용인"], "specialties": ["생크 교정", "뒤땅/탑볼", "실전 숏게임", "퍼팅 방향성"], "price": 150000, "rating": 4.9, "review": 86, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/abh.webp", "intro": "티칭프로, 퍼팅 아카데미 지도자 출신의 숏게임 및 타수 관리 전문", "career": "티칭프로 자격 인증, 팀글로리어스 골프퍼포먼스 지도자과정 수료", "lessonCount": 1400, "priceRange": "14~15만원", "reviewHighlight": "그린 주변 웨지 샷 및 퍼팅 실전 감각 개선", "reasons": ["그린 주변 웨지 터치 정밀 수정을 통한 뒤땅 및 탑볼 교정", "퍼터 페이스 앵글 정렬 오류 조율 및 꼼꼼한 실전 피드백", "갑자기 터지는 고질적인 아이언 생크 현상 즉각 원인 해결"], "tags": ["숏게임 레슨", "퍼팅 거리감", "생크 교정"], "stats": [85, 75, 100, 85, 95], "verifiedItems": ["등록 자격 20240547 확인"], "licenseType": "OTHER", "licenseNumber": "20240547", "studioName": "", "studioAddress": "경기 성남시 분당구 안골로 42", "studioAddressJibun": "경기 성남시 분당구 궁내동 193-3", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EB%B6%84%EB%8B%B9%EA%B5%AC%20%EC%95%88%EA%B3%A8%EB%A1%9C%2042", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "생크와 뒤땅, 퍼팅 거리감 등 숏게임에서 반복되는 실수를 줄이고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "partially_verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EB%B6%84%EB%8B%B9%EA%B5%AC%20%EC%95%88%EA%B3%A8%EB%A1%9C%2042"}, {"id": 31, "name": "이형석 스승", "phone": "01086084619", "lessonTypes": ["1:1 레슨", "숏게임 레슨", "파3 레슨", "18홀 필드레슨"], "activeLocations": ["강남", "서초", "분당", "판교"], "specialties": ["비거리 증가", "슬라이스 교정", "아이언 거리"], "price": 100000, "rating": 5, "review": 124, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/lhs.jpg", "intro": "체계적인 커리큐럼 레슨 (KPGA 투어프로 / 연세대 골프 CEO 과정 교수)", "career": "KPGA 투어프로, GTOUR 프로, 연세대학교 골프 CEO 과정 담당 교수, JTBC GOLF 골프마니아 시즌2 촬영, NAVER·YOUTUBE 1분 레슨 진행", "lessonCount": 2100, "priceRange": "10~11만원", "reviewHighlight": "체계적인 커리큘럼을 통한 슬라이스 교정 및 비거리 증대", "reasons": ["KPGA 투어프로의 데이터 기반 분석을 통한 고질적인 슬라이스 구질 완벽 교정", "일관성 없는 아이언 컨택 원인을 분석하여 정밀한 정타율 및 방향성 개선", "개인별 스윙 메커니즘 최적화를 통한 확실한 드라이버 비거리 증대 효과"], "tags": ["비거리 증가", "슬라이스 교정", "투어프로 레슨"], "stats": [90, 95, 80, 90, 90], "verifiedItems": ["KPGA TOUR 확인"], "licenseType": "KPGA TOUR", "licenseNumber": "", "studioName": "", "studioAddress": "강남·서초·분당·판교 협의", "studioAddressJibun": "강남·서초·분당·판교 협의", "nearestStation": "", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "투어프로의 분석을 통해 드라이버 슬라이스와 아이언 거리 문제를 집중적으로 해결하고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "", "locationDataStatus": "needs_exact_address", "locationDataNote": "강남·서초·분당·판교 중 실제 기준 레슨장 주소 확인 필요", "naverMapUrl": ""}, {"id": 32, "name": "이현우 스승", "phone": "01034754588", "lessonTypes": ["1:1 레슨", "숏게임 레슨", "필드 레슨"], "activeLocations": ["김포", "인천", "영종도"], "specialties": ["드라이버 비거리", "골프 스윙", "숏게임 전문"], "price": 100000, "rating": 5, "review": 94, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/lhw.jpg", "intro": "KPGA 정회원 투어 출신의 체계적이고 확실한 맞춤형 레슨", "career": "KPGA 정회원 (TP 1073), 2011년 KPGA 아카데미투어 준우승, 2011년 KPGA 2부투어 다수 입상, 2011~2013년 원아시아 투어 활동, 현 쇼골프 김포공항점 소속 프로", "lessonCount": 1850, "priceRange": "10~12만원", "reviewHighlight": "KPGA 정회원의 체계적인 스윙 교정 및 실전 숏게임 마스터", "reasons": ["KPGA 정회원 및 투어 출신의 검증된 메커니즘으로 개개인에 맞춘 체계적인 스윙 교정", "클럽72 숏게임 전문 레슨을 통한 그린 주변 어프로치 및 타수 줄이기 실전 노하우 전수", "쇼골프 김포공항점에서 진행되는 정밀 분석 기반의 확실한 드라이버 비거리 증대"], "tags": ["KPGA 정회원", "숏게임 전문", "비거리 증가"], "stats": [90, 85, 95, 90, 90], "verifiedItems": ["KPGA 1073 확인"], "licenseType": "KPGA", "licenseNumber": "1073", "studioName": "쇼골프 김포공항점", "studioAddress": "서울 강서구 하늘길 233", "studioAddressJibun": "쇼골프 김포공항점", "nearestStation": "김포공항역 인근", "walkMinutes": null, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EC%87%BC%EA%B3%A8%ED%94%84%20%EA%B9%80%ED%8F%AC%EA%B3%B5%ED%95%AD%EC%A0%90%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EC%84%9C%EA%B5%AC%20%ED%95%98%EB%8A%98%EA%B8%B8%20233", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "드라이버 비거리와 숏게임을 함께 점검해 균형 잡힌 스코어 향상을 원하는 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "쇼골프 김포공항점", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EC%87%BC%EA%B3%A8%ED%94%84%20%EA%B9%80%ED%8F%AC%EA%B3%B5%ED%95%AD%EC%A0%90%20%EC%84%9C%EC%9A%B8%20%EA%B0%95%EC%84%9C%EA%B5%AC%20%ED%95%98%EB%8A%98%EA%B8%B8%20233"}, {"id": 33, "name": "홍태양 스승", "phone": "01020792021", "lessonTypes": ["1:1 개인레슨", "숏게임 레슨", "파3 레슨", "필드 레슨"], "activeLocations": ["강남", "용산", "여의도"], "specialties": ["비거리 증가", "실전 숏게임", "자세 교정"], "price": 112500, "rating": 5, "review": 142, "img": "https://rlaeodn1015-oss.github.io/ssnim-request-landing/images/hty.jpg", "intro": "본인 체형에 맞게 아프지 않고 즐길 수 있는 골프스윙을 만들어드립니다.", "career": "KLPGA 투어프로 (회원번호 1270), 2018년 KLPGA 점프투어 3차전 우승, 2018년 KLPGA 점프투어 상금랭킹 1위, 2018~2021년 KLPGA 드림투어 활동, 전 다빈골프 용산해링턴 프로, 현 용산 내셔널짐 및 더프라자(용산·신사·옥수·여의도) 출강", "lessonCount": 2400, "priceRange": "11~18만원", "reviewHighlight": "KLPGA 상금왕 출신의 체형별 맞춤 스윙 및 부상 없는 골프", "reasons": ["KLPGA 점프투어 상금왕 및 우승 출신의 검증된 실력으로 다져진 탄탄한 기본기 레슨", "억지로 맞추는 스윙이 아닌 개인별 체형과 유연성을 고려한 아프지 않은 맞춤형 스윙 메커니즘 구축", "용산, 여의도, 강남 등 접근성 높은 프리미엄 스튜디오에서의 정밀 데이터 분석 및 숏게임 마스터"], "tags": ["KLPGA 투어프로", "상금왕 출신", "체형별 맞춤스윙"], "stats": [90, 90, 85, 95, 95], "verifiedItems": ["KLPGA TOUR 1270 확인"], "licenseType": "KLPGA TOUR", "licenseNumber": "1270", "studioName": "달공칠 에비뉴", "studioAddress": "서울 성동구 독서당로 202", "studioAddressJibun": "서울 성동구 옥수동 262-1", "nearestStation": "옥수역", "walkMinutes": 6, "parkingText": "프로 최종 안내", "facilityFeeText": "프로 최종 제안 시 안내", "mapUrl": "https://map.naver.com/p/search/%EB%8B%AC%EA%B3%B5%EC%B9%A0%20%EC%97%90%EB%B9%84%EB%89%B4%20%EC%84%9C%EC%9A%B8%20%EC%84%B1%EB%8F%99%EA%B5%AC%20%EB%8F%85%EC%84%9C%EB%8B%B9%EB%A1%9C%20202", "lat": null, "lng": null, "trialPriceMode": "customer_proposal", "trialPriceGuideText": "소비자가 희망하는 1회 체험가를 제안하고, 프로가 장소·시간·시설 이용료를 포함한 최종 조건을 안내합니다.", "trialMinutes": null, "availabilityText": "희망 날짜 접수 후 프로와 최종 조율", "recommendationText": "체형에 맞는 부상 없는 스윙과 비거리, 실전 숏게임을 함께 배우고 싶은 골퍼에게 추천", "realReviews": [], "reviewSourceType": "summary", "reviewDisplayTitle": "레슨 후기 핵심 요약", "buildingName": "달공칠 에비뉴", "locationDataStatus": "verified", "locationDataNote": "", "naverMapUrl": "https://map.naver.com/p/search/%EB%8B%AC%EA%B3%B5%EC%B9%A0%20%EC%97%90%EB%B9%84%EB%89%B4%20%EC%84%9C%EC%9A%B8%20%EC%84%B1%EB%8F%99%EA%B5%AC%20%EB%8F%85%EC%84%9C%EB%8B%B9%EB%A1%9C%20202"}];
 
         const quickKeywords = [
             { text: "📍 역삼, 선릉 근처 | 롱아이언 생크 및 비거리", location: "삼성·역삼·선릉", type: "1:1 레슨", club: "롱아이언", concern: ["생크 교정", "비거리 증가"] },
@@ -547,7 +545,10 @@
         lessonDate: '', 
         schedule: '', 
         schedulePreference: '',
-        lessonPlan: '' 
+        lessonPlan: '',
+        userLat: null,
+        userLng: null,
+        userLocationLabel: ''
     },
     isLocationMissing: false,
     savedConcernText: '',
@@ -585,7 +586,10 @@
         lessonDate: '', 
         schedule: '', 
         schedulePreference: '',
-        lessonPlan: '' 
+        lessonPlan: '',
+        userLat: null,
+        userLng: null,
+        userLocationLabel: ''
     };
 
     this.flowStep = 'concern';
@@ -922,6 +926,25 @@ renderChoiceFlow: function() {
         </button>
     `).join('');
 
+    const locationHelper = document.getElementById('location-helper');
+    if (locationHelper) {
+        locationHelper.classList.toggle('hidden', step !== 'location');
+    }
+
+    const locationStatus = document.getElementById('location-status');
+    const locationButton = document.getElementById('btn-use-current-location');
+
+    if (step === 'location' && this.formData.userLat !== null && this.formData.userLng !== null) {
+        if (locationStatus) {
+            locationStatus.innerText = '현재 위치가 적용되었습니다. 좌표가 등록된 레슨장은 직선거리가 함께 표시됩니다.';
+            locationStatus.classList.remove('text-slate-400');
+            locationStatus.classList.add('text-blue-600');
+        }
+        if (locationButton) {
+            locationButton.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> 현재 위치 적용 완료';
+        }
+    }
+
     this.renderFlowSummary();
 },
 
@@ -989,6 +1012,258 @@ renderFlowSummary: function() {
     `).join('');
 },
 
+useCurrentLocation: function() {
+    const status = document.getElementById('location-status');
+    const button = document.getElementById('btn-use-current-location');
+
+    if (!window.isSecureContext) {
+        if (status) {
+            status.innerText = '현재 위치 기능은 HTTPS 보안 연결에서만 사용할 수 있습니다.';
+            status.classList.remove('text-slate-400');
+            status.classList.add('text-rose-500');
+        }
+        return;
+    }
+
+    if (!navigator.geolocation) {
+        if (status) {
+            status.innerText = '이 브라우저에서는 현재 위치를 사용할 수 없습니다.';
+            status.classList.remove('text-slate-400');
+            status.classList.add('text-rose-500');
+        }
+        return;
+    }
+
+    if (status) {
+        status.innerText = '현재 위치를 확인하고 있습니다...';
+        status.classList.remove('text-rose-500', 'text-blue-600');
+        status.classList.add('text-slate-500');
+    }
+
+    if (button) {
+        button.disabled = true;
+        button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> 위치 확인 중';
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            this.formData.userLat = Number(position.coords.latitude);
+            this.formData.userLng = Number(position.coords.longitude);
+            this.formData.userLocationLabel = '현재 위치';
+
+            if (status) {
+                status.innerText = '현재 위치가 적용되었습니다. 좌표가 등록된 레슨장은 직선거리가 함께 표시됩니다.';
+                status.classList.remove('text-slate-400', 'text-slate-500', 'text-rose-500');
+                status.classList.add('text-blue-600');
+            }
+
+            if (button) {
+                button.disabled = false;
+                button.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> 현재 위치 적용 완료';
+            }
+
+            if (this.currentView === 'results' && this.matchedPros.length > 0) {
+                this.matchedPros = this.sortProsByDistanceWhenReady(this.matchedPros);
+                this.selectedPro = this.matchedPros.find(p => this.selectedPro && p.id === this.selectedPro.id) || this.matchedPros[0];
+                this.renderPros();
+            }
+        },
+        (error) => {
+            this.formData.userLat = null;
+            this.formData.userLng = null;
+            this.formData.userLocationLabel = '';
+
+            const errorMessage = error && error.code === 1
+                ? '위치 권한이 허용되지 않았습니다. 지역 선택만으로 계속 이용할 수 있습니다.'
+                : '현재 위치를 확인하지 못했습니다. 잠시 후 다시 시도하거나 지역만 선택해주세요.';
+
+            if (status) {
+                status.innerText = errorMessage;
+                status.classList.remove('text-slate-400', 'text-slate-500', 'text-blue-600');
+                status.classList.add('text-rose-500');
+            }
+
+            if (button) {
+                button.disabled = false;
+                button.innerHTML = '<i class="fa-solid fa-location-arrow mr-1"></i> 현재 위치 다시 시도';
+            }
+        },
+        {
+            enableHighAccuracy: false,
+            timeout: 10000,
+            maximumAge: 300000
+        }
+    );
+},
+
+calculateDistanceKm: function(lat1, lng1, lat2, lng2) {
+    const values = [lat1, lng1, lat2, lng2].map(Number);
+    if (values.some(value => !Number.isFinite(value))) return null;
+
+    const [startLat, startLng, endLat, endLng] = values;
+    const earthRadiusKm = 6371;
+    const toRad = value => value * Math.PI / 180;
+    const dLat = toRad(endLat - startLat);
+    const dLng = toRad(endLng - startLng);
+
+    const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(startLat)) *
+        Math.cos(toRad(endLat)) *
+        Math.sin(dLng / 2) ** 2;
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return earthRadiusKm * c;
+},
+
+getProDistanceKm: function(pro) {
+    if (
+        this.formData.userLat === null ||
+        this.formData.userLng === null ||
+        pro.lat === null ||
+        pro.lng === null ||
+        pro.lat === undefined ||
+        pro.lng === undefined
+    ) {
+        return null;
+    }
+
+    return this.calculateDistanceKm(
+        this.formData.userLat,
+        this.formData.userLng,
+        pro.lat,
+        pro.lng
+    );
+},
+
+getDistanceText: function(pro) {
+    const distance = this.getProDistanceKm(pro);
+    if (distance === null) return '';
+
+    if (distance < 1) {
+        return `현재 위치에서 직선거리 약 ${Math.max(10, Math.round(distance * 1000 / 10) * 10)}m`;
+    }
+
+    return `현재 위치에서 직선거리 약 ${distance.toFixed(1)}km`;
+},
+
+sortProsByDistanceWhenReady: function(proList) {
+    if (this.formData.userLat === null || this.formData.userLng === null) {
+        return [...proList];
+    }
+
+    const withDistance = proList.map(pro => ({
+        ...pro,
+        distanceKm: this.getProDistanceKm(pro)
+    }));
+
+    const distanceReadyCount = withDistance.filter(pro => Number.isFinite(pro.distanceKm)).length;
+
+    // 좌표가 최소 3명 이상 확보된 후보군에서만 거리순 정렬합니다.
+    // 좌표가 부족할 때는 기존 AI 매칭 순서를 유지해 특정 프로만 과도하게 우선되지 않도록 합니다.
+    if (distanceReadyCount < 3) return withDistance;
+
+    return withDistance.sort((a, b) => {
+        const aReady = Number.isFinite(a.distanceKm);
+        const bReady = Number.isFinite(b.distanceKm);
+
+        if (aReady && bReady) return a.distanceKm - b.distanceKm;
+        if (aReady) return -1;
+        if (bReady) return 1;
+        return (b.score || 0) - (a.score || 0);
+    });
+},
+
+getNaverMapQuery: function(pro) {
+    return [
+        pro.studioName || pro.buildingName || '',
+        pro.studioAddress || pro.studioAddressJibun || ''
+    ].filter(Boolean).join(' ').trim();
+},
+
+getNaverWebUrl: function(pro) {
+    if (pro.naverMapUrl) return pro.naverMapUrl;
+
+    const query = this.getNaverMapQuery(pro);
+    return query
+        ? `https://map.naver.com/p/search/${encodeURIComponent(query)}`
+        : 'https://map.naver.com/';
+},
+
+isMobileDevice: function() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
+},
+
+launchNaverMapApp: function(appUrl, fallbackUrl) {
+    if (!this.isMobileDevice()) {
+        window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+        return;
+    }
+
+    let fallbackTimer = null;
+
+    const cancelFallback = () => {
+        if (fallbackTimer) {
+            clearTimeout(fallbackTimer);
+            fallbackTimer = null;
+        }
+    };
+
+    const handleVisibility = () => {
+        if (document.hidden) cancelFallback();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility, { once: true });
+    window.addEventListener('pagehide', cancelFallback, { once: true });
+
+    fallbackTimer = setTimeout(() => {
+        if (!document.hidden) {
+            window.location.href = fallbackUrl;
+        }
+    }, 1400);
+
+    window.location.href = appUrl;
+},
+
+openNaverMap: function(proId) {
+    const pro = this.matchedPros.find(item => item.id === proId) || pros.find(item => item.id === proId);
+    if (!pro) return;
+
+    window.open(this.getNaverWebUrl(pro), '_blank', 'noopener,noreferrer');
+},
+
+openNaverRoute: function(proId) {
+    const pro = this.matchedPros.find(item => item.id === proId) || pros.find(item => item.id === proId);
+    if (!pro) return;
+
+    const lat = Number(pro.lat);
+    const lng = Number(pro.lng);
+    const hasCoordinates =
+        pro.lat !== null &&
+        pro.lng !== null &&
+        pro.lat !== undefined &&
+        pro.lng !== undefined &&
+        Number.isFinite(lat) &&
+        Number.isFinite(lng);
+
+    const fallbackUrl = this.getNaverWebUrl(pro);
+
+    if (!hasCoordinates) {
+        window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+        return;
+    }
+
+    const destinationName = encodeURIComponent(
+        pro.studioName || pro.buildingName || pro.studioAddress || pro.name
+    );
+    const appName = encodeURIComponent(window.location.hostname || 'ssnim');
+    const routeUrl =
+        `nmap://route/car?dlat=${lat}&dlng=${lng}` +
+        `&dname=${destinationName}&appname=${appName}`;
+
+    this.launchNaverMapApp(routeUrl, fallbackUrl);
+},
+
 startMatchingFromChoices: function() {
     const concern = this.flowDraft.concern;
     const location = this.flowDraft.location;
@@ -1051,7 +1326,22 @@ toggleDirectInput: function() {
         if (this.currentView !== 'home' && this.currentView !== 'success') {
             if (!confirm("작성 중인 내용이 초기화됩니다. 홈으로 갈까요?")) return;
         }
-        this.formData = { location: '', lessonType: '1:1 레슨', club: '', concern: [], isJoinable: false, personCount: '1인', price: 0, lessonDate: '', schedule: '', lessonPlan: '' };
+        this.formData = {
+            location: '',
+            lessonType: '1:1 레슨',
+            club: '',
+            concern: [],
+            isJoinable: false,
+            personCount: '1인',
+            price: 0,
+            lessonDate: '',
+            schedule: '',
+            schedulePreference: '',
+            lessonPlan: '',
+            userLat: null,
+            userLng: null,
+            userLocationLabel: ''
+        };
         this.selectedPro = null;
         this.matchedPros = [];
         this.shownProIds = [];
@@ -1430,14 +1720,17 @@ toggleDirectInput: function() {
         // 5. 평점 반영
         if ((p.rating || 0) >= 4.9) score += 5;
 
-        return { 
-            ...p, 
-            score: score + (Math.random() * 8) 
+        return {
+            ...p,
+            score: score + (Math.random() * 8),
+            distanceKm: this.getProDistanceKm(p)
         };
     });
 
-    this.matchedPros = scoredPros
-        .sort((a, b) => b.score - a.score)
+    const rankedPros = [...scoredPros].sort((a, b) => b.score - a.score);
+    const distanceSortedPros = this.sortProsByDistanceWhenReady(rankedPros);
+
+    this.matchedPros = distanceSortedPros
         .slice(0, 3)
         .map((p, i) => ({
             ...p,
@@ -1477,7 +1770,10 @@ toggleDirectInput: function() {
 
     const desc = document.getElementById('result-desc');
     if (desc) {
-        desc.innerText = "먼저 요청해볼 만한 스승님을 기준으로 추천 순서를 정리했습니다.";
+        const hasCurrentLocation = this.formData.userLat !== null && this.formData.userLng !== null;
+        desc.innerText = hasCurrentLocation
+            ? "입력한 고민과 지역 조건을 우선 적용하고, 좌표가 등록된 레슨장은 현재 위치 직선거리도 함께 보여드립니다."
+            : "먼저 요청해볼 만한 스승님을 기준으로 추천 순서를 정리했습니다.";
     }
 
     this.navigate('results');
@@ -1491,6 +1787,97 @@ toggleDirectInput: function() {
         const lessonTypes = (p.lessonTypes || []).slice(0, 3).join(' · ');
         const tags = (p.tags || []).slice(0, 3);
         const reasons = (p.reasons || []).slice(0, 3);
+
+        const verifiedText =
+            Array.isArray(p.verifiedItems) && p.verifiedItems.length > 0
+                ? p.verifiedItems[0]
+                : (p.career || '자격 확인 중');
+
+        const recommendationText =
+            p.recommendationText ||
+            '입력하신 고민과 레슨 조건에 적합한 골퍼에게 추천합니다.';
+
+        const studioTitle =
+            p.studioName ||
+            p.buildingName ||
+            p.studioAddress ||
+            p.studioAddressJibun ||
+            locations ||
+            '레슨 위치 협의';
+
+        const studioDetailParts = [];
+
+        if (p.studioAddress && p.studioAddress !== studioTitle) {
+            studioDetailParts.push(p.studioAddress);
+        } else if (p.studioAddressJibun && p.studioAddressJibun !== studioTitle) {
+            studioDetailParts.push(p.studioAddressJibun);
+        }
+
+        if (p.nearestStation) {
+            studioDetailParts.push(
+                p.walkMinutes
+                    ? `${p.nearestStation} · 도보 약 ${p.walkMinutes}분`
+                    : p.nearestStation
+            );
+        } else if (p.locationDataStatus !== 'needs_exact_address') {
+            studioDetailParts.push('가까운 역은 네이버지도에서 확인');
+        }
+
+        const studioDetail = studioDetailParts.join(' · ');
+        const distanceText = this.getDistanceText(p);
+        const hasCoordinates =
+            p.lat !== null &&
+            p.lng !== null &&
+            p.lat !== undefined &&
+            p.lng !== undefined &&
+            Number.isFinite(Number(p.lat)) &&
+            Number.isFinite(Number(p.lng));
+        const hasExactMapLocation = Boolean(this.getNaverMapQuery(p)) && p.locationDataStatus !== 'needs_exact_address';
+
+        const realReviews =
+            Array.isArray(p.realReviews)
+                ? p.realReviews.slice(0, 2)
+                : [];
+
+        const reviewTitle =
+            p.reviewDisplayTitle ||
+            (realReviews.length > 0 ? '실제 수강 후기' : '레슨 후기 핵심 요약');
+
+        const trialGuideText =
+            p.trialPriceGuideText ||
+            '희망하는 1회 체험가를 직접 제안하고 프로의 최종 조건을 확인할 수 있습니다.';
+
+        const reviewContent = realReviews.length > 0
+            ? realReviews.map(review => {
+                const reviewText = typeof review === 'string'
+                    ? review
+                    : (review.text || '');
+
+                const reviewMeta = typeof review === 'object' && review
+                    ? (review.meta || '')
+                    : '';
+
+                return `
+                    <div class="bg-white/80 rounded-xl p-3 mb-2 last:mb-0">
+                        <p class="text-[11px] font-black text-slate-700 leading-relaxed">
+                            “${reviewText}”
+                        </p>
+
+                        ${reviewMeta ? `
+                            <p class="text-[9px] font-bold text-slate-400 mt-2">
+                                ${reviewMeta}
+                            </p>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('')
+            : `
+                <div class="bg-white/80 rounded-xl p-3">
+                    <p class="text-[11px] font-black text-slate-700 leading-relaxed">
+                        ${p.reviewHighlight || '레슨 만족도가 높은 스승님입니다.'}
+                    </p>
+                </div>
+            `;
 
         const pickBadge = p.isSsnimPick
             ? `
@@ -1515,8 +1902,8 @@ toggleDirectInput: function() {
             : "";
 
         return `
-            <div 
-                onclick="app.selectPro(${p.id})" 
+            <div
+                onclick="app.selectPro(${p.id})"
                 class="pro-card p-5 rounded-[2rem] border-2 transition-all cursor-pointer flex flex-col relative bg-white ${
                     this.selectedPro && this.selectedPro.id === p.id ? 'selected' : 'border-slate-100'
                 } ${p.isSsnimPick ? 'ring-2 ring-slate-900/5 shadow-xl' : ''}"
@@ -1524,22 +1911,22 @@ toggleDirectInput: function() {
                 ${pickBadge}
 
                 <!-- 상단 상태 -->
-                <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100 pt-1">
-                    <div class="flex gap-1.5 items-center flex-wrap">
-                        <span class="text-[9px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-black">
-                            AI 적합도 ${p.displayScore}%
+                <div class="flex justify-between items-start gap-2 mb-4 pb-3 border-b border-slate-100 pt-1">
+                    <div class="flex gap-1.5 items-center flex-wrap min-w-0">
+                        <span class="inline-flex items-center gap-1 text-[9px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-black">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            내 고민과 잘 맞아요
                         </span>
-                        <span class="text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200/60 px-2 py-0.5 rounded-full font-black">
-                            <i class="fa-solid fa-check"></i> 검증완료
+
+                        <span class="inline-flex items-center gap-1 text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200/60 px-2 py-0.5 rounded-full font-black">
+                            <i class="fa-solid fa-certificate"></i>
+                            ${verifiedText}
                         </span>
-                        <span class="text-[9px] bg-rose-50 text-rose-600 border border-rose-100 px-2 py-0.5 rounded-full font-black">
-    <i class="fa-solid fa-shield-heart"></i> 환불보장
-</span>
                     </div>
 
-                    <div class="flex items-center gap-1 bg-amber-50 px-2 py-0.5 rounded-full text-[10px] font-black text-amber-700">
-                        <i class="fa-solid fa-star text-amber-400"></i> 
-                        ${p.rating} 
+                    <div class="flex items-center gap-1 bg-amber-50 px-2 py-0.5 rounded-full text-[10px] font-black text-amber-700 shrink-0">
+                        <i class="fa-solid fa-star text-amber-400"></i>
+                        ${p.rating}
                         <span class="text-amber-600/70 font-bold">(${p.review}개)</span>
                     </div>
                 </div>
@@ -1547,7 +1934,7 @@ toggleDirectInput: function() {
                 <!-- 프로 기본 정보 -->
                 <div class="flex items-start gap-4">
                     <div class="relative shrink-0">
-                        <img src="${p.img}" class="w-20 h-20 rounded-3xl object-cover border-2 border-slate-50">
+                        <img src="${p.img}" alt="${p.name}" class="w-20 h-20 rounded-3xl object-cover border-2 border-slate-50">
                         ${p.isSsnimPick ? `
                             <span class="absolute -bottom-1 -right-1 bg-slate-900 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow">
                                 PICK
@@ -1563,7 +1950,7 @@ toggleDirectInput: function() {
                         <div class="flex items-center gap-1.5 flex-wrap">
                             <h4 class="font-black text-slate-900 text-lg">${p.name}</h4>
                             <span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-md font-black">
-                                ${p.priceRange || '금액 조율'}
+                                기준 1회 ${p.priceRange || '금액 협의'}
                             </span>
                         </div>
 
@@ -1578,6 +1965,25 @@ toggleDirectInput: function() {
                 </div>
 
                 ${pickBox}
+
+                <!-- 이런 골퍼에게 추천 -->
+                <div class="mt-4 bg-blue-50 border border-blue-100 rounded-2xl p-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-full bg-white text-blue-600 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-user-check"></i>
+                        </div>
+
+                        <div>
+                            <p class="text-[10px] font-black text-blue-600 mb-1">
+                                이런 골퍼에게 추천
+                            </p>
+
+                            <p class="text-[12px] font-black text-slate-800 leading-relaxed">
+                                ${recommendationText}
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- 강점 태그 -->
                 <div class="mt-4">
@@ -1594,10 +2000,58 @@ toggleDirectInput: function() {
                 <!-- 핵심 정보 -->
                 <div class="grid grid-cols-2 gap-2 mt-4">
                     <div class="bg-slate-50 rounded-2xl p-3">
-                        <p class="text-[9px] font-black text-slate-400 mb-1">가능 지역</p>
-                        <p class="text-[11px] font-black text-slate-700 leading-snug">
-                            ${locations || '지역 협의'}
+                        <p class="text-[9px] font-black text-slate-400 mb-1">
+                            기준 레슨 위치
                         </p>
+
+                        <p class="text-[11px] font-black text-slate-800 leading-snug break-keep">
+                            ${studioTitle}
+                        </p>
+
+                        ${studioDetail ? `
+                            <p class="text-[9px] font-bold text-slate-400 mt-1 leading-relaxed break-keep">
+                                ${studioDetail}
+                            </p>
+                        ` : ''}
+
+                        ${distanceText ? `
+                            <p class="text-[9px] font-black text-blue-600 mt-2 leading-relaxed">
+                                <i class="fa-solid fa-location-arrow mr-1"></i>
+                                ${distanceText}
+                            </p>
+                        ` : ''}
+
+                        ${hasExactMapLocation ? `
+                            <div class="flex flex-wrap gap-1.5 mt-2">
+                                <button
+                                    type="button"
+                                    onclick="event.stopPropagation(); app.openNaverMap(${p.id});"
+                                    class="inline-flex items-center gap-1 text-[9px] font-black text-blue-600 bg-white border border-blue-100 px-2 py-1.5 rounded-lg active:scale-95 transition-all"
+                                >
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    네이버지도
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onclick="event.stopPropagation(); app.openNaverRoute(${p.id});"
+                                    class="inline-flex items-center gap-1 text-[9px] font-black text-white bg-blue-600 border border-blue-600 px-2 py-1.5 rounded-lg active:scale-95 transition-all"
+                                >
+                                    <i class="fa-solid fa-route"></i>
+                                    ${hasCoordinates ? '현재 위치 길찾기' : '길찾기 열기'}
+                                </button>
+                            </div>
+
+                            ${!hasCoordinates ? `
+                                <p class="text-[8px] font-bold text-slate-400 mt-1.5 leading-relaxed">
+                                    주소 검색 후 네이버지도에서 길찾기를 선택해주세요.
+                                </p>
+                            ` : ''}
+                        ` : `
+                            <p class="text-[9px] font-bold text-slate-400 mt-2 leading-relaxed">
+                                정확한 기준 레슨장 확인 후 지도와 길찾기가 제공됩니다.
+                            </p>
+                        `}
                     </div>
 
                     <div class="bg-slate-50 rounded-2xl p-3">
@@ -1608,27 +2062,42 @@ toggleDirectInput: function() {
                     </div>
                 </div>
 
-                <!-- 안심보장 -->
-<div class="mt-4 bg-rose-50/70 border border-rose-100 rounded-2xl p-3">
-    <div class="flex items-start gap-2">
-        <div class="w-7 h-7 rounded-full bg-white text-rose-500 flex items-center justify-center text-xs shrink-0">
-            <i class="fa-solid fa-shield-heart"></i>
-        </div>
-        <div>
-            <p class="text-[10px] font-black text-rose-600 mb-0.5">스승님 안심보장</p>
-            <p class="text-[11px] font-black text-slate-700 leading-snug">
-                레슨 후 불만족 시 100% 환불을 지원합니다.
-            </p>
-        </div>
-    </div>
-</div>
+                <!-- 소비자 가격 제안 안내 -->
+                <div class="mt-3 bg-slate-900 text-white rounded-2xl p-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-full bg-white/10 text-blue-200 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-won-sign"></i>
+                        </div>
 
-                <!-- 후기 요약 -->
-                <div class="mt-4 bg-amber-50/70 border border-amber-100 rounded-2xl p-3">
-                    <p class="text-[9px] font-black text-amber-600 mb-1">AI 후기 요약</p>
-                    <p class="text-[11px] font-black text-slate-700 leading-snug">
-                        ${p.reviewHighlight || '레슨 만족도가 높은 스승님입니다.'}
-                    </p>
+                        <div>
+                            <p class="text-[10px] font-black text-blue-200 mb-1">
+                                원하는 체험가를 직접 제안하세요
+                            </p>
+
+                            <p class="text-[11px] font-bold text-white/85 leading-relaxed">
+                                ${trialGuideText}
+                            </p>
+
+                            <p class="text-[10px] font-bold text-white/55 mt-2 leading-relaxed">
+                                프로가 수락하거나 장소·시간·시설비를 포함한 최종 조건을 다시 안내할 수 있습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 후기 -->
+                <div class="mt-4 bg-amber-50/70 border border-amber-100 rounded-2xl p-4">
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <p class="text-[10px] font-black text-amber-700">
+                            ${reviewTitle}
+                        </p>
+
+                        <span class="text-[9px] font-black text-amber-600 bg-white px-2 py-1 rounded-full shrink-0">
+                            후기 ${p.review || 0}개
+                        </span>
+                    </div>
+
+                    ${reviewContent}
                 </div>
 
                 <!-- 추천 이유 접기/펼치기 -->
@@ -1658,6 +2127,25 @@ toggleDirectInput: function() {
                         }
                     </div>
                 </details>
+
+                <!-- 첫 레슨 안심보장 -->
+                <div class="mt-3 bg-rose-50/70 border border-rose-100 rounded-2xl p-3">
+                    <div class="flex items-start gap-2">
+                        <div class="w-7 h-7 rounded-full bg-white text-rose-500 flex items-center justify-center text-xs shrink-0">
+                            <i class="fa-solid fa-shield-heart"></i>
+                        </div>
+
+                        <div>
+                            <p class="text-[10px] font-black text-rose-600 mb-0.5">
+                                첫 레슨 안심보장
+                            </p>
+
+                            <p class="text-[11px] font-black text-slate-700 leading-snug">
+                                최종 장소·시간·금액을 확인한 뒤 결제하며, 첫 레슨 불만족 시 운영 기준에 따른 환불보장을 지원합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         `;
     }).join('');
